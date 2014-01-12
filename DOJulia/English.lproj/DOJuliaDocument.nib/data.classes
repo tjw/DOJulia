@@ -1,0 +1,12 @@
+"OmniDocument" = {
+    ACTIONS = ("windowDidBecomeMain:", "windowDidResignMain:", "windowWillClose:"); 
+    OUTLETS = (window); 
+    SUPERCLASS = NSObject; 
+};
+"DOJuliaDocument" = {
+    ACTIONS = ("startComputing:", "stopComputing:"); 
+    OUTLETS = (tileView); 
+    SUPERCLASS = OmniDocument; 
+};
+"OWTiledImage" = {SUPERCLASS = NSView; };
+"FirstResponder" = {CATEGORY = LocalActions; };

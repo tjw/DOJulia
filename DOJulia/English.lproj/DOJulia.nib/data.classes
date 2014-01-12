@@ -1,0 +1,30 @@
+"DOJuliaController" = {ACTIONS = ("appDidInit:"); SUPERCLASS = OmniDocumentController; };
+"OmniDocumentController" = {
+    ACTIONS = (
+        "appDidInit:", 
+        "appWillTerminate:", 
+        "close:", 
+        "new:", 
+        "open:", 
+        "print:", 
+        "revert:", 
+        "save:", 
+        "saveAll:", 
+        "saveAs:", 
+        "saveToFile:", 
+        "showInfoPanel:"
+    ); 
+    OUTLETS = (
+        closeMenu, 
+        helpPanel, 
+        infoPanel, 
+        revertMenu, 
+        saveAllMenu, 
+        saveAsMenu, 
+        saveMenu, 
+        saveToMenu
+    ); 
+    SUPERCLASS = Object; 
+};
+"Controller" = {ACTIONS = ("appDidInit:"); SUPERCLASS = Object; };
+"FirstResponder" = {CATEGORY = LocalActions; };

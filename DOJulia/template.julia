@@ -1,0 +1,94 @@
+{
+	stepCount = 1;
+
+	u  = { r =  "-.12"  ;  i =  .74; j =  0.0;    k = 0.0; };
+
+	coolButUnexplored = {
+	u  = { r =  "0.78539816339744830961";  /* pi / 4 */
+               i =  "0.78539816339744830961";
+               j =  "0.0";
+               k =  "0.0";
+             };
+
+	u  = { r =  "1";  i = "-1";  j =  0.0;    k = 0.0; };
+	u  = { r =  "-0.70710";  i = "-0.70710";  j =  0.0;    k = 0.0; };
+	u  = { r =  "0.70710";  i = "0.70710";  j =  0.0;    k = 0.0; };
+	u  = { r =  "0.70710";  i = 0.0;  j =  0.0;    k = 0.0; };
+	u  = { r =  "-1.41421";  i = 0.0;  j =  0.0;    k = 0.0; };
+	u  = { r =  "1"  ;  i = 0.0;  j =  0.0;    k = 0.0; };
+	};
+
+	spaghetti = {
+		u  = { r =  "0.5";  i = "0.5";  j =  "0.5";    k = "0.5"; };
+	};
+
+	sphere = {
+		u  = { r =  "0";  i = 0.0;  j =  0.0;    k = 0.0; };
+	};
+
+	dendrite = {
+		u  = { r =  "-.15652"  ;  i =  "-1.03225";  j =  0.0;    k = 0.0; };
+	};
+	threeBasin = {
+		u  = { r =  "-.12"  ;  i =  .74; j =  0.0;    k = 0.0; };
+	};
+	elevenBasin = {
+		u  = { r =  "0.32"  ;  i = "0.043"; j =  0.0;    k = 0.0; };
+	};
+
+	/* theta, gamma, phi, in degrees */
+	orientationStart = (0, 0, 0, 0 ); /* 0, 0, 0 is straight up the z axis */
+	orientationStep = (1, 0, 0, 0 );
+
+        scaleStart = 0.2;
+        scaleStep = 0;
+
+	eyePoint       = { x = "0.0"; y = "0.0"; z = "-15.0"; };
+        focusLength    = 0.01;
+	fov            = 27.0; /* degrees, for the horizontal axis only */
+
+	clippingBubble = 16.0;
+
+	imageWidth    = 256;
+	imageHeight   = 256;
+	tileWidth     = 32;
+	tileHeight    = 32;
+
+	N            = 250;
+	delta        = 1;
+
+        maxAntialiasingDepth = 3;
+        antialiasCutoff      = 0.05;
+
+	background   = { r = 255; g = 255; b = 255; a = 0; };
+
+
+	exteriorColorTightness = 16;
+	colorByBasin = 1;
+	cycleColors  = 3;
+
+	clippingPlanes = (
+		{
+			normal = { r = "0.0"; i = "0.0"; j = "1.0"; k = 0; };
+			dist = 1.0;
+			opacity = 0;
+			clips = 1;
+		}
+/*
+		,{
+			normal = { r = "0.0"; i = "0.0"; j = "1.0"; k = 0; };
+			dist = 0;
+			opacity = .5;
+			clips = 0;
+		}
+*/
+	);
+
+	filenameFormat = "tmp.anim/tmp.%d.tiff";
+
+
+
+	lookbackStart = 20;
+	maxLookback   = 100;
+	lookbackFreq  = 150;
+}

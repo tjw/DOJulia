@@ -1,0 +1,27 @@
+{
+    CURRENTLY_ACTIVE_VERSION = YES; 
+    DEPLOY_WITH_VERSION_NAME = A; 
+    DYNAMIC_CODE_GEN = YES; 
+    FILESTABLE = {
+        CLASSES = (BTController.M, BTSparsePointSet.M, BTPointStack.M); 
+        FRAMEWORKS = (Foundation.framework, OmniFoundation.framework, OmniTimer.framework); 
+        H_FILES = (BTSparsePointSet.H, BTController.h, BTPoint.h, BTPointStack.H); 
+        OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 
+        PRECOMPILED_HEADERS = (); 
+        PROJECT_HEADERS = (); 
+        PUBLIC_HEADERS = (BTSparsePointSet.H, BTPoint.h, BTController.h, BTPointStack.H); 
+    }; 
+    LANGUAGE = English; 
+    LOCALIZABLE_FILES = {}; 
+    MAKEFILEDIR = "$(NEXT_ROOT)/NextDeveloper/Makefiles/pb_makefiles"; 
+    NEXTSTEP_BUILDTOOL = omnimake; 
+    NEXTSTEP_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    PDO_UNIX_BUILDTOOL = omnimake; 
+    PDO_UNIX_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    PROJECTNAME = BoundaryTracking; 
+    PROJECTTYPE = Framework; 
+    PROJECTVERSION = 2.6; 
+    TARGETS = (fake_install); 
+    WINDOWS_BUILDTOOL = omnimake; 
+    WINDOWS_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+}

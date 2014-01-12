@@ -1,0 +1,38 @@
+{
+    APPCLASS = NSApplication; 
+    DYNAMIC_CODE_GEN = YES; 
+    FILESTABLE = {
+        CLASSES = (JTController.M); 
+        FRAMEWORKS = (
+            AppKit.framework, 
+            BoundaryTracking.framework, 
+            DOJuliaShared.framework, 
+            Foundation.framework, 
+            OmniFoundation.framework
+        ); 
+        H_FILES = (JTController.h); 
+        INTERFACES = (NEXTSTEP_JuliaTracker.nib, WINDOWS_JuliaTracker.nib); 
+        OTHER_LINKED = (JuliaTracker_main.m); 
+        OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, m.template, h.template); 
+        PRECOMPILED_HEADERS = (); 
+        PROJECT_HEADERS = (); 
+        PUBLIC_HEADERS = (); 
+    }; 
+    LANGUAGE = English; 
+    LOCALIZABLE_FILES = {
+        NEXTSTEP_JuliaTracker.nib = NEXTSTEP_JuliaTracker.nib; 
+        WINDOWS_JuliaTracker.nib = WINDOWS_JuliaTracker.nib; 
+    }; 
+    MAKEFILEDIR = "$(NEXT_ROOT)/NextDeveloper/Makefiles/pb_makefiles"; 
+    NEXTSTEP_BUILDTOOL = omnimake; 
+    NEXTSTEP_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    NEXTSTEP_MAINNIB = NEXTSTEP_JuliaTracker.nib; 
+    PDO_UNIX_BUILDTOOL = omnimake; 
+    PDO_UNIX_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    PROJECTNAME = JuliaTracker; 
+    PROJECTTYPE = Application; 
+    PROJECTVERSION = 2.6; 
+    WINDOWS_BUILDTOOL = omnimake; 
+    WINDOWS_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    WINDOWS_MAINNIB = WINDOWS_JuliaTracker.nib; 
+}

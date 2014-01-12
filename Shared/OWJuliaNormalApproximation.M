@@ -1,0 +1,54 @@
+extern "C" {
+#import <ansi/stdio.h>
+}
+
+#import <DOJuliaShared/types.h>
+#import "julia.h"
+#import "OWJuliaNormalApproximation.h"
+
+double OWJuliaNormalDotApproximation(OWJuliaContext *context, quaternion *orbit)
+{
+    int i;
+    double d[3], plusE, minusE;
+    quaternion eyeToP, xGrad, yGrad, zGrad, grad, p;
+    double tmp;
+
+    p = orbit[0];
+
+    /* compute gradient to surface at p in units (not quaternions) */
+    for (i = 0; i < 3; i++) {
+        dem_label label;
+
+        orbit[0] = context->m.basis[i] * context->delta + p;
+
+        label = juliaLabel(context, orbit);
+        plusE = context->dist;
+#ifdef PRINT
+        printf("%d +label = %d, dist = %f ", i, (int)label, plusE);
+#endif
+
+        orbit[0] = context->m.basis[i] * -context->delta + p;
+
+        label = juliaLabel(context, orbit);
+        minusE = context->dist;
+#ifdef PRINT
+        printf("-label = %d, dist = %f\n", (int)label, minusE);
+#endif
+
+        d[i] = plusE - minusE;
+    }
+
+    /* compute quaternion vector from p to eyepoint and normalize */
+    eyeToP = (context->m.ray.origin - p).normalized();
+
+    /* make a normalized quaternion out of the gradient */
+    xGrad = context->m.basis[0] * d[0];
+    yGrad = context->m.basis[1] * d[1];
+    zGrad = context->m.basis[2] * d[2];
+
+    grad = (xGrad + yGrad + zGrad).normalized();
+
+    /* dot the two vectors to get our magnitude */
+    tmp = grad.dot(eyeToP);
+    return fabs(tmp);
+}

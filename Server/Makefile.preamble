@@ -1,0 +1,3 @@
+#OTHER_CFLAGS = -DNO_INLINE
+OTHER_CFLAGS = -finline-functions
+#OTHER_CFLAGS = -finline-functions -fforce-mem

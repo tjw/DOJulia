@@ -1,0 +1,56 @@
+{
+    APPCLASS = NSApplication; 
+    FILESTABLE = {
+        CLASSES = (
+            DOJuliaController.m, 
+            DOJuliaDocument.M, 
+            Frame.M, 
+            JuliaClient.M, 
+            NSArrayExtensions.m, 
+            OWTiledImage.M
+        ); 
+        FRAMEWORKS = (
+            DOJuliaShared.framework, 
+            OmniDocument.framework, 
+            OmniGameMath.framework, 
+            TIFF.framework
+        ); 
+        H_FILES = (
+            config.h, 
+            DOJuliaController.h, 
+            DOJuliaDocument.h, 
+            Frame.h, 
+            JuliaClient.h, 
+            NSArrayExtensions.h, 
+            OWTiledImage.h
+        ); 
+        IMAGES = (NullImage.eps); 
+        INTERFACES = (DOJulia.nib, DOJuliaDocument.nib); 
+        M_FILES = (); 
+        OTHER_LIBS = (); 
+        OTHER_LINKED = (DOJulia_main.m); 
+        OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, Info.plist); 
+        PRECOMPILED_HEADERS = (); 
+        PROJECT_HEADERS = (); 
+        PUBLIC_HEADERS = (); 
+    }; 
+    GENERATEMAIN = NO; 
+    LANGUAGE = English; 
+    LOCALIZABLE_FILES = {DOJulia.nib = DOJulia.nib; DOJuliaDocument.nib = DOJuliaDocument.nib; }; 
+    MAKEFILEDIR = "$(NEXT_ROOT)/NextDeveloper/Makefiles/pb_makefiles"; 
+    NEXTSTEP_BUILDTOOL = omnimake; 
+    NEXTSTEP_DOCUMENTEXTENSIONS = (); 
+    NEXTSTEP_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    NEXTSTEP_MAINNIB = DOJulia; 
+    PDO_UNIX_BUILDTOOL = $NEXT_ROOT/NextDeveloper/bin/make; 
+    PDO_UNIX_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    PDO_UNIX_MAINNIB = DOJulia; 
+    PROJECTNAME = DOJulia; 
+    PROJECTTYPE = Application; 
+    PROJECTVERSION = 2.6; 
+    SYSTEMEXTENSIONS = (); 
+    TARGETS = (fake_install); 
+    WINDOWS_BUILDTOOL = omnimake; 
+    WINDOWS_INSTALLDIR = "$(OMNI_$(OMNI_UPPER_PROJECT_TYPE)_DIR)"; 
+    WINDOWS_MAINNIB = DOJulia; 
+}

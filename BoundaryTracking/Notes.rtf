@@ -1,0 +1,19 @@
+{\rtf0\ansi{\fonttbl\f0\fswiss Helvetica;}
+\paperw12240
+\paperh7740
+\margl120
+\margr120
+\pard\tx533\tx1067\tx1601\tx2135\tx2668\tx3202\tx3736\tx4270\tx4803\tx5337\f0\b0\i0\ulnone\fs24\fc0\cf0 \
+State to keep:\
+\
+
+\pard\tx3220\tx3720\tx4260\tx4800\tx5320\b\fi-3240\li3240\fc0\cf0 candidateBoundaryPoints:
+\b0 	List of interior points with at least one boundaryPoint neighbor.  Not clear yet whether they have an exterior neighbor.  If this turns out to be true, the point is added to boundaryPoints, if false, the point is rejected.\
+
+\b pointsToProcess:
+\b0 	List of points that are neighbors of candidateBoundaryPoints that we don't know the state of yet.\
+
+\pard\tx3222\tx3736\tx4270\tx4803\tx5337\b\fi-3240\li3240\fc0\cf0 boundaryPoints:
+\b0 	Confirmed list of interior points that have at least one exterior neighbor.  All neighbors of these points have been expored.\
+
+}
