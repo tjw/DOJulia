@@ -11,12 +11,11 @@
 		346213271883231700A4AB31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 346213251883231700A4AB31 /* InfoPlist.strings */; };
 		346213291883231700A4AB31 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213281883231700A4AB31 /* main.m */; };
 		3462132D1883231700A4AB31 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3462132B1883231700A4AB31 /* Credits.rtf */; };
-		346213301883231700A4AB31 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 3462132F1883231700A4AB31 /* Document.m */; };
+		346213301883231700A4AB31 /* Document.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462132F1883231700A4AB31 /* Document.mm */; };
 		346213331883231700A4AB31 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 346213311883231700A4AB31 /* Document.xib */; };
 		346213361883231700A4AB31 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 346213341883231700A4AB31 /* MainMenu.xib */; };
 		346213381883231700A4AB31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346213371883231700A4AB31 /* Images.xcassets */; };
 		346213691883237200A4AB31 /* DOJuliaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213571883237200A4AB31 /* DOJuliaController.m */; };
-		3462136A1883237200A4AB31 /* DOJuliaDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213591883237200A4AB31 /* DOJuliaDocument.mm */; };
 		3462136B1883237200A4AB31 /* Frame.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135B1883237200A4AB31 /* Frame.mm */; };
 		3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135E1883237200A4AB31 /* JuliaClient.mm */; };
 		3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213601883237200A4AB31 /* NSArrayExtensions.m */; };
@@ -48,7 +47,7 @@
 		3462132A1883231700A4AB31 /* Julia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Julia-Prefix.pch"; sourceTree = "<group>"; };
 		3462132C1883231700A4AB31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		3462132E1883231700A4AB31 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		3462132F1883231700A4AB31 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		3462132F1883231700A4AB31 /* Document.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Document.mm; sourceTree = "<group>"; };
 		346213321883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
 		346213351883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		346213371883231700A4AB31 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -56,8 +55,6 @@
 		346213541883237200A4AB31 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		346213561883237200A4AB31 /* DOJuliaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOJuliaController.h; sourceTree = "<group>"; };
 		346213571883237200A4AB31 /* DOJuliaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOJuliaController.m; sourceTree = "<group>"; };
-		346213581883237200A4AB31 /* DOJuliaDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOJuliaDocument.h; sourceTree = "<group>"; };
-		346213591883237200A4AB31 /* DOJuliaDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DOJuliaDocument.mm; sourceTree = "<group>"; };
 		3462135A1883237200A4AB31 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
 		3462135B1883237200A4AB31 /* Frame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Frame.mm; sourceTree = "<group>"; };
 		3462135D1883237200A4AB31 /* JuliaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaClient.h; sourceTree = "<group>"; };
@@ -156,7 +153,7 @@
 				346213531883237200A4AB31 /* DOJulia */,
 				346213751883249F00A4AB31 /* Shared */,
 				3462132E1883231700A4AB31 /* Document.h */,
-				3462132F1883231700A4AB31 /* Document.m */,
+				3462132F1883231700A4AB31 /* Document.mm */,
 				346213311883231700A4AB31 /* Document.xib */,
 				346213341883231700A4AB31 /* MainMenu.xib */,
 				346213371883231700A4AB31 /* Images.xcassets */,
@@ -183,8 +180,6 @@
 				346213541883237200A4AB31 /* config.h */,
 				346213561883237200A4AB31 /* DOJuliaController.h */,
 				346213571883237200A4AB31 /* DOJuliaController.m */,
-				346213581883237200A4AB31 /* DOJuliaDocument.h */,
-				346213591883237200A4AB31 /* DOJuliaDocument.mm */,
 				3462135A1883237200A4AB31 /* Frame.h */,
 				3462135B1883237200A4AB31 /* Frame.mm */,
 				3462135D1883237200A4AB31 /* JuliaClient.h */,
@@ -322,12 +317,11 @@
 				346213A5188327CC00A4AB31 /* xmalloc.c in Sources */,
 				3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */,
 				3462138D1883249F00A4AB31 /* Tile.mm in Sources */,
-				346213301883231700A4AB31 /* Document.m in Sources */,
+				346213301883231700A4AB31 /* Document.mm in Sources */,
 				346213291883231700A4AB31 /* main.m in Sources */,
 				346213691883237200A4AB31 /* DOJuliaController.m in Sources */,
 				346213701883237200A4AB31 /* OWTiledImage.mm in Sources */,
 				3462136B1883237200A4AB31 /* Frame.mm in Sources */,
-				3462136A1883237200A4AB31 /* DOJuliaDocument.mm in Sources */,
 				3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */,
 				3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */,
 				346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */,
