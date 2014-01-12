@@ -8,44 +8,43 @@ extern "C" {
 
 #import "Tile.h"
 
-@interface JuliaClient (Private)
-- (void) _setupFrames;
-@end
-
 @implementation JuliaClient
+{
+    NSMutableDictionary        *configuration;
+    NSString                   *filenameFormat;
+    unsigned int                stepCount;
+    double                      startRr, startRi, startRj, startRk;
+    double                      stepRr, stepRi, stepRj, stepRk;
+    
+    NSMutableArray             *serverArray;
+    NSMutableDictionary        *serverTable;
+    NSMutableDictionary        *serverStatsDict;
+    NSMutableArray             *tiles;
+    NSMutableArray             *frames;
+    
+    id <JuliaClientDelegate> delegate;
+}
 
 - init
 {
-    abort();
-#if 0
-    NSString                   *serverString, *serverName;
-    NSArray                    *serverNames;
-    NSEnumerator               *serverNameEnum;
-    id                          server;
-
-
     if (!(self = [super init]))
         return nil;
 
-    serverString = [[NSString alloc] initWithContentsOfFile:@"server.list"];
-    serverNames = [serverString propertyList];
+    NSArray *serverNames = @[@"localhost"];
 
     /* Later, init this from some network query */
     serverArray = [[NSMutableArray alloc] init];
     serverTable = [[NSMutableDictionary alloc] init];
     serverStatsDict = [[NSMutableDictionary alloc] init];
 
-    serverNameEnum = [serverNames objectEnumerator];
-    while ((serverName = [serverNameEnum nextObject])) {
-        server = [NSConnection rootProxyForConnectionWithRegisteredName:@"JuliaServer"
-                                                                   host:serverName];
+    for (NSString *serverName in serverNames) {
+        id server = [NSConnection rootProxyForConnectionWithRegisteredName:@"JuliaServer" host:serverName];
 	if (server) {
 	    [server setProtocolForProxy:@protocol(JuliaServerProtocol)]; 
 
 	    NSLog(@"connected to %@", serverName);
 	    [serverArray addObject:server];
 
-            [server retain];
 	    [serverTable setObject:serverName forKey: [NSValue valueWithNonretainedObject: server]];
 
 	    [serverStatsDict setObject:[NSNumber numberWithInt:0]
@@ -54,10 +53,9 @@ extern "C" {
     }
 
     return self;
-#endif
 }
 
-- (void)setDelegate:(id)aDelegate;
+- (void)setDelegate:(id <JuliaClientDelegate>)aDelegate;
 {
     delegate = aDelegate;
 }
@@ -68,9 +66,16 @@ extern "C" {
     return frames;
 }
 
-- (void)readConfigurationFromFileURL:(NSURL *)fileURL;
+- (BOOL)readConfigurationFromFileURL:(NSURL *)fileURL error:(NSError **)outError;
 {
-    configuration = [[NSMutableDictionary alloc] initWithContentsOfFile:@"template.julia"];
+    NSData *configurationData = [[NSData alloc] initWithContentsOfURL:fileURL options:0 error:outError];
+    if (!configurationData)
+        return NO;
+    
+    configuration = [NSPropertyListSerialization propertyListWithData:configurationData options:NSPropertyListMutableContainersAndLeaves format:NULL error:outError];
+    if (!configuration)
+        return NO;
+    
     filenameFormat = [configuration objectForKey:@"filenameFormat"];
     NSArray *orientationStep = [configuration objectForKey:@"orientationStep"];
     NSArray *orientationStart = [configuration objectForKey:@"orientationStart"];
@@ -86,6 +91,7 @@ extern "C" {
     stepRj = [[orientationStep objectAtIndex:2] doubleValue];
     stepRk = [[orientationStep objectAtIndex:3] doubleValue];
 
+    return YES;
 }
 
 - (void) resumeAnimation
@@ -178,8 +184,9 @@ extern "C" {
 }
 
 
-/* JuliaClientProtocol */
-- (oneway void) acceptTile: (bycopy Tile *) aTile fromServer: server;
+#pragma mark - JuliaClientProtocol
+
+- (oneway void)acceptTile:(bycopy Tile *)aTile fromServer:(id <JuliaServerProtocol>)server;
 {
     abort();
 #if 0

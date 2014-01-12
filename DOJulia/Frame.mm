@@ -13,30 +13,24 @@ extern "C" {
 @implementation Frame
 {
 //    TIFF                       *tif;
-    OWJuliaContext             *context;
-    NSMutableArray             *tilesToDo;
-    unsigned int                frameNumber;
-    unsigned int                tilesWide;
-    unsigned int                tilesHigh;
+    NSMutableArray *_tilesToDo;
 }
 
-
-- initWithConfiguration: (NSDictionary *) configuration
-            frameNumber: (unsigned int) aFrameNumber;
++ (instancetype)frameWithConfiguration:(NSDictionary *)configuration frameNumber:(NSUInteger)frameNumber;
 {
-    abort();
+    return [[self alloc] initWithConfiguration:configuration frameNumber:frameNumber];
+}
+
+- initWithConfiguration:(NSDictionary *)configuration frameNumber:(NSUInteger)frameNumber;
+{
+    if (!(self = [super init]))
+        return nil;
+
+    _frameNumber = frameNumber;
+
+    _context = [[OWJuliaContext alloc] initWithDictionary:configuration frameNumber:frameNumber];
+
 #if 0
-    int                         tileX, tileY;
-    NSRect                      tileRect;
-    NSSize                      imageSize;
-    id                          tile;
-
-    [super init];
-
-    frameNumber = aFrameNumber;
-
-    context = [[OWJuliaContext alloc] initWithDictionary: configuration frameNumber: aFrameNumber];
-
     tif = TIFFOpen([context->filename cString], "w");
     TIFFSetDirectory(tif, 0);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, (int)context->nc);
@@ -50,75 +44,49 @@ extern "C" {
     TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 4);
     TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+#endif
+    
+    NSRect tileRect = NSMakeRect(0, 0, _context->tileWidth, _context->tileHeight);
 
-    tileRect.origin.x = 0.0;
-    tileRect.origin.y = 0.0;
-    tileRect.size.width = context->tileWidth;
-    tileRect.size.height = context->tileHeight;
+    NSSize imageSize;
+    imageSize.width = OGMRoundUp(_context->nc, _context->tileWidth);
+    imageSize.height = OGMRoundUp(_context->nr, _context->tileHeight);
 
-    imageSize.width = OGMRoundUp(context->nc, context->tileWidth);
-    imageSize.height = OGMRoundUp(context->nr, context->tileHeight);
-
-    tilesWide = imageSize.width / context->tileWidth;
-    tilesHigh = imageSize.height / context->tileHeight;
-    fprintf(stderr, "Generating %d tiles ...\n", tilesWide * tilesHigh);
+    _tilesWide = imageSize.width / _context->tileWidth;
+    _tilesHigh = imageSize.height / _context->tileHeight;
+    fprintf(stderr, "Generating %ld tiles ...\n", _tilesWide * _tilesHigh);
 
     printf("\n");
     fflush(stdout);
 
 
-    tilesToDo = [[NSMutableArray alloc] init];
+    _tilesToDo = [[NSMutableArray alloc] init];
     /* Generate a list of tile objects to perform */
-    for (tileX = 0; tileX < tilesWide; tileX++) {
-	for (tileY = 0; tileY < tilesHigh; tileY++) {
-	    ttile_t                     tifTile;
+    for (NSUInteger tileX = 0; tileX < _tilesWide; tileX++) {
+	for (NSUInteger tileY = 0; tileY < _tilesHigh; tileY++) {
 
-#warning Should change this to not compute all data for images on edges
-	    tileRect.origin.x = tileX * context->tileWidth;
-	    tileRect.origin.y = tileY * context->tileHeight;
+            // TODO: Should change this to not compute all data for images on edges
+	    tileRect.origin.x = tileX * _context->tileWidth;
+	    tileRect.origin.y = tileY * _context->tileHeight;
 
-	    tile = [[Tile alloc] initRect:tileRect context:context];
-	    [tile setFrameNumber:frameNumber];
+	    Tile *tile = [[Tile alloc] initWithBounds:tileRect context:_context];
+	    [tile setFrameNumber:_frameNumber];
 
-	    tifTile = TIFFComputeTile(tif, tileRect.origin.x,
-				      tileRect.origin.y, 0, 0);
+            NSLog(@"Not generating TIFF file");
+#if 0
+	    ttile_t tifTile = TIFFComputeTile(tif, tileRect.origin.x, tileRect.origin.y, 0, 0);
 	    [tile setTileNum:tifTile];
-	    [tilesToDo addObject:tile];
+#endif
+	    [_tilesToDo addObject:tile];
 	}
     }
 
-    [tilesToDo autorelease];
-    tilesToDo = [[tilesToDo randomizedArray] retain];
+    _tilesToDo = [_tilesToDo randomizedArray];
 
     return self;
-#endif
 }
 
-- (OWJuliaContext *) context;
-{
-    return context;
-}
-
-- (unsigned int) tilesWide;
-{
-    return tilesWide;
-}
-
-- (unsigned int) tilesHigh;
-{
-    return tilesHigh;
-}
-
-+ frameWithConfiguration: (NSDictionary *) configuration
-             frameNumber: (unsigned int) aFrameNumber;
-{
-    return [[self alloc] initWithConfiguration:configuration frameNumber:aFrameNumber];
-}
-
-- (NSArray *) tilesToDo;
-{
-    return tilesToDo;
-}
+@synthesize tilesToDo = _tilesToDo;
 
 - (void) markTileDone: (Tile *) aTile;
 {

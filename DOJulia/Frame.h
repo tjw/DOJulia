@@ -1,21 +1,19 @@
 #import <Foundation/NSObject.h>
-//#import <TIFF/tiffio.h>
 
 @class Tile, OWJuliaContext;
 
 @interface Frame : NSObject
 
-- initWithConfiguration: (NSDictionary *) configuration
-            frameNumber: (unsigned int) aFrameNumber;
++ (instancetype)frameWithConfiguration:(NSDictionary *)configuration frameNumber:(NSUInteger)frameNumber;
 
-+ frameWithConfiguration: (NSDictionary *) configuration
-             frameNumber: (unsigned int) aFrameNumber;
+- initWithConfiguration:(NSDictionary *)configuration frameNumber:(NSUInteger)frameNumber;
 
-- (NSArray *) tilesToDo;
-- (void) markTileDone: (Tile *) aTile;
+@property(nonatomic,readonly) OWJuliaContext *context;
+@property(nonatomic,readonly) NSUInteger frameNumber;
+@property(nonatomic,readonly) NSUInteger tilesWide;
+@property(nonatomic,readonly) NSUInteger tilesHigh;
+@property(nonatomic,readonly) NSArray *tilesToDo;
 
-- (OWJuliaContext *) context;
-- (unsigned int) tilesWide;
-- (unsigned int) tilesHigh;
+- (void)markTileDone:(Tile *)aTile;
 
 @end

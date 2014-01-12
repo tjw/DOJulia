@@ -1,6 +1,5 @@
 extern "C" {
 #import <Foundation/Foundation.h>
-//#import <TIFF/tiffio.h>
 }
 
 #import "types.h"
@@ -8,27 +7,16 @@ extern "C" {
 @class OWJuliaContext;
 
 @interface Tile : NSObject <NSCoding>
-{
-    NSRect                      bounds;
-//    ttile_t                     tileNum;
-    unsigned int                frameNumber;
 
-    NSData                     *tileData;
+- initWithBounds:(NSRect)bounds context:(OWJuliaContext *)context;
 
-    OWJuliaContext             *context;
-}
-
-- initRect: (NSRect) aRect context: (OWJuliaContext *) context;
-- (NSRect) rect;
-
-- (OWJuliaContext *) context;
+@property(nonatomic,readonly) NSRect bounds;
+@property(nonatomic,readonly) OWJuliaContext *context;
 
 //- (void) setTileNum: (ttile_t) num;
 //- (ttile_t) tileNum;
 
-- (void) setFrameNumber: (unsigned int) aFrameNumber;
-- (unsigned int) frameNumber;
+@property(nonatomic) NSUInteger frameNumber;
+@property(nonatomic,copy) NSData *data;
 
-- (void) setTileData: (NSData *) data;
-- (NSData *) tileData;
 @end

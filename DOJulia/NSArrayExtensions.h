@@ -1,5 +1,5 @@
 #import <Foundation/NSArray.h>
 
 @interface NSArray (Extensions)
-- (NSArray *) randomizedArray;
+- (NSMutableArray *)randomizedArray;
 @end

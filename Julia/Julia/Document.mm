@@ -19,6 +19,9 @@ extern "C" {
 #import "OWJuliaContext.h"
 #import "Tile.h"
 
+@interface Document () <JuliaClientDelegate>
+@end
+
 @implementation Document
 {
     id                          tileView;
@@ -43,17 +46,14 @@ extern "C" {
 {
 }
 
-#pragma mark - JuliaClient delegate
+#pragma mark - JuliaClientDelegate
 
-- (void) juliaClient: (JuliaClient *) aClient didAcceptTile: (Tile *) aTile;
+- (void)juliaClient:(JuliaClient *)aClient didAcceptTile:(Tile *)tile;
 {
-    NSImage                    *image;
-    NSBitmapImageRep           *imageRep;
-    NSRect                      rect;
-    
-    rect = [aTile rect];
+    NSRect rect = tile.bounds;
     
     // #warning Can we not just pass a NULL?
+    NSBitmapImageRep *imageRep;
     {
 	unsigned char *conversion_tmp[5] = {NULL};
 	conversion_tmp[0] = NULL;
@@ -68,9 +68,9 @@ extern "C" {
                                                           bytesPerRow:0
                                                          bitsPerPixel:0];
     };
-    bcopy([[aTile tileData] bytes], [imageRep bitmapData], [[aTile tileData] length]);
+    bcopy([[tile data] bytes], [imageRep bitmapData], [[tile data] length]);
     
-    image = [[NSImage alloc] init];
+    NSImage *image = [[NSImage alloc] init];
     [image addRepresentation:imageRep];
     [image setDataRetained:YES];
     [tileView setImage:image
@@ -115,7 +115,9 @@ extern "C" {
     
     client = [[JuliaClient alloc] init];
     [client setDelegate:self];
-    [client readConfigurationFromFileURL:url];
+    if (![client readConfigurationFromFileURL:url error:outError])
+        return NO;
+    
     if ([[client frames] count])
 	aFrame = [[client frames] objectAtIndex: 0];
     if (!aFrame)

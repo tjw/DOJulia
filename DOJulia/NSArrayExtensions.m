@@ -2,11 +2,11 @@
 
 @implementation NSArray (Extensions)
 
-- (NSArray *)randomizedArray;
+- (NSMutableArray *)randomizedArray;
 {
     NSUInteger count = [self count];
     if (count < 2)
-	return self;
+	return [self mutableCopy];
 
     NSMutableArray *selfCopy = [[NSMutableArray alloc] initWithArray:self];
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];

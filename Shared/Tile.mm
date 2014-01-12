@@ -5,7 +5,7 @@
 
 @implementation Tile
 
-- initRect: (NSRect) aRect context: (OWJuliaContext *) aContext
+- initWithBounds:(NSRect)bounds context:(OWJuliaContext *)context;
 {
     abort();
 #if 0
@@ -18,17 +18,6 @@
 #endif
 }
 
-- (OWJuliaContext *) context
-{
-    return context;
-}
-
-
-- (NSRect)rect
-{
-    return bounds;
-}
-
 //- (void) setTileNum: (ttile_t) num
 //{
 //    tileNum = num;
@@ -39,29 +28,7 @@
 //    return tileNum;
 //}
 
-- (void) setFrameNumber: (unsigned int) aFrameNumber;
-{
-    frameNumber = aFrameNumber;
-}
-
-- (unsigned int) frameNumber;
-{
-    return frameNumber;
-}
-
-- (void) setTileData: (NSData *) data;
-{
-     if (data == tileData)
-         return;
-     tileData = [data copy];
-}
-
-- (NSData *) tileData;
-{
-    return tileData;
-}
-
-/* NSCoding stuff */
+#pragma mark - NSCoding
 
 - (id)replacementObjectForPortCoder:(NSPortCoder *)coder;
 {
