@@ -20,7 +20,7 @@
 		3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135E1883237200A4AB31 /* JuliaClient.mm */; };
 		3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213601883237200A4AB31 /* NSArrayExtensions.m */; };
 		3462136F1883237200A4AB31 /* NullImage.eps in Resources */ = {isa = PBXBuildFile; fileRef = 346213611883237200A4AB31 /* NullImage.eps */; };
-		346213701883237200A4AB31 /* OWTiledImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213631883237200A4AB31 /* OWTiledImage.mm */; };
+		346213701883237200A4AB31 /* TiledImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213631883237200A4AB31 /* TiledImageView.mm */; };
 		346213711883237200A4AB31 /* server.list in Resources */ = {isa = PBXBuildFile; fileRef = 346213641883237200A4AB31 /* server.list */; };
 		346213721883237200A4AB31 /* server.list.mccaw in Resources */ = {isa = PBXBuildFile; fileRef = 346213651883237200A4AB31 /* server.list.mccaw */; };
 		346213731883237200A4AB31 /* server.list.omni in Resources */ = {isa = PBXBuildFile; fileRef = 346213661883237200A4AB31 /* server.list.omni */; };
@@ -65,8 +65,8 @@
 		3462135F1883237200A4AB31 /* NSArrayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayExtensions.h; sourceTree = "<group>"; };
 		346213601883237200A4AB31 /* NSArrayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayExtensions.m; sourceTree = "<group>"; };
 		346213611883237200A4AB31 /* NullImage.eps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NullImage.eps; sourceTree = "<group>"; };
-		346213621883237200A4AB31 /* OWTiledImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWTiledImage.h; sourceTree = "<group>"; };
-		346213631883237200A4AB31 /* OWTiledImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWTiledImage.mm; sourceTree = "<group>"; };
+		346213621883237200A4AB31 /* TiledImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImageView.h; sourceTree = "<group>"; };
+		346213631883237200A4AB31 /* TiledImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TiledImageView.mm; sourceTree = "<group>"; };
 		346213641883237200A4AB31 /* server.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list; sourceTree = "<group>"; };
 		346213651883237200A4AB31 /* server.list.mccaw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.mccaw; sourceTree = "<group>"; };
 		346213661883237200A4AB31 /* server.list.omni */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.omni; sourceTree = "<group>"; };
@@ -197,8 +197,8 @@
 				3462135F1883237200A4AB31 /* NSArrayExtensions.h */,
 				346213601883237200A4AB31 /* NSArrayExtensions.m */,
 				346213611883237200A4AB31 /* NullImage.eps */,
-				346213621883237200A4AB31 /* OWTiledImage.h */,
-				346213631883237200A4AB31 /* OWTiledImage.mm */,
+				346213621883237200A4AB31 /* TiledImageView.h */,
+				346213631883237200A4AB31 /* TiledImageView.mm */,
 				346213641883237200A4AB31 /* server.list */,
 				346213651883237200A4AB31 /* server.list.mccaw */,
 				346213661883237200A4AB31 /* server.list.omni */,
@@ -347,7 +347,7 @@
 				346213301883231700A4AB31 /* Document.mm in Sources */,
 				346213291883231700A4AB31 /* main.m in Sources */,
 				346213691883237200A4AB31 /* DOJuliaController.m in Sources */,
-				346213701883237200A4AB31 /* OWTiledImage.mm in Sources */,
+				346213701883237200A4AB31 /* TiledImageView.mm in Sources */,
 				3462136B1883237200A4AB31 /* Frame.mm in Sources */,
 				3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */,
 				3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */,

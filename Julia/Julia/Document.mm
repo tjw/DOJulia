@@ -13,19 +13,19 @@ extern "C" {
 #import "DOJuliaController.h"
 #import "JuliaClient.h"
 #import "Frame.h"
-#import "OWTiledImage.h"
+#import "TiledImageView.h"
 }
 
 #import "OWJuliaContext.h"
 #import "Tile.h"
 
 @interface Document () <JuliaClientDelegate>
+@property(nonatomic,strong) IBOutlet TiledImageView *tiledImageView;
 @end
 
 @implementation Document
 {
-    id                          tileView;
-    JuliaClient                *client;
+    JuliaClient *client;
 }
 
 - (id)init
@@ -73,10 +73,9 @@ extern "C" {
     NSImage *image = [[NSImage alloc] init];
     [image addRepresentation:imageRep];
     [image setDataRetained:YES];
-    [tileView setImage:image
-                   atX: (unsigned int)(rect.origin.x / [tileView tileWidth])
-                     y: (unsigned int)(rect.origin.y / [tileView tileHeight])];
-    [tileView display];
+    [_tiledImageView setImage:image
+                          atX:(NSUInteger)(rect.origin.x / [_tiledImageView tileWidth])
+                            y:(NSUInteger)(rect.origin.y / [_tiledImageView tileHeight])];
 }
 
 #pragma mark - NSDocument subclass
@@ -88,10 +87,11 @@ extern "C" {
     return @"Document";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *)aController
+- (void)windowControllerDidLoadNib:(NSWindowController *)windowController;
 {
-    [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    // TODO: Move this into a window controller subclass
+    [super windowControllerDidLoadNib:windowController];
+    [self _updateImageView];
 }
 
 + (BOOL)autosavesInPlace
@@ -110,25 +110,30 @@ extern "C" {
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError;
 {
-    Frame *aFrame = nil;
-    OWJuliaContext *context;
     
     client = [[JuliaClient alloc] init];
     [client setDelegate:self];
     if (![client readConfigurationFromFileURL:url error:outError])
         return NO;
     
+    [self _updateImageView];
+
+    return YES;
+}
+
+- (void)_updateImageView;
+{
+    if (client == nil || _tiledImageView == nil)
+        // Have to both have the document and window loaded
+        return;
+    
+    Frame *aFrame = nil;
     if ([[client frames] count])
 	aFrame = [[client frames] objectAtIndex: 0];
-    if (!aFrame)
-	return NO;
+    assert(aFrame);
     
-    context = [aFrame context];
-    
-    [[tileView window] setDepthLimit:NSBestDepth(NSCalibratedRGBColorSpace, 8, 24, NO, NULL)];
-    [tileView setTilesHigh: [aFrame tilesHigh] tileHeight: context->tileHeight
-                 tilesWide: [aFrame tilesWide] tileWidth: context->tileWidth];
-    return YES;
+    OWJuliaContext *context = [aFrame context];
+    [_tiledImageView setTilesHigh:[aFrame tilesHigh] tileHeight:context->tileHeight tilesWide:[aFrame tilesWide] tileWidth:context->tileWidth];
 }
 
 @end

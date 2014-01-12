@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Document">
             <connections>
+                <outlet property="tiledImageView" destination="qf9-uJ-T10" id="ap8-ul-7ZU"/>
                 <outlet property="window" destination="5" id="18"/>
             </connections>
         </customObject>
@@ -20,8 +21,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="507" height="413"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YQ8-tF-b8K">
-                        <rect key="frame" x="80" y="285" width="70" height="32"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YQ8-tF-b8K">
+                        <rect key="frame" x="14" y="13" width="70" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FcU-2H-Ra0">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -31,7 +32,37 @@
                             <action selector="startComputing:" target="-2" id="gSQ-dq-Gzp"/>
                         </connections>
                     </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="npJ-Zm-zv1">
+                        <rect key="frame" x="20" y="61" width="467" height="332"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <clipView key="contentView" id="SmT-q3-3JK">
+                            <rect key="frame" x="1" y="1" width="450" height="315"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qf9-uJ-T10" customClass="TiledImageView">
+                                    <rect key="frame" x="0.0" y="0.0" width="356" height="250"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                </customView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="0SK-y8-9eH">
+                            <rect key="frame" x="1" y="316" width="450" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="gh8-kW-NyD">
+                            <rect key="frame" x="451" y="1" width="15" height="315"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="YQ8-tF-b8K" firstAttribute="top" secondItem="npJ-Zm-zv1" secondAttribute="bottom" constant="20" id="7SD-SI-MQB"/>
+                    <constraint firstItem="npJ-Zm-zv1" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" id="9oc-vM-qLR"/>
+                    <constraint firstItem="npJ-Zm-zv1" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="Ryb-RA-5X5"/>
+                    <constraint firstAttribute="trailing" secondItem="npJ-Zm-zv1" secondAttribute="trailing" constant="20" id="VLu-oW-wMQ"/>
+                    <constraint firstAttribute="bottom" secondItem="YQ8-tF-b8K" secondAttribute="bottom" constant="20" id="YRm-VS-dsl"/>
+                    <constraint firstItem="YQ8-tF-b8K" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="zzY-oh-gQW"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="17"/>

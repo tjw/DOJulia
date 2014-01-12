@@ -45,7 +45,7 @@ static inline int OGMClosestDiv(int numerator, int denominator)
 }
 
 
-static inline int OGMRoundDown(int i, int m)
+static inline NSUInteger OGMRoundDown(NSUInteger i, NSUInteger m)
 {
     if (i % m) {
 	i += (i % m);
@@ -54,7 +54,7 @@ static inline int OGMRoundDown(int i, int m)
     return i;
 }
 
-static inline int OGMRoundUp(int i, int m)
+static inline NSUInteger OGMRoundUp(NSUInteger i, NSUInteger m)
 {
     if (i % m) {
 	i -= (i % m);
@@ -63,7 +63,7 @@ static inline int OGMRoundUp(int i, int m)
     return i;
 }
 
-static inline NSPoint OGMSnapPointUp(NSPoint aPoint, unsigned int x, unsigned int y)
+static inline NSPoint OGMSnapPointUp(NSPoint aPoint, NSUInteger x, NSUInteger y)
 {
     NSPoint                     newPoint;
 
@@ -73,7 +73,7 @@ static inline NSPoint OGMSnapPointUp(NSPoint aPoint, unsigned int x, unsigned in
     return newPoint;
 }
 
-static inline NSPoint OGMSnapPointDown(NSPoint aPoint, unsigned int x, unsigned int y)
+static inline NSPoint OGMSnapPointDown(NSPoint aPoint, NSUInteger x, NSUInteger y)
 {
     NSPoint                     newPoint;
 
@@ -83,7 +83,7 @@ static inline NSPoint OGMSnapPointDown(NSPoint aPoint, unsigned int x, unsigned 
     return newPoint;
 }
 
-static inline NSRect  OGMSnapRect(NSRect aRect, unsigned int x, unsigned int y)
+static inline NSRect  OGMSnapRect(NSRect aRect, NSUInteger x, NSUInteger y)
 {
     NSRect newRect;
     NSPoint upperRight;
