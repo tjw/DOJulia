@@ -108,12 +108,9 @@ static inline BOOL isNegativePlane(plane_t *plane, const quaternion &point)
 
 static plane_t *findNegativeClippingPlane(OWJuliaContext *context, const quaternion &point)
 {
-    unsigned int                count;
-    plane_t                    *plane;
-
-    count = context->numberOfPlanes;
+    NSUInteger count = context->numberOfPlanes;
     while (count--) {
-	plane = &context->planes[count];
+	plane_t *plane = &context->planes[count];
 	if (plane->clips && isNegativePlane(plane, point))
 	    return plane;
     }
@@ -136,12 +133,11 @@ static BOOL lineIntersectsWithPlane(plane_t *plane, line *line, quaternion *inte
 
 static plane_t *makePointNonNegative(OWJuliaContext *context, quaternion *point, line *line)
 {
-    unsigned int                count;
-    plane_t                    *lastPlaneHit = NULL, *plane;
+    plane_t *lastPlaneHit = NULL;
 
-    count = context->numberOfPlanes;
+    NSUInteger count = context->numberOfPlanes;
     while (count--) {
-	plane = &context->planes[count];
+	plane_t *plane = &context->planes[count];
         if (plane->clips && isNegativePlane(plane, *point)) {
             if (lineIntersectsWithPlane(plane, line, point))
 		lastPlaneHit = plane;
@@ -202,7 +198,7 @@ static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *res
 #endif
         
 	if (label == IN_SET) {
-            unsigned int basinIndex;
+            iteration basinIndex;
 
 #if 0
 	    if (plane) {

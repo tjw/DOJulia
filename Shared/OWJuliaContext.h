@@ -11,7 +11,7 @@ extern "C" {
 {
 @public
     map                         m;
-    int                         tileWidth, tileHeight;
+    NSUInteger                  tileWidth, tileHeight;
     quaternion                  u;
     double                      dist;
     unsigned int                nr, nc;
@@ -40,7 +40,7 @@ extern "C" {
     unsigned int                colorByBasin;
 }
 
-- initWithDictionary: (NSDictionary *) aDictionary
-         frameNumber: (unsigned int) aFrameNumber;
+- initWithDictionary:(NSDictionary *)aDictionary frameNumber:(NSUInteger)aFrameNumber;
+
 @end
 

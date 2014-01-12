@@ -32,7 +32,6 @@ extern "C" {
     _operationQueue = [[NSOperationQueue alloc] init];
     _operationQueue.name = @"com.omnigroup.JuliaServer";
     
-    // TODO: Get rid of this and the 'static' in the block below
     _operationQueue.maxConcurrentOperationCount = 1;
     
     return self;
@@ -48,7 +47,6 @@ extern "C" {
             static unsigned int         tileCount = 16;
 #endif
             
-            //#warning Should cache the data object between calls
             if (!aTile)
                 return;
             OWJuliaContext *context = [aTile context];
@@ -57,10 +55,7 @@ extern "C" {
                         
             ImageTile *tile = tileNew(context->tileWidth, context->tileHeight);
             
-            //#warning General C++ question: This will not call the constructor on these objects.
-            static quaternion *orbit = NULL;
-            orbit = (quaternion *)realloc(orbit, sizeof(quaternion) * (context->N + 1));
-            
+            quaternion *orbit = (quaternion *)malloc(sizeof(quaternion) * (context->N + 1));
             makeTile(context, aTile.bounds, tile, orbit);
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -69,6 +64,7 @@ extern "C" {
                 fprintf(stderr, "Completed tile %p.\n", aTile);
             
                 tileFree(tile);
+                free(orbit);
                 //[aTile release];
             }];
 #ifdef PROFILE

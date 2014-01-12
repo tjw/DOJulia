@@ -35,10 +35,8 @@ static inline color_t *tilePixel(ImageTile *t, NSUInteger x, NSUInteger y)
   return t->pixelBytes + offsetForPixel(t, x, y); 
 }
 
-static inline ImageTile *tileSetPixel(ImageTile *t, NSUInteger x, NSUInteger y, color_t c)
+static inline void tileSetPixel(ImageTile *t, NSUInteger x, NSUInteger y, color_t c)
 {
   color_t *pixel = tilePixel(t, x, y);
-
-  *pixel        = c;
-  return t;
+  *pixel = c;
 }

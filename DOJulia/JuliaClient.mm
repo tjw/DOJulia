@@ -17,9 +17,9 @@ extern "C" {
     double                      startRr, startRi, startRj, startRk;
     double                      stepRr, stepRi, stepRj, stepRk;
     
-    NSMutableArray             *serverArray;
-    NSMutableDictionary        *serverTable;
-    NSMutableDictionary        *serverStatsDict;
+    JuliaServer *_server;
+    NSUInteger _tilesCompleted;
+    
     NSMutableArray             *tiles;
     NSMutableArray             *frames;
     
@@ -31,20 +31,7 @@ extern "C" {
     if (!(self = [super init]))
         return nil;
 
-    /* Later, init this from some network query */
-    serverArray = [[NSMutableArray alloc] init];
-    serverTable = [[NSMutableDictionary alloc] init];
-    serverStatsDict = [[NSMutableDictionary alloc] init];
-
-    JuliaServer *server = [JuliaServer sharedServer];
-    if (server) {
-        [serverArray addObject:server];
-
-        NSString *serverName = @"localhost";
-        [serverTable setObject:serverName forKey:[NSValue valueWithNonretainedObject: server]];
-
-        [serverStatsDict setObject:[NSNumber numberWithInt:0] forKey:serverName];
-    }
+    _server = [JuliaServer sharedServer];
 
     return self;
 }
@@ -88,36 +75,18 @@ extern "C" {
     return YES;
 }
 
-- (void) resumeAnimation
+- (void)resumeAnimation
 {
-    id                  server;
-    Tile               *tile;
-
     if (![tiles count])
 	/* Done! */
 	return;
 
-    if (![serverArray count]) {
-        NSLog(@"No servers available");
-	/*
-	 * We'll get called again when there if a server becomes available.  Perhaps
-	 * we should try connecting to servers we haven't heard from in a
-	 * while here? 
-	 */
-	return;
-    }
-
-    server = [serverArray lastObject];
-    [serverArray removeLastObject];
-
-    /* Rotate the tiles in the list each time so we try them all */
-    tile = [tiles objectAtIndex: 0];
-    [tiles removeObjectAtIndex: 0];
-    [server provideDataForTile:tile forClient: self];
-    [tiles addObject: tile];
+    // Submit all the pending tiles
+    for (Tile *tile in tiles)
+        [_server provideDataForTile:tile forClient:self];
 }
 
-- (void) _setupFrames;
+- (void)_setupFrames;
 {
     unsigned int                stepIndex;
 
@@ -188,22 +157,17 @@ extern "C" {
 
     NSUInteger tileIndex = [tiles indexOfObjectIdenticalTo:aTile];
     if (tileIndex != NSNotFound) {
-        /* tile wasn't alread done */
-        NSString *serverName = @"Unknown";
-        
-        NSUInteger tilesCompleted = [[serverStatsDict objectForKey:server] unsignedIntegerValue] + 1;
-#if 0
-        serverName = [serverTable objectForKey:server];
-        [serverStatsDict setObject:[NSNumber numberWithInteger:tilesCompleted] forKey:serverName];
-#endif
+        /* tile wasn't alread done (if we start submitting to multiple servers again) */
+        _tilesCompleted++;
+
         [tiles removeObjectAtIndex:tileIndex];
         [delegate juliaClient:self didAcceptTile:aTile];
         [frames[frameNumber] markTileDone:aTile];
-        NSLog(@"%@ completed tile %p (%lu total).  %lu tiles left.\n", serverName, aTile, tilesCompleted, [tiles count]);
+        NSLog(@"Completed tile %p (%lu total).  %lu tiles left.\n", aTile, _tilesCompleted, [tiles count]);
     }
 
-    [serverArray addObject:server];
-    [self resumeAnimation];
+    // We submit all tiles up front right now
+    //[self resumeAnimation];
 }
 
 @end

@@ -145,8 +145,7 @@ static void mapSet(map *m,
 
 @implementation OWJuliaContext
 
-- initWithDictionary: (NSDictionary *) aDictionary
-         frameNumber: (unsigned int) aFrameNumber;
+- initWithDictionary:(NSDictionary *)aDictionary frameNumber:(NSUInteger)aFrameNumber;
 {
     if (!(self = [super init]))
         return nil;
