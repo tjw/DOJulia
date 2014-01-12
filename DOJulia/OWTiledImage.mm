@@ -9,10 +9,10 @@ extern "C" {
 
 @implementation OWTiledImage
 {
-    unsigned int                tilesWide;
-    unsigned int                tileWidth;
-    unsigned int                tilesHigh;
-    unsigned int                tileHeight;
+    NSUInteger                tilesWide;
+    NSUInteger                tileWidth;
+    NSUInteger                tilesHigh;
+    NSUInteger                tileHeight;
 //    NSImage                   **images;
     NSImage                    *nullImage;
 }
@@ -46,8 +46,8 @@ extern "C" {
     abort();
 #if 0
     NSRect                      realRect;
-    unsigned int                startX, xCount;
-    unsigned int                startY, yCount;
+    NSUInteger                startX, xCount;
+    NSUInteger                startY, yCount;
     int                         x, y;
 
     if (!images)
@@ -75,12 +75,12 @@ extern "C" {
 #endif
 }
 
-- (void) setTilesHigh: (unsigned int) aHeight tileHeight: (unsigned int) aTileHeight
-            tilesWide: (unsigned int) aWidth  tileWidth:  (unsigned int) aTileWidth;
+- (void)setTilesHigh:(NSUInteger)aHeight tileHeight:(NSUInteger)aTileHeight
+           tilesWide:(NSUInteger)aWidth tileWidth:(NSUInteger)aTileWidth;
 {
     abort();
 #if 0
-    unsigned int                x, y;
+    NSUInteger                x, y;
     NSSize                      imageSize;
 
     if (images && aHeight && aWidth) {
@@ -112,27 +112,27 @@ extern "C" {
 #endif
 }
 
-- (unsigned int) tilesHigh;
+- (NSUInteger) tilesHigh;
 {
     return tilesHigh;
 }
 
-- (unsigned int) tilesWide;
+- (NSUInteger) tilesWide;
 {
     return tilesWide;
 }
 
-- (unsigned int) tileWidth;
+- (NSUInteger) tileWidth;
 {
     return tileWidth;
 }
 
-- (unsigned int) tileHeight;
+- (NSUInteger) tileHeight;
 {
     return tileHeight;
 }
 
-- (void)setImage:(NSImage *)anImage atX: (unsigned int) tileX y: (unsigned int) tileY;
+- (void)setImage:(NSImage *)anImage atX:(NSUInteger)tileX y:(NSUInteger)tileY;
 {
     abort();
 #if 0
@@ -143,7 +143,7 @@ extern "C" {
 #endif
 }
 
-- (NSImage *) tileAtX: (unsigned int) x y: (unsigned int) y;
+- (NSImage *)tileAtX:(NSUInteger)x y:(NSUInteger)y;
 {
     abort();
 #if 0

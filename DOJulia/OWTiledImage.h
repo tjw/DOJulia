@@ -3,18 +3,15 @@
 
 @interface OWTiledImage : NSView
 
-- initWithFrame:(NSRect)aRect;
-- (void)drawRect:(NSRect)rect;
+- (void)setTilesHigh:(NSUInteger)aHeight tileHeight:(NSUInteger)aTileHeight
+           tilesWide:(NSUInteger)aWidth tileWidth:(NSUInteger)aTileWidth;
 
-- (void) setTilesHigh: (unsigned int) aHeight tileHeight: (unsigned int) aTileHeight
-            tilesWide: (unsigned int) aWidth  tileWidth:  (unsigned int) aTileWidth;
+- (NSUInteger)tilesHigh;
+- (NSUInteger)tilesWide;
+- (NSUInteger)tileWidth;
+- (NSUInteger)tileHeight;
 
-- (unsigned int) tilesHigh;
-- (unsigned int) tilesWide;
-- (unsigned int) tileWidth;
-- (unsigned int) tileHeight;
-
-- (void)setImage:(NSImage *)anImage atX: (unsigned int) tileX y: (unsigned int) tileY;
-- (NSImage *) tileAtX: (unsigned int) x y: (unsigned int) y;
+- (void)setImage:(NSImage *)anImage atX:(NSUInteger)tileX y:(NSUInteger)tileY;
+- (NSImage *)tileAtX:(NSUInteger)x y:(NSUInteger)y;
 
 @end

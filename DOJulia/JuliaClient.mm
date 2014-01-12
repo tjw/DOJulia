@@ -104,6 +104,7 @@ extern "C" {
 	return;
 
     if (![serverArray count]) {
+        NSLog(@"No servers available");
 	/*
 	 * We'll get called again when there if a server becomes available.  Perhaps
 	 * we should try connecting to servers we haven't heard from in a
@@ -163,8 +164,7 @@ extern "C" {
     [self _setupFrames];
 
     /* Give one tile to each server to start */
-    while ([tiles count] && [serverArray count])
-	[self resumeAnimation];
+    [self resumeAnimation];
 }
 
 - (void) done
