@@ -63,12 +63,14 @@ extern "C" {
             
             makeTile(context, aTile.bounds, tile, orbit);
             
-            aTile.data = tile->pixelData;
-            [aClient acceptTile:aTile fromServer:self];
-            fprintf(stderr, "Completed tile %p.\n", aTile);
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                aTile.data = (__bridge NSData *)tile->pixelData;
+                [aClient acceptTile:aTile fromServer:self];
+                fprintf(stderr, "Completed tile %p.\n", aTile);
             
-            tileFree(tile);
-            //[aTile release];
+                tileFree(tile);
+                //[aTile release];
+            }];
 #ifdef PROFILE
             if (!--tileCount)
                 exit(0);

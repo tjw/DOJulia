@@ -251,7 +251,7 @@ static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *res
 #endif
         
         /* This sign here is really non-intuitive.  In fact, I think it is plain wrong, but it works */
-        *orbit -= context->m.ray.direction * max(context->delta, context->dist);
+        *orbit -= context->m.ray.direction * MAX(context->delta, context->dist);
     } while (YES);
 }
 

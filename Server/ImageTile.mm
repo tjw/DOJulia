@@ -8,31 +8,27 @@ extern "C" {
 
 void tileFree(ImageTile *t)
 {
-    abort();
-#if 0
     if (!t)
 	return;
-    [t->pixelData release];
-    NSZoneFree(NSDefaultMallocZone(), t);
-#endif
+    if (t->pixelData)
+        CFRelease(t->pixelData); // This owns the bytes
 }
 
 
-ImageTile *tileNew(int rows, int cols)
+ImageTile *tileNew(NSUInteger rows, NSUInteger cols)
 {
-    abort();
-#if 0
-    ImageTile              *ret;
+    ImageTile *tile = (ImageTile *)calloc(1, sizeof(*tile));
 
-    ret = (ImageTile *)NSZoneMalloc(NSDefaultMallocZone(), sizeof(ImageTile));
+    tile->nr = rows;
+    tile->nc = cols;
+    
+    CFIndex pixelDataSize = sizeof(color_t) * tile->nr * tile->nc;
+    tile->pixelData = CFDataCreateMutable(kCFAllocatorDefault, pixelDataSize);
+    CFDataSetLength(tile->pixelData, pixelDataSize);
+    
+    tile->pixelBytes = (color_t *)CFDataGetMutableBytePtr(tile->pixelData);
 
-    ret->nr = rows;
-    ret->nc = cols;
-    ret->pixelData = [[NSMutableData alloc] initWithLength: sizeof(color_t) * ret->nr * ret->nc];
-    ret->pixelBytes = [ret->pixelData mutableBytes];
-
-    return ret;
-#endif
+    return tile;
 }
 
 
