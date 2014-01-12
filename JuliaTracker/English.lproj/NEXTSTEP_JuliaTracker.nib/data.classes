@@ -1,7 +1,0 @@
-"BTController" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };
-"FirstResponder" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };
-"JTController" = {
-    ACTIONS = {"start:" = id; }; 
-    OUTLETS = {imageView = id; }; 
-    SUPERCLASS = BTController; 
-};

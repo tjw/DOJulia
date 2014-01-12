@@ -1,6 +1,0 @@
-"BoundaryDisplayController" = {
-    ACTIONS = {"displayFile:" = id; }; 
-    OUTLETS = {imageView = id; }; 
-    SUPERCLASS = NSObject; 
-};
-"FirstResponder" = {ACTIONS = {}; OUTLETS = {}; SUPERCLASS = NSObject; };
