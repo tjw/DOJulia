@@ -7,15 +7,13 @@
 
 - initWithBounds:(NSRect)bounds context:(OWJuliaContext *)context;
 {
-    abort();
-#if 0
-    [super init];
-    bounds = aRect;
-    context = [aContext retain];
-    tileData = nil;
+    if (!(self = [super init]))
+        return nil;
+    
+    _bounds = bounds;
+    _context = context;
 
     return self;
-#endif
 }
 
 //- (void) setTileNum: (ttile_t) num

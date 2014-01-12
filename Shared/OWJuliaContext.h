@@ -26,7 +26,7 @@ extern "C" {
 
     unsigned int                exteriorColorTightness;
 
-    unsigned int                numberOfPlanes;
+    NSUInteger                numberOfPlanes;
     plane_t                    *planes;
 
     NSString                   *filename;
@@ -35,7 +35,7 @@ extern "C" {
     double                      crot, srot;
     double                      cnrot, snrot;
 
-    unsigned int                maxCycleColor;
+    NSUInteger                maxCycleColor;
     color_t                    *cycleColors;
     unsigned int                colorByBasin;
 }

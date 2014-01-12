@@ -148,9 +148,9 @@ static void mapSet(map *m,
 - initWithDictionary: (NSDictionary *) aDictionary
          frameNumber: (unsigned int) aFrameNumber;
 {
-    abort();
-#if 0
-    [super init];
+    if (!(self = [super init]))
+        return nil;
+    
     {
 	double                      focusLength, fov, scale;
         vector                      eyePoint;
@@ -218,11 +218,11 @@ static void mapSet(map *m,
 
 	maxCycleColor = 0;
 	cycleColors = NULL;
-	if (colorByBasin = [[aDictionary objectForKey:@"colorByBasin"] intValue]) {
+	if ((colorByBasin = [[aDictionary objectForKey:@"colorByBasin"] intValue])) {
 	    cycleColorArray = [aDictionary objectForKey:@"cycleColors"];
 	    if ([cycleColorArray isKindOfClass:[NSArray class]]) {
 		if ((maxCycleColor = [cycleColorArray count])) {
-		    cycleColors = malloc(sizeof(color_t) * maxCycleColor);
+		    cycleColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
 		    for (cycleColorIndex = 0; cycleColorIndex < maxCycleColor; cycleColorIndex++)
 			readColor([cycleColorArray objectAtIndex:cycleColorIndex],
 				  &cycleColors[cycleColorIndex]);
@@ -231,7 +231,7 @@ static void mapSet(map *m,
 		unsigned int                cycleColorIndex;
 
 		maxCycleColor = [(NSString *)cycleColorArray intValue];
-                cycleColors = malloc(sizeof(color_t) * maxCycleColor);
+                cycleColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
 
 		for (cycleColorIndex = 0; cycleColorIndex < maxCycleColor; cycleColorIndex++) {
 			NSColor *color;
@@ -279,12 +279,12 @@ static void mapSet(map *m,
 	if ([aDictionary objectForKey:@"overflow"])
             overflow = doubleValue([aDictionary objectForKey:@"overflow"]);
 	else
-	    overflow = sqrt(MAXDOUBLE);
+	    overflow = sqrt(DBL_MAX);
 
         clippingBubble = doubleValue([aDictionary objectForKey:@"clippingBubble"]);
         clippingBubble *= clippingBubble;
 
-	filename = [[aDictionary objectForKey:@"filename"] retain];
+	filename = [[aDictionary objectForKey:@"filename"] copy];
 	if (!filename)
 	    filename = @"/tmp/julia.tiff";
     }
@@ -297,7 +297,6 @@ static void mapSet(map *m,
     }
 
     return self;
-#endif
 }
 
 - (void)dealloc;
