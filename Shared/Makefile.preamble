@@ -1,6 +1,0 @@
-#DEVDIR = $(HOME)/Unix
-#LIBDIR = $(DEVDIR)/lib
-#INCDIR = $(DEVDIR)/include
-
-#OTHER_CFLAGS = -I$(INCDIR) -DNO_INLINE
-OTHER_CFLAGS = -I$(INCDIR) -O2 -finline-functions -fforce-mem
