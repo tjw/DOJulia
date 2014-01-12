@@ -10,46 +10,73 @@ extern "C" {
 #import "ImageTile.h"
 
 @implementation JuliaServer
-
-- (oneway void) provideDataForTile: (bycopy Tile *) aTile
-                         forClient: (id <JuliaClientProtocol>) aClient
 {
+    NSOperationQueue *_operationQueue;
+}
 
-    NS_DURING {
++ (instancetype)sharedServer;
+{
+    static JuliaServer *sharedServer = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedServer = [[self alloc] init];
+    });
+    return sharedServer;
+}
+
+- init;
+{
+    if (!(self = [super init]))
+        return nil;
+    
+    _operationQueue = [[NSOperationQueue alloc] init];
+    _operationQueue.name = @"com.omnigroup.JuliaServer";
+    
+    // TODO: Get rid of this and the 'static' in the block below
+    _operationQueue.maxConcurrentOperationCount = 1;
+    
+    return self;
+}
+
+#pragma mark - JuliaServerProtocol
+
+- (oneway void)provideDataForTile:(bycopy Tile *)aTile forClient:(id <JuliaClientProtocol>)aClient
+{
+    [_operationQueue addOperationWithBlock:^{
+        @try {
 #ifdef PROFILE
-        static unsigned int         tileCount = 16;
+            static unsigned int         tileCount = 16;
 #endif
-
-//#warning Should cache the data object between calls
-	if (!aTile)
-	    NS_VOIDRETURN;
-	OWJuliaContext *context = [aTile context];
-	if (!context)
-	    NS_VOIDRETURN;
-
-	[(NSDistantObject *) aClient setProtocolForProxy:@protocol(JuliaClientProtocol)];
-
-	ImageTile *tile = tileNew(context->tileWidth, context->tileHeight);
-
-//#warning General C++ question: This will not call the constructor on these objects.
-        static quaternion *orbit = NULL;
-        orbit = (quaternion *) NSZoneRealloc(NSDefaultMallocZone(), orbit, sizeof(quaternion) * (context->N + 1));
-        
-	makeTile(context, aTile.bounds, tile, orbit);
-
-        aTile.data = tile->pixelData;
-	[aClient acceptTile:aTile fromServer:self];
-	fprintf(stderr, "Completed tile %p.\n", aTile);
-
-        tileFree(tile);
-	//[aTile release];
+            
+            //#warning Should cache the data object between calls
+            if (!aTile)
+                return;
+            OWJuliaContext *context = [aTile context];
+            if (!context)
+                return;
+                        
+            ImageTile *tile = tileNew(context->tileWidth, context->tileHeight);
+            
+            //#warning General C++ question: This will not call the constructor on these objects.
+            static quaternion *orbit = NULL;
+            orbit = (quaternion *)realloc(orbit, sizeof(quaternion) * (context->N + 1));
+            
+            makeTile(context, aTile.bounds, tile, orbit);
+            
+            aTile.data = tile->pixelData;
+            [aClient acceptTile:aTile fromServer:self];
+            fprintf(stderr, "Completed tile %p.\n", aTile);
+            
+            tileFree(tile);
+            //[aTile release];
 #ifdef PROFILE
-	if (!--tileCount)
-	    exit(0);
+            if (!--tileCount)
+                exit(0);
 #endif
-    } NS_HANDLER {
-	NSLog(@"exception raised:%@", [localException reason]);
-    } NS_ENDHANDLER;
+        } @catch (NSException *exc) {
+            NSLog(@"exception raised:%@", [exc reason]);
+        }
+    }];
 }
 
 

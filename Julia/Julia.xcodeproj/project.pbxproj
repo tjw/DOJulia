@@ -36,7 +36,6 @@
 		346213AE18833FB600A4AB31 /* JuliaServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213A918833FB600A4AB31 /* JuliaServer.mm */; };
 		346213AF18833FB600A4AB31 /* makeImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AB18833FB600A4AB31 /* makeImage.mm */; };
 		346213B018833FB600A4AB31 /* ImageTile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AD18833FB600A4AB31 /* ImageTile.mm */; };
-		346213B41883446700A4AB31 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213B31883446700A4AB31 /* main.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,7 +104,6 @@
 		346213AB18833FB600A4AB31 /* makeImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = makeImage.mm; sourceTree = "<group>"; };
 		346213AC18833FB600A4AB31 /* ImageTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTile.h; sourceTree = "<group>"; };
 		346213AD18833FB600A4AB31 /* ImageTile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageTile.mm; sourceTree = "<group>"; };
-		346213B31883446700A4AB31 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +260,6 @@
 				346213AB18833FB600A4AB31 /* makeImage.mm */,
 				346213AC18833FB600A4AB31 /* ImageTile.h */,
 				346213AD18833FB600A4AB31 /* ImageTile.mm */,
-				346213B31883446700A4AB31 /* main.mm */,
 			);
 			name = Server;
 			path = ../../Server;
@@ -358,7 +355,6 @@
 				346213881883249F00A4AB31 /* julia.mm in Sources */,
 				346213A6188327CC00A4AB31 /* zbuffer.cpp in Sources */,
 				3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */,
-				346213B41883446700A4AB31 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

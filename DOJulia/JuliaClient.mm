@@ -6,6 +6,7 @@ extern "C" {
 #import "Frame.h"
 }
 
+#import "JuliaServer.h"
 #import "Tile.h"
 
 @implementation JuliaClient
@@ -30,26 +31,19 @@ extern "C" {
     if (!(self = [super init]))
         return nil;
 
-    NSArray *serverNames = @[@"localhost"];
-
     /* Later, init this from some network query */
     serverArray = [[NSMutableArray alloc] init];
     serverTable = [[NSMutableDictionary alloc] init];
     serverStatsDict = [[NSMutableDictionary alloc] init];
 
-    for (NSString *serverName in serverNames) {
-        id server = [NSConnection rootProxyForConnectionWithRegisteredName:@"JuliaServer" host:serverName];
-	if (server) {
-	    [server setProtocolForProxy:@protocol(JuliaServerProtocol)]; 
+    JuliaServer *server = [JuliaServer sharedServer];
+    if (server) {
+        [serverArray addObject:server];
 
-	    NSLog(@"connected to %@", serverName);
-	    [serverArray addObject:server];
+        NSString *serverName = @"localhost";
+        [serverTable setObject:serverName forKey:[NSValue valueWithNonretainedObject: server]];
 
-	    [serverTable setObject:serverName forKey: [NSValue valueWithNonretainedObject: server]];
-
-	    [serverStatsDict setObject:[NSNumber numberWithInt:0]
-	     forKey:serverName];
-	}
+        [serverStatsDict setObject:[NSNumber numberWithInt:0] forKey:serverName];
     }
 
     return self;

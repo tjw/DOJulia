@@ -4,8 +4,7 @@ extern "C" {
 }
 
 @interface JuliaServer : NSObject <JuliaServerProtocol>
-{
 
-}
++ (instancetype)sharedServer;
 
 @end
