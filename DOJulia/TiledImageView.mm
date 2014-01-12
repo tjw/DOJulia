@@ -28,9 +28,6 @@ extern "C" {
 
 - (void)drawRect:(NSRect)rect;
 {
-    [[NSColor redColor] set];
-    NSFrameRect(self.bounds);
-    
     if (!_images)
         return;
 

@@ -21,9 +21,6 @@
 		3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213601883237200A4AB31 /* NSArrayExtensions.m */; };
 		3462136F1883237200A4AB31 /* NullImage.eps in Resources */ = {isa = PBXBuildFile; fileRef = 346213611883237200A4AB31 /* NullImage.eps */; };
 		346213701883237200A4AB31 /* TiledImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213631883237200A4AB31 /* TiledImageView.mm */; };
-		346213711883237200A4AB31 /* server.list in Resources */ = {isa = PBXBuildFile; fileRef = 346213641883237200A4AB31 /* server.list */; };
-		346213721883237200A4AB31 /* server.list.mccaw in Resources */ = {isa = PBXBuildFile; fileRef = 346213651883237200A4AB31 /* server.list.mccaw */; };
-		346213731883237200A4AB31 /* server.list.omni in Resources */ = {isa = PBXBuildFile; fileRef = 346213661883237200A4AB31 /* server.list.omni */; };
 		346213741883237200A4AB31 /* template.julia in Resources */ = {isa = PBXBuildFile; fileRef = 346213671883237200A4AB31 /* template.julia */; };
 		346213881883249F00A4AB31 /* julia.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213781883249F00A4AB31 /* julia.mm */; };
 		3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */; };
@@ -67,9 +64,6 @@
 		346213611883237200A4AB31 /* NullImage.eps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NullImage.eps; sourceTree = "<group>"; };
 		346213621883237200A4AB31 /* TiledImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImageView.h; sourceTree = "<group>"; };
 		346213631883237200A4AB31 /* TiledImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TiledImageView.mm; sourceTree = "<group>"; };
-		346213641883237200A4AB31 /* server.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list; sourceTree = "<group>"; };
-		346213651883237200A4AB31 /* server.list.mccaw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.mccaw; sourceTree = "<group>"; };
-		346213661883237200A4AB31 /* server.list.omni */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.omni; sourceTree = "<group>"; };
 		346213671883237200A4AB31 /* template.julia */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.julia; sourceTree = "<group>"; };
 		346213771883249F00A4AB31 /* julia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = julia.h; sourceTree = "<group>"; };
 		346213781883249F00A4AB31 /* julia.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = julia.mm; sourceTree = "<group>"; };
@@ -199,9 +193,6 @@
 				346213611883237200A4AB31 /* NullImage.eps */,
 				346213621883237200A4AB31 /* TiledImageView.h */,
 				346213631883237200A4AB31 /* TiledImageView.mm */,
-				346213641883237200A4AB31 /* server.list */,
-				346213651883237200A4AB31 /* server.list.mccaw */,
-				346213661883237200A4AB31 /* server.list.omni */,
 				346213671883237200A4AB31 /* template.julia */,
 			);
 			name = DOJulia;
@@ -317,12 +308,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				346213721883237200A4AB31 /* server.list.mccaw in Resources */,
 				346213331883231700A4AB31 /* Document.xib in Resources */,
-				346213731883237200A4AB31 /* server.list.omni in Resources */,
 				346213381883231700A4AB31 /* Images.xcassets in Resources */,
 				3462136F1883237200A4AB31 /* NullImage.eps in Resources */,
-				346213711883237200A4AB31 /* server.list in Resources */,
 				346213741883237200A4AB31 /* template.julia in Resources */,
 				346213271883231700A4AB31 /* InfoPlist.strings in Resources */,
 				3462132D1883231700A4AB31 /* Credits.rtf in Resources */,
