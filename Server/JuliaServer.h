@@ -1,6 +1,6 @@
 extern "C" {
 #import <Foundation/NSObject.h>
-#import <DOJuliaShared/Protocols.h>
+#import "Protocols.h"
 }
 
 @interface JuliaServer : NSObject <JuliaServerProtocol>

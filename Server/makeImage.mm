@@ -1,8 +1,5 @@
-extern "C" {
-#import <ansi/stdio.h>
-}
 
-#define TIMER
+//#define TIMER
 #ifdef TIMER
 #warning Timer code enabled!
 
@@ -11,12 +8,12 @@ OmniTimerNode tileTimer(@"Total Tile Time", NULL);
 OmniTimerNode juliaTimer(@"Julia Label Timer", &tileTimer);
 #endif
 
-#import <DOJuliaShared/types.h>
-#import <DOJuliaShared/line.hxx>
-#import <DOJuliaShared/OWJuliaContext.h>
-#import <DOJuliaShared/julia.h>
-#import <DOJuliaShared/OWJuliaNormalApproximation.h>
-#import <DOJuliaShared/OWJuliaColoringMethods.h>
+#import "types.h"
+#import "line.hxx"
+#import "OWJuliaContext.h"
+#import "julia.h"
+#import "OWJuliaNormalApproximation.h"
+#import "OWJuliaColoringMethods.h"
 
 #import "tile.h"
 #import "makeImage.h"
@@ -33,7 +30,7 @@ color_t         red    = {255, 0, 0, 255};
 
 static unsigned int basinMissCount = 0;  // number of times the basin couldn't be determined
 
-static INLINE double ipow(double x, unsigned int i)
+static inline double ipow(double x, unsigned int i)
 {
     double                      result = x;
 
@@ -53,7 +50,7 @@ static INLINE double ipow(double x, unsigned int i)
 }
 
 /* Use Lambertian shading, ka = 1.0, one light source at eye point */
-static INLINE void setColor(color_t *result, color_t *base, double mag)
+static inline void setColor(color_t *result, color_t *base, double mag)
 {
   /* make a color from it */
   result->r = (unsigned char) (mag * base->r);
@@ -63,7 +60,7 @@ static INLINE void setColor(color_t *result, color_t *base, double mag)
 }
 
 /* 0 is totally transparent */
-static INLINE void compositeColor(color_t *back, color_t *front)
+static inline void compositeColor(color_t *back, color_t *front)
 {
     unsigned int                frontTransparency, newA;
 
@@ -81,7 +78,7 @@ static INLINE void compositeColor(color_t *back, color_t *front)
 #import <AppKit/AppKit.h>
 
 /* Assumes 0.0 <= {h, s, i} <= 1.0 */
-static INLINE void hsiToColor(double h, double s, double i, color_t *c)
+static inline void hsiToColor(double h, double s, double i, color_t *c)
 {
     NSColor *result;
 
@@ -93,7 +90,7 @@ static INLINE void hsiToColor(double h, double s, double i, color_t *c)
 }
 
 #define PLANE_DEWOOGLY_FACTOR (0.0000001)
-static INLINE BOOL isNegativePlane(plane_t *plane, const quaternion &point)
+static inline BOOL isNegativePlane(plane_t *plane, const quaternion &point)
 {
     quaternion difference;
 
@@ -309,8 +306,8 @@ typedef struct {
 
 static int compareByDistance(const void *a, const void *b)
 {
-    const planeIntersection_t  *intersection1 = a;
-    const planeIntersection_t  *intersection2 = b;
+    const planeIntersection_t *intersection1 = (const planeIntersection_t *)a;
+    const planeIntersection_t *intersection2 = (const planeIntersection_t *)b;
 
     if (intersection1->dist < intersection2->dist)
 	return -1;
@@ -323,7 +320,7 @@ static int compareByDistance(const void *a, const void *b)
 
 static void makeRay(OWJuliaContext *context,
                     double xOffset, double yOffset,
-                    NSRect tileRect, tile_t *tile, quaternion *orbit,
+                    NSRect tileRect, ImageTile *tile, quaternion *orbit,
                     rayResult_t *result)
 {
 
@@ -429,10 +426,10 @@ static void makeRay(OWJuliaContext *context,
 
 extern int juliaCalls, juliaIterations;
 
-void makeTile(OWJuliaContext *context, NSRect tileRect, tile_t *tile, quaternion *orbit)
+void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
 {
     double        xOffset, yOffset;
-    rayResult_t  *bottomCorners, *topCorners, *tmp;
+    rayResult_t *tmp;
     unsigned int  i, j;
 
 #ifdef TIMER
@@ -441,23 +438,20 @@ void makeTile(OWJuliaContext *context, NSRect tileRect, tile_t *tile, quaternion
 
     // Determine the fixed attractor cycle for this set.
     {
-        dem_label label;
-        unsigned int cycleLength;
-        
         orbit[0] = quaternion(0, 0, 0, 0);
 
-        label = juliaLabel(context, orbit);
+        dem_label label = juliaLabel(context, orbit);
         if (label != IN_SET) {
             fprintf(stderr, "The point <0, 0, 0, 0> is not in the set.\n");
             return;
         }
 
-        cycleLength = OWJuliaFindCycleLength(orbit, context->n, context->delta);
+        iteration cycleLength = OWJuliaFindCycleLength(orbit, context->n, context->delta);
         if (cycleLength == OWJuliaNoCycle) {
             fprintf(stderr, "Couldn't determine the cycle length starting from <0, 0, 0, 0>\n");
             return;
         } else
-            fprintf(stderr, "Cycle length = %d\n", cycleLength);
+            fprintf(stderr, "Cycle length = %lu\n", cycleLength);
     }
     
 #if 0
@@ -467,8 +461,8 @@ void makeTile(OWJuliaContext *context, NSRect tileRect, tile_t *tile, quaternion
 #endif
 
     /* For a N wide tile, we'll need N+1 samples */
-    bottomCorners = NSZoneMalloc(NSDefaultMallocZone(), sizeof(*bottomCorners) * (unsigned int)(tileRect.size.width + 1));
-    topCorners  = NSZoneMalloc(NSDefaultMallocZone(), sizeof(*topCorners) * (unsigned int)(tileRect.size.width + 1));
+    rayResult_t *bottomCorners = (rayResult_t *)malloc(sizeof(*bottomCorners) * (unsigned int)(tileRect.size.width + 1));
+    rayResult_t *topCorners  = (rayResult_t *)malloc(sizeof(*topCorners) * (unsigned int)(tileRect.size.width + 1));
 
     /* Fill out the first row */
     yOffset = -0.5;

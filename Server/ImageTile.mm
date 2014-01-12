@@ -1,26 +1,30 @@
+#import "ImageTile.h"
+
 extern "C" {
 #import <Foundation/NSData.h>
 }
 
-#import <DOJuliaShared/types.h>
-#import "tile.h"
+#import "types.h"
 
-
-
-void   tileFree(tile_t *t)
+void tileFree(ImageTile *t)
 {
+    abort();
+#if 0
     if (!t)
 	return;
     [t->pixelData release];
     NSZoneFree(NSDefaultMallocZone(), t);
+#endif
 }
 
 
-tile_t *tileNew(int rows, int cols)
+ImageTile *tileNew(int rows, int cols)
 {
-    tile_t              *ret;
+    abort();
+#if 0
+    ImageTile              *ret;
 
-    ret = (tile_t *)NSZoneMalloc(NSDefaultMallocZone(), sizeof(tile_t));
+    ret = (ImageTile *)NSZoneMalloc(NSDefaultMallocZone(), sizeof(ImageTile));
 
     ret->nr = rows;
     ret->nc = cols;
@@ -28,6 +32,7 @@ tile_t *tileNew(int rows, int cols)
     ret->pixelBytes = [ret->pixelData mutableBytes];
 
     return ret;
+#endif
 }
 
 

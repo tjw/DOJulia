@@ -33,6 +33,9 @@
 		346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34621390188327CC00A4AB31 /* bezierPatch.cpp */; };
 		346213A5188327CC00A4AB31 /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3462139C188327CC00A4AB31 /* xmalloc.c */; };
 		346213A6188327CC00A4AB31 /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3462139E188327CC00A4AB31 /* zbuffer.cpp */; };
+		346213AE18833FB600A4AB31 /* JuliaServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213A918833FB600A4AB31 /* JuliaServer.mm */; };
+		346213AF18833FB600A4AB31 /* makeImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AB18833FB600A4AB31 /* makeImage.mm */; };
+		346213B018833FB600A4AB31 /* ImageTile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AD18833FB600A4AB31 /* ImageTile.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +98,12 @@
 		3462139D188327CC00A4AB31 /* xmalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmalloc.h; sourceTree = "<group>"; };
 		3462139E188327CC00A4AB31 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zbuffer.cpp; sourceTree = "<group>"; };
 		3462139F188327CC00A4AB31 /* zbuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = zbuffer.hxx; sourceTree = "<group>"; };
+		346213A818833FB600A4AB31 /* JuliaServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaServer.h; sourceTree = "<group>"; };
+		346213A918833FB600A4AB31 /* JuliaServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JuliaServer.mm; sourceTree = "<group>"; };
+		346213AA18833FB600A4AB31 /* makeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = makeImage.h; sourceTree = "<group>"; };
+		346213AB18833FB600A4AB31 /* makeImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = makeImage.mm; sourceTree = "<group>"; };
+		346213AC18833FB600A4AB31 /* ImageTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTile.h; sourceTree = "<group>"; };
+		346213AD18833FB600A4AB31 /* ImageTile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageTile.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +160,7 @@
 			children = (
 				3462138E188327CC00A4AB31 /* OmniGameMath */,
 				346213531883237200A4AB31 /* DOJulia */,
+				346213A718833FB600A4AB31 /* Server */,
 				346213751883249F00A4AB31 /* Shared */,
 				3462132E1883231700A4AB31 /* Document.h */,
 				3462132F1883231700A4AB31 /* Document.mm */,
@@ -241,6 +251,20 @@
 			path = ../../OmniGameMath;
 			sourceTree = "<group>";
 		};
+		346213A718833FB600A4AB31 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				346213A818833FB600A4AB31 /* JuliaServer.h */,
+				346213A918833FB600A4AB31 /* JuliaServer.mm */,
+				346213AA18833FB600A4AB31 /* makeImage.h */,
+				346213AB18833FB600A4AB31 /* makeImage.mm */,
+				346213AC18833FB600A4AB31 /* ImageTile.h */,
+				346213AD18833FB600A4AB31 /* ImageTile.mm */,
+			);
+			name = Server;
+			path = ../../Server;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -314,7 +338,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3462138C1883249F00A4AB31 /* OWJuliaNormalApproximation.mm in Sources */,
+				346213AF18833FB600A4AB31 /* makeImage.mm in Sources */,
 				346213A5188327CC00A4AB31 /* xmalloc.c in Sources */,
+				346213B018833FB600A4AB31 /* ImageTile.mm in Sources */,
+				346213AE18833FB600A4AB31 /* JuliaServer.mm in Sources */,
 				3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */,
 				3462138D1883249F00A4AB31 /* Tile.mm in Sources */,
 				346213301883231700A4AB31 /* Document.mm in Sources */,

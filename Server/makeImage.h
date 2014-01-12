@@ -2,10 +2,10 @@ extern "C" {
 #import <Foundation/NSGeometry.h>
 }
 
-#import <DOJuliaShared/types.h>
-#import "tile.h"
+#import "types.h"
+#import "ImageTile.h"
 
 class quaternion;
 @class OWJuliaContext;
 
-void makeTile(OWJuliaContext *context, NSRect tileRect, tile_t *tile, quaternion *orbit);
+void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit);

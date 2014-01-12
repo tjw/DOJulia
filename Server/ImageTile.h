@@ -1,8 +1,5 @@
-#import <bsd/libc.h>
-
-#import <DOJuliaShared/types.h>
-#import <DOJuliaShared/inline.h>
-#import <OmniGameMath/quaternion.hxx>
+#import "types.h"
+#import "quaternion.hxx"
 
 #import <math.h>
 
@@ -16,12 +13,12 @@ typedef struct {
     int                 nc, nr;
     NSMutableData      *pixelData;
     color_t            *pixelBytes;
-} tile_t;
+} ImageTile;
 
-tile_t *tileNew(int rows, int cols);
-void   tileFree(tile_t *t);
+ImageTile *tileNew(int rows, int cols);
+void   tileFree(ImageTile *t);
 
-static INLINE int offsetForPixel(tile_t *t, int x, int y)
+static inline int offsetForPixel(ImageTile *t, int x, int y)
 {
   int             pos = y * t->nc + x;
 
@@ -35,12 +32,12 @@ static INLINE int offsetForPixel(tile_t *t, int x, int y)
   return pos;
 }
 
-static INLINE color_t *tilePixel(tile_t *t, int x, int y)
+static inline color_t *tilePixel(ImageTile *t, int x, int y)
 {
   return t->pixelBytes + offsetForPixel(t, x, y); 
 }
 
-static INLINE tile_t *tileSetPixel(tile_t *t, int x, int y, color_t c)
+static inline ImageTile *tileSetPixel(ImageTile *t, int x, int y, color_t c)
 {
   color_t *pixel = tilePixel(t, x, y);
 
