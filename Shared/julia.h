@@ -1,9 +1,6 @@
-extern "C" {
-#import <ansi/math.h>
-}
 
-#import <DOJuliaShared/OWJuliaContext.h>
-#import <OmniGameMath/quaternion.hxx>
+#import "OWJuliaContext.h"
+#import "quaternion.hxx"
 
 #define RADIUS      100000.0
 
@@ -17,7 +14,7 @@ dem_label       juliaLabelRotation(OWJuliaContext *context, quaternion *orbit);
 
 double          juliaPotential(OWJuliaContext *context, quaternion *orbit);
 
-static INLINE double clipToRange(double value, double bottom, double top)
+static inline double clipToRange(double value, double bottom, double top)
 {
     if (value < bottom)
 	return bottom;

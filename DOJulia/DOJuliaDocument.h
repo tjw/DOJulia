@@ -1,14 +1,10 @@
-#import <OmniDocument/OmniDocument.h>
+#import <AppKit/NSDocument.h>
 
 @class JuliaClient;
 
-@interface DOJuliaDocument : OmniDocument
-{
-    id                          tileView;
-    JuliaClient                *client;
-}
+@interface DOJuliaDocument : NSDocument
 
-- startComputing: sender;
-- stopComputing: sender;
+- (IBAction)startComputing:(id)sender;
+- (IBAction)stopComputing:(id)sender;
 
 @end

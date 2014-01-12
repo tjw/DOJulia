@@ -4,17 +4,28 @@ extern "C" {
 #import "Frame.h"
 }
 
-#import <OmniGameMath/utilities.h>
-#import <DOJuliaShared/OWJuliaContext.h>
-#import <DOJuliaShared/Tile.h>
-#import <DOJuliaShared/map.h>
+#import "utilities.h"
+#import "OWJuliaContext.h"
+#import "Tile.h"
+#import "map.h"
 
 
 @implementation Frame
+{
+//    TIFF                       *tif;
+    OWJuliaContext             *context;
+    NSMutableArray             *tilesToDo;
+    unsigned int                frameNumber;
+    unsigned int                tilesWide;
+    unsigned int                tilesHigh;
+}
+
 
 - initWithConfiguration: (NSDictionary *) configuration
             frameNumber: (unsigned int) aFrameNumber;
 {
+    abort();
+#if 0
     int                         tileX, tileY;
     NSRect                      tileRect;
     NSSize                      imageSize;
@@ -80,6 +91,7 @@ extern "C" {
     tilesToDo = [[tilesToDo randomizedArray] retain];
 
     return self;
+#endif
 }
 
 - (OWJuliaContext *) context;
@@ -100,8 +112,7 @@ extern "C" {
 + frameWithConfiguration: (NSDictionary *) configuration
              frameNumber: (unsigned int) aFrameNumber;
 {
-    return [[[self alloc] initWithConfiguration:configuration frameNumber:aFrameNumber]
-	    autorelease];
+    return [[self alloc] initWithConfiguration:configuration frameNumber:aFrameNumber];
 }
 
 - (NSArray *) tilesToDo;
@@ -111,6 +122,8 @@ extern "C" {
 
 - (void) markTileDone: (Tile *) aTile;
 {
+    abort();
+#if 0
     NSEnumerator               *tileEnum;
     Tile                       *myTile;
     BOOL                        found = NO;
@@ -142,6 +155,7 @@ extern "C" {
 	tif = NULL;
 	NSLog(@"Frame %d done.", frameNumber);
     }
+#endif
 }
 
 

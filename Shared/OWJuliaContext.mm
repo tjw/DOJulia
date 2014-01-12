@@ -4,18 +4,18 @@ extern "C" {
 #import <AppKit/NSColor.h>
 }
 
-#import <DOJuliaShared/OWEncoding.h>
-#import <DOJuliaShared/OWJuliaContext.h>
-#import <DOJuliaShared/map.h>
+#import "OWEncoding.h"
+#import "OWJuliaContext.h"
+#import "map.h"
 
-#import <OmniGameMath/utilities.h>
+#import "utilities.h"
 
-static INLINE double degToRad(double deg)
+static inline double degToRad(double deg)
 {
     return (deg / 180.0) * M_PI;
 }
 
-static INLINE quaternion readQuaternion(NSDictionary *dict)
+static inline quaternion readQuaternion(NSDictionary *dict)
 {
     double r, i, j, k;
     
@@ -27,7 +27,7 @@ static INLINE quaternion readQuaternion(NSDictionary *dict)
     return quaternion(r, i, j, k);
 }
 
-static INLINE vector readVector(NSDictionary *dict)
+static inline vector readVector(NSDictionary *dict)
 {
     double x, y, z;
     
@@ -38,7 +38,7 @@ static INLINE vector readVector(NSDictionary *dict)
     return vector(x, y, z);
 }
 
-static INLINE void readColor(NSDictionary *dict, color_t *c)
+static inline void readColor(NSDictionary *dict, color_t *c)
 {
     c->r = (unsigned char)[[dict objectForKey: @"r"] intValue];
     c->g = (unsigned char)[[dict objectForKey: @"g"] intValue];
@@ -46,7 +46,7 @@ static INLINE void readColor(NSDictionary *dict, color_t *c)
     c->a = (unsigned char)[[dict objectForKey: @"a"] intValue];
 }
 
-static INLINE double doubleValue(id object)
+static inline double doubleValue(id object)
 {
     // If you try to get a double by invoking a method on nil, you'll get NaN
     if (!object)
@@ -65,9 +65,9 @@ static void mapSet(map *m,
     matrix          Rx, Ry, Rz, S, B;
     double          xWidth;
 
-    ASSERT(focusLength > 0.0);
-    ASSERT(fov > 0.0);
-    ASSERT(radius > 0.0);
+    assert(focusLength > 0.0);
+    assert(fov > 0.0);
+    assert(radius > 0.0);
     
     /* Just some trivial parameters */
     m->boundingRadius = radius;
@@ -95,9 +95,9 @@ static void mapSet(map *m,
     m->basis[2] = quaternion(b2.x, b2.y, b2.z, b2.w);
         
     /* Don't deal with the 'k' component here, this is done in the qrot() code */ 
-    ASSERT(m->basis[0].k == 0.0);
-    ASSERT(m->basis[1].k == 0.0);
-    ASSERT(m->basis[2].k == 0.0);
+    assert(m->basis[0].k == 0.0);
+    assert(m->basis[1].k == 0.0);
+    assert(m->basis[2].k == 0.0);
 
     fprintf(stderr, "Basis is:\n");
     fprintf(stderr, "B[0] = (%4.8f, %4.8f, %4.8f, %4.8f)\n",
@@ -148,6 +148,8 @@ static void mapSet(map *m,
 - initWithDictionary: (NSDictionary *) aDictionary
          frameNumber: (unsigned int) aFrameNumber;
 {
+    abort();
+#if 0
     [super init];
     {
 	double                      focusLength, fov, scale;
@@ -295,14 +297,15 @@ static void mapSet(map *m,
     }
 
     return self;
+#endif
 }
 
 - (void)dealloc;
 {
-    [filename release];
-    NSZoneFree(NSDefaultMallocZone(), planes);
-    NSZoneFree(NSDefaultMallocZone(), cycleColors);
-    [super dealloc];
+    if (planes)
+        free(planes);
+    if (cycleColors)
+        free(cycleColors);
 }
 
 /* NSCoding stuff */
@@ -359,6 +362,8 @@ static void mapSet(map *m,
 
 - initWithCoder: (NSCoder *) coder;
 {
+    abort();
+#if 0
     unsigned int i;
 
     [super init];
@@ -411,5 +416,7 @@ static void mapSet(map *m,
     DECODE(snrot);
     
     return self;
+#endif
 }
+
 @end

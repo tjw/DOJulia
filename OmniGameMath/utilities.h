@@ -1,6 +1,5 @@
 extern "C" {
 #import <Foundation/NSGeometry.h>
-#import <OmniFoundation/assertions.h>
 }
 
 
@@ -26,7 +25,7 @@ static inline void OGMFloorDivMod(int numerator, int denominator,
         }
     }
 
-    POSTCONDITION(*mod >= 0);
+    assert(*mod >= 0);
 }
 
 // The implements a divide operator that returns the closest
@@ -37,7 +36,7 @@ static inline int OGMClosestDiv(int numerator, int denominator)
 {
     int roundingFactor;
     
-    PRECONDITION(denominator > 0);
+    assert(denominator > 0);
 
     roundingFactor = denominator/2;
     if (numerator < 0)

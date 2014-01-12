@@ -1,4 +1,4 @@
-#import <OmniGameMath/quaternion.hxx>
+#import "quaternion.hxx"
 
 typedef struct {
     quaternion                  normal;

@@ -2,8 +2,6 @@ extern "C" {
 #import <stdio.h>
 }
 
-#import <DOJuliaShared/inline.h>
-
 
 #import "OWJuliaColoringMethods.h"
 
@@ -13,9 +11,9 @@ extern "C" {
 static BOOL print = NO;
 #endif
 
-const unsigned int OWJuliaNoCycle = ((unsigned int) -1);
+const iteration OWJuliaNoCycle = (iteration)~0;
 
-static INLINE int cmp(double a, double b)
+static inline int cmp(double a, double b)
 {
     if (a < b)
 	return -1;
@@ -26,7 +24,7 @@ static INLINE int cmp(double a, double b)
 }
 
 
-unsigned int OWJuliaFindCycleLength(quaternion *orbit, iteration len, double precisionSquared)
+iteration OWJuliaFindCycleLength(quaternion *orbit, iteration len, double precisionSquared)
 {
     iteration  i;
     quaternion tmp;
@@ -70,11 +68,10 @@ unsigned int OWJuliaFindCycleLength(quaternion *orbit, iteration len, double pre
     return len - i;
 }
 
-unsigned int OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta)
+iteration OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta)
 {
     iteration                   i, cycleLen, firstDelta, myBasin, basinZero;
     quaternion                  tmp;
-    unsigned int                ret;
 
     if (len <= 1)
 	return OWJuliaNoCycle;
@@ -147,11 +144,11 @@ unsigned int OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta)
     }
 
     /* return the offset from basinZero as the basin number */
-    ret = (basinZero < i) ? (basinZero - i) :
+    iteration ret = (basinZero < i) ? (basinZero - i) :
       (cycleLen - basinZero + i) % cycleLen;
 #ifdef PRINT
     if (print) {
-        printf("len:%ld first:%ld basin:%ld zero:%ld offset:%d\n",
+        printf("len:%ld first:%ld basin:%ld zero:%ld offset:%lu\n",
                cycleLen, firstDelta, myBasin, basinZero, ret);
         fflush(stdout);
     }

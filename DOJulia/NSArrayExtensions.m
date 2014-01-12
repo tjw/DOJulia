@@ -1,29 +1,23 @@
 #import "NSArrayExtensions.h"
-#import <bsd/libc.h>
 
 @implementation NSArray (Extensions)
 
-- (NSArray *) randomizedArray;
+- (NSArray *)randomizedArray;
 {
-    NSMutableArray             *array, *selfCopy;
-    unsigned int                count;
-
-    if ((count = [self count]) < 2)
+    NSUInteger count = [self count];
+    if (count < 2)
 	return self;
 
-    selfCopy = [[[NSMutableArray alloc] initWithArray: self] autorelease];
-    array = [NSMutableArray arrayWithCapacity:count];
+    NSMutableArray *selfCopy = [[NSMutableArray alloc] initWithArray:self];
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
     while (count--) {
-	NSObject                   *object;
-	unsigned int                index;
-
-	index = random() % (count + 1);
-	object = [selfCopy objectAtIndex:index];
-	[selfCopy removeObjectAtIndex:index];
-	[array addObject:object];
+	NSUInteger objectIndex = random() % (count + 1);
+	id object = [selfCopy objectAtIndex:objectIndex];
+	[selfCopy removeObjectAtIndex:objectIndex];
+	[result addObject:object];
     }
 
-    return array;
+    return result;
 }
 
 @end

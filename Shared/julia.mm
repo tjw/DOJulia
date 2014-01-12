@@ -1,5 +1,4 @@
 extern "C" {
-#import <bsd/libc.h>
 #import <math.h>
 #import <stdio.h>
 }

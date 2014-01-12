@@ -156,7 +156,7 @@ public:
 
         inline double magnitudeSquared() const
         {
-           return this.dot(*this);
+           return this->dot(*this);
         };
 
         inline quaternion inverse() const
@@ -164,7 +164,7 @@ public:
             quaternion temp;
             double invMags;
 
-            invMags = 1.0 / this.magnitudeSquared();
+            invMags = 1.0 / this->magnitudeSquared();
 
             temp.r =  r * invMags;
             temp.i = -i * invMags;

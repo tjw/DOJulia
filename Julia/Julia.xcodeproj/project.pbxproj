@@ -1,0 +1,496 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3462131D1883231700A4AB31 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3462131C1883231700A4AB31 /* Cocoa.framework */; };
+		346213271883231700A4AB31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 346213251883231700A4AB31 /* InfoPlist.strings */; };
+		346213291883231700A4AB31 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213281883231700A4AB31 /* main.m */; };
+		3462132D1883231700A4AB31 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3462132B1883231700A4AB31 /* Credits.rtf */; };
+		346213301883231700A4AB31 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 3462132F1883231700A4AB31 /* Document.m */; };
+		346213331883231700A4AB31 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 346213311883231700A4AB31 /* Document.xib */; };
+		346213361883231700A4AB31 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 346213341883231700A4AB31 /* MainMenu.xib */; };
+		346213381883231700A4AB31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346213371883231700A4AB31 /* Images.xcassets */; };
+		346213691883237200A4AB31 /* DOJuliaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213571883237200A4AB31 /* DOJuliaController.m */; };
+		3462136A1883237200A4AB31 /* DOJuliaDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213591883237200A4AB31 /* DOJuliaDocument.mm */; };
+		3462136B1883237200A4AB31 /* Frame.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135B1883237200A4AB31 /* Frame.mm */; };
+		3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135E1883237200A4AB31 /* JuliaClient.mm */; };
+		3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213601883237200A4AB31 /* NSArrayExtensions.m */; };
+		3462136F1883237200A4AB31 /* NullImage.eps in Resources */ = {isa = PBXBuildFile; fileRef = 346213611883237200A4AB31 /* NullImage.eps */; };
+		346213701883237200A4AB31 /* OWTiledImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213631883237200A4AB31 /* OWTiledImage.mm */; };
+		346213711883237200A4AB31 /* server.list in Resources */ = {isa = PBXBuildFile; fileRef = 346213641883237200A4AB31 /* server.list */; };
+		346213721883237200A4AB31 /* server.list.mccaw in Resources */ = {isa = PBXBuildFile; fileRef = 346213651883237200A4AB31 /* server.list.mccaw */; };
+		346213731883237200A4AB31 /* server.list.omni in Resources */ = {isa = PBXBuildFile; fileRef = 346213661883237200A4AB31 /* server.list.omni */; };
+		346213741883237200A4AB31 /* template.julia in Resources */ = {isa = PBXBuildFile; fileRef = 346213671883237200A4AB31 /* template.julia */; };
+		346213881883249F00A4AB31 /* julia.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213781883249F00A4AB31 /* julia.mm */; };
+		3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */; };
+		3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213811883249F00A4AB31 /* OWJuliaContext.mm */; };
+		3462138C1883249F00A4AB31 /* OWJuliaNormalApproximation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */; };
+		3462138D1883249F00A4AB31 /* Tile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213861883249F00A4AB31 /* Tile.mm */; };
+		346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34621390188327CC00A4AB31 /* bezierPatch.cpp */; };
+		346213A5188327CC00A4AB31 /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3462139C188327CC00A4AB31 /* xmalloc.c */; };
+		346213A6188327CC00A4AB31 /* zbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3462139E188327CC00A4AB31 /* zbuffer.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		346213191883231700A4AB31 /* Julia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Julia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3462131C1883231700A4AB31 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		3462131F1883231700A4AB31 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		346213201883231700A4AB31 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		346213211883231700A4AB31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		346213241883231700A4AB31 /* Julia-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Julia-Info.plist"; sourceTree = "<group>"; };
+		346213261883231700A4AB31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		346213281883231700A4AB31 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3462132A1883231700A4AB31 /* Julia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Julia-Prefix.pch"; sourceTree = "<group>"; };
+		3462132C1883231700A4AB31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		3462132E1883231700A4AB31 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		3462132F1883231700A4AB31 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		346213321883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		346213351883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		346213371883231700A4AB31 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3462133E1883231700A4AB31 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		346213541883237200A4AB31 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		346213561883237200A4AB31 /* DOJuliaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOJuliaController.h; sourceTree = "<group>"; };
+		346213571883237200A4AB31 /* DOJuliaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOJuliaController.m; sourceTree = "<group>"; };
+		346213581883237200A4AB31 /* DOJuliaDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOJuliaDocument.h; sourceTree = "<group>"; };
+		346213591883237200A4AB31 /* DOJuliaDocument.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DOJuliaDocument.mm; sourceTree = "<group>"; };
+		3462135A1883237200A4AB31 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		3462135B1883237200A4AB31 /* Frame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Frame.mm; sourceTree = "<group>"; };
+		3462135D1883237200A4AB31 /* JuliaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaClient.h; sourceTree = "<group>"; };
+		3462135E1883237200A4AB31 /* JuliaClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JuliaClient.mm; sourceTree = "<group>"; };
+		3462135F1883237200A4AB31 /* NSArrayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayExtensions.h; sourceTree = "<group>"; };
+		346213601883237200A4AB31 /* NSArrayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayExtensions.m; sourceTree = "<group>"; };
+		346213611883237200A4AB31 /* NullImage.eps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NullImage.eps; sourceTree = "<group>"; };
+		346213621883237200A4AB31 /* OWTiledImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWTiledImage.h; sourceTree = "<group>"; };
+		346213631883237200A4AB31 /* OWTiledImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWTiledImage.mm; sourceTree = "<group>"; };
+		346213641883237200A4AB31 /* server.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list; sourceTree = "<group>"; };
+		346213651883237200A4AB31 /* server.list.mccaw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.mccaw; sourceTree = "<group>"; };
+		346213661883237200A4AB31 /* server.list.omni */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.list.omni; sourceTree = "<group>"; };
+		346213671883237200A4AB31 /* template.julia */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.julia; sourceTree = "<group>"; };
+		346213771883249F00A4AB31 /* julia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = julia.h; sourceTree = "<group>"; };
+		346213781883249F00A4AB31 /* julia.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = julia.mm; sourceTree = "<group>"; };
+		346213791883249F00A4AB31 /* line.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = line.hxx; sourceTree = "<group>"; };
+		3462137A1883249F00A4AB31 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
+		3462137D1883249F00A4AB31 /* OWEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWEncoding.h; sourceTree = "<group>"; };
+		3462137E1883249F00A4AB31 /* OWJuliaColoringMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaColoringMethods.h; sourceTree = "<group>"; };
+		3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaColoringMethods.mm; sourceTree = "<group>"; };
+		346213801883249F00A4AB31 /* OWJuliaContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaContext.h; sourceTree = "<group>"; };
+		346213811883249F00A4AB31 /* OWJuliaContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaContext.mm; sourceTree = "<group>"; };
+		346213821883249F00A4AB31 /* OWJuliaNormalApproximation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaNormalApproximation.h; sourceTree = "<group>"; };
+		346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaNormalApproximation.mm; sourceTree = "<group>"; };
+		346213841883249F00A4AB31 /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
+		346213851883249F00A4AB31 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		346213861883249F00A4AB31 /* Tile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Tile.mm; sourceTree = "<group>"; };
+		346213871883249F00A4AB31 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		3462138F188327CC00A4AB31 /* bezier.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bezier.hxx; sourceTree = "<group>"; };
+		34621390188327CC00A4AB31 /* bezierPatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bezierPatch.cpp; sourceTree = "<group>"; };
+		34621391188327CC00A4AB31 /* bezierPatch.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bezierPatch.hxx; sourceTree = "<group>"; };
+		34621392188327CC00A4AB31 /* fixed.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fixed.hxx; sourceTree = "<group>"; };
+		34621397188327CC00A4AB31 /* matrix.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = matrix.hxx; sourceTree = "<group>"; };
+		34621399188327CC00A4AB31 /* quaternion.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = quaternion.hxx; sourceTree = "<group>"; };
+		3462139A188327CC00A4AB31 /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
+		3462139B188327CC00A4AB31 /* vector.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vector.hxx; sourceTree = "<group>"; };
+		3462139C188327CC00A4AB31 /* xmalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmalloc.c; sourceTree = "<group>"; };
+		3462139D188327CC00A4AB31 /* xmalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmalloc.h; sourceTree = "<group>"; };
+		3462139E188327CC00A4AB31 /* zbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zbuffer.cpp; sourceTree = "<group>"; };
+		3462139F188327CC00A4AB31 /* zbuffer.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = zbuffer.hxx; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		346213161883231700A4AB31 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3462131D1883231700A4AB31 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		346213101883231700A4AB31 = {
+			isa = PBXGroup;
+			children = (
+				346213221883231700A4AB31 /* Julia */,
+				3462131B1883231700A4AB31 /* Frameworks */,
+				3462131A1883231700A4AB31 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3462131A1883231700A4AB31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				346213191883231700A4AB31 /* Julia.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3462131B1883231700A4AB31 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3462131C1883231700A4AB31 /* Cocoa.framework */,
+				3462133E1883231700A4AB31 /* XCTest.framework */,
+				3462131E1883231700A4AB31 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3462131E1883231700A4AB31 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3462131F1883231700A4AB31 /* AppKit.framework */,
+				346213201883231700A4AB31 /* CoreData.framework */,
+				346213211883231700A4AB31 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		346213221883231700A4AB31 /* Julia */ = {
+			isa = PBXGroup;
+			children = (
+				3462138E188327CC00A4AB31 /* OmniGameMath */,
+				346213531883237200A4AB31 /* DOJulia */,
+				346213751883249F00A4AB31 /* Shared */,
+				3462132E1883231700A4AB31 /* Document.h */,
+				3462132F1883231700A4AB31 /* Document.m */,
+				346213311883231700A4AB31 /* Document.xib */,
+				346213341883231700A4AB31 /* MainMenu.xib */,
+				346213371883231700A4AB31 /* Images.xcassets */,
+				346213231883231700A4AB31 /* Supporting Files */,
+			);
+			path = Julia;
+			sourceTree = "<group>";
+		};
+		346213231883231700A4AB31 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				346213241883231700A4AB31 /* Julia-Info.plist */,
+				346213251883231700A4AB31 /* InfoPlist.strings */,
+				346213281883231700A4AB31 /* main.m */,
+				3462132A1883231700A4AB31 /* Julia-Prefix.pch */,
+				3462132B1883231700A4AB31 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		346213531883237200A4AB31 /* DOJulia */ = {
+			isa = PBXGroup;
+			children = (
+				346213541883237200A4AB31 /* config.h */,
+				346213561883237200A4AB31 /* DOJuliaController.h */,
+				346213571883237200A4AB31 /* DOJuliaController.m */,
+				346213581883237200A4AB31 /* DOJuliaDocument.h */,
+				346213591883237200A4AB31 /* DOJuliaDocument.mm */,
+				3462135A1883237200A4AB31 /* Frame.h */,
+				3462135B1883237200A4AB31 /* Frame.mm */,
+				3462135D1883237200A4AB31 /* JuliaClient.h */,
+				3462135E1883237200A4AB31 /* JuliaClient.mm */,
+				3462135F1883237200A4AB31 /* NSArrayExtensions.h */,
+				346213601883237200A4AB31 /* NSArrayExtensions.m */,
+				346213611883237200A4AB31 /* NullImage.eps */,
+				346213621883237200A4AB31 /* OWTiledImage.h */,
+				346213631883237200A4AB31 /* OWTiledImage.mm */,
+				346213641883237200A4AB31 /* server.list */,
+				346213651883237200A4AB31 /* server.list.mccaw */,
+				346213661883237200A4AB31 /* server.list.omni */,
+				346213671883237200A4AB31 /* template.julia */,
+			);
+			name = DOJulia;
+			path = ../../DOJulia;
+			sourceTree = "<group>";
+		};
+		346213751883249F00A4AB31 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				346213771883249F00A4AB31 /* julia.h */,
+				346213781883249F00A4AB31 /* julia.mm */,
+				346213791883249F00A4AB31 /* line.hxx */,
+				3462137A1883249F00A4AB31 /* map.h */,
+				3462137D1883249F00A4AB31 /* OWEncoding.h */,
+				3462137E1883249F00A4AB31 /* OWJuliaColoringMethods.h */,
+				3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */,
+				346213801883249F00A4AB31 /* OWJuliaContext.h */,
+				346213811883249F00A4AB31 /* OWJuliaContext.mm */,
+				346213821883249F00A4AB31 /* OWJuliaNormalApproximation.h */,
+				346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */,
+				346213841883249F00A4AB31 /* Protocols.h */,
+				346213851883249F00A4AB31 /* Tile.h */,
+				346213861883249F00A4AB31 /* Tile.mm */,
+				346213871883249F00A4AB31 /* types.h */,
+			);
+			name = Shared;
+			path = ../../Shared;
+			sourceTree = "<group>";
+		};
+		3462138E188327CC00A4AB31 /* OmniGameMath */ = {
+			isa = PBXGroup;
+			children = (
+				3462138F188327CC00A4AB31 /* bezier.hxx */,
+				34621390188327CC00A4AB31 /* bezierPatch.cpp */,
+				34621391188327CC00A4AB31 /* bezierPatch.hxx */,
+				34621392188327CC00A4AB31 /* fixed.hxx */,
+				34621397188327CC00A4AB31 /* matrix.hxx */,
+				34621399188327CC00A4AB31 /* quaternion.hxx */,
+				3462139A188327CC00A4AB31 /* utilities.h */,
+				3462139B188327CC00A4AB31 /* vector.hxx */,
+				3462139C188327CC00A4AB31 /* xmalloc.c */,
+				3462139D188327CC00A4AB31 /* xmalloc.h */,
+				3462139E188327CC00A4AB31 /* zbuffer.cpp */,
+				3462139F188327CC00A4AB31 /* zbuffer.hxx */,
+			);
+			name = OmniGameMath;
+			path = ../../OmniGameMath;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		346213181883231700A4AB31 /* Julia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3462134D1883231700A4AB31 /* Build configuration list for PBXNativeTarget "Julia" */;
+			buildPhases = (
+				346213151883231700A4AB31 /* Sources */,
+				346213161883231700A4AB31 /* Frameworks */,
+				346213171883231700A4AB31 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Julia;
+			productName = Julia;
+			productReference = 346213191883231700A4AB31 /* Julia.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		346213111883231700A4AB31 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "The Omni Group";
+			};
+			buildConfigurationList = 346213141883231700A4AB31 /* Build configuration list for PBXProject "Julia" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 346213101883231700A4AB31;
+			productRefGroup = 3462131A1883231700A4AB31 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				346213181883231700A4AB31 /* Julia */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		346213171883231700A4AB31 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346213721883237200A4AB31 /* server.list.mccaw in Resources */,
+				346213331883231700A4AB31 /* Document.xib in Resources */,
+				346213731883237200A4AB31 /* server.list.omni in Resources */,
+				346213381883231700A4AB31 /* Images.xcassets in Resources */,
+				3462136F1883237200A4AB31 /* NullImage.eps in Resources */,
+				346213711883237200A4AB31 /* server.list in Resources */,
+				346213741883237200A4AB31 /* template.julia in Resources */,
+				346213271883231700A4AB31 /* InfoPlist.strings in Resources */,
+				3462132D1883231700A4AB31 /* Credits.rtf in Resources */,
+				346213361883231700A4AB31 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		346213151883231700A4AB31 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3462138C1883249F00A4AB31 /* OWJuliaNormalApproximation.mm in Sources */,
+				346213A5188327CC00A4AB31 /* xmalloc.c in Sources */,
+				3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */,
+				3462138D1883249F00A4AB31 /* Tile.mm in Sources */,
+				346213301883231700A4AB31 /* Document.m in Sources */,
+				346213291883231700A4AB31 /* main.m in Sources */,
+				346213691883237200A4AB31 /* DOJuliaController.m in Sources */,
+				346213701883237200A4AB31 /* OWTiledImage.mm in Sources */,
+				3462136B1883237200A4AB31 /* Frame.mm in Sources */,
+				3462136A1883237200A4AB31 /* DOJuliaDocument.mm in Sources */,
+				3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */,
+				3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */,
+				346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */,
+				346213881883249F00A4AB31 /* julia.mm in Sources */,
+				346213A6188327CC00A4AB31 /* zbuffer.cpp in Sources */,
+				3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		346213251883231700A4AB31 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				346213261883231700A4AB31 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3462132B1883231700A4AB31 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3462132C1883231700A4AB31 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		346213311883231700A4AB31 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				346213321883231700A4AB31 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		346213341883231700A4AB31 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				346213351883231700A4AB31 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3462134B1883231700A4AB31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3462134C1883231700A4AB31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3462134E1883231700A4AB31 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Julia/Julia-Prefix.pch";
+				INFOPLIST_FILE = "Julia/Julia-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3462134F1883231700A4AB31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Julia/Julia-Prefix.pch";
+				INFOPLIST_FILE = "Julia/Julia-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		346213141883231700A4AB31 /* Build configuration list for PBXProject "Julia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3462134B1883231700A4AB31 /* Debug */,
+				3462134C1883231700A4AB31 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3462134D1883231700A4AB31 /* Build configuration list for PBXNativeTarget "Julia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3462134E1883231700A4AB31 /* Debug */,
+				3462134F1883231700A4AB31 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 346213111883231700A4AB31 /* Project object */;
+}

@@ -2,14 +2,6 @@
 
 
 @interface OWTiledImage : NSView
-{
-    unsigned int                tilesWide;
-    unsigned int                tileWidth;
-    unsigned int                tilesHigh;
-    unsigned int                tileHeight;
-    NSImage                   **images;
-    NSImage                    *nullImage;
-}
 
 - initWithFrame:(NSRect)aRect;
 - (void)drawRect:(NSRect)rect;

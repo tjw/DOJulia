@@ -6,7 +6,7 @@ extern "C" {
 #import "Frame.h"
 }
 
-#import <DOJuliaShared/Tile.h>
+#import "Tile.h"
 
 @interface JuliaClient (Private)
 - (void) _setupFrames;
@@ -16,13 +16,16 @@ extern "C" {
 
 - init
 {
+    abort();
+#if 0
     NSString                   *serverString, *serverName;
     NSArray                    *serverNames;
     NSEnumerator               *serverNameEnum;
     id                          server;
 
 
-    [super init];
+    if (!(self = [super init]))
+        return nil;
 
     serverString = [[NSString alloc] initWithContentsOfFile:@"server.list"];
     serverNames = [serverString propertyList];
@@ -51,6 +54,7 @@ extern "C" {
     }
 
     return self;
+#endif
 }
 
 - (void)setDelegate:(id)aDelegate;
@@ -64,15 +68,12 @@ extern "C" {
     return frames;
 }
 
-- (void) readConfigurationFromFile: (NSString *) filename;
+- (void)readConfigurationFromFileURL:(NSURL *)fileURL;
 {
-    NSArray                    *orientationStep;
-    NSArray                    *orientationStart;
-
     configuration = [[NSMutableDictionary alloc] initWithContentsOfFile:@"template.julia"];
     filenameFormat = [configuration objectForKey:@"filenameFormat"];
-    orientationStep = [configuration objectForKey:@"orientationStep"];
-    orientationStart = [configuration objectForKey:@"orientationStart"];
+    NSArray *orientationStep = [configuration objectForKey:@"orientationStep"];
+    NSArray *orientationStart = [configuration objectForKey:@"orientationStart"];
     stepCount = [[configuration objectForKey:@"stepCount"] intValue];
 
     startRr = [[orientationStart objectAtIndex:0] doubleValue];
@@ -162,6 +163,8 @@ extern "C" {
 
 - (void) done
 {
+    abort();
+#if 0
     NSEnumerator               *keyEnum;
     NSString                   *key;
     NSString                   *object;
@@ -171,12 +174,15 @@ extern "C" {
         object = [[serverTable objectForKey: key] nonretainedObjectValue];
 	NSLog(@"Server:%@ completed %d tiles", object, [serverStatsDict objectForKey:object]);
     }
+#endif
 }
 
 
 /* JuliaClientProtocol */
 - (oneway void) acceptTile: (bycopy Tile *) aTile fromServer: server;
 {
+    abort();
+#if 0
     int                         count;
     id                          tile = nil;
     unsigned int                frameNumber;
@@ -212,6 +218,7 @@ extern "C" {
    
     [serverArray addObject:server];
     [self resumeAnimation];
+#endif
 }
 
 @end

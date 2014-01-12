@@ -1,4 +1,3 @@
-#import <TIFF/tiffio.h>
 
 @class Tile;
 @class NSData;

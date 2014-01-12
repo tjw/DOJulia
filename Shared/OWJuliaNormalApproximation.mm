@@ -1,8 +1,5 @@
-extern "C" {
-#import <ansi/stdio.h>
-}
 
-#import <DOJuliaShared/types.h>
+#import "types.h"
 #import "julia.h"
 #import "OWJuliaNormalApproximation.h"
 

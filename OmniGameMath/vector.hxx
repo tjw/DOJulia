@@ -1,7 +1,3 @@
-extern "C" {
-#import <OmniFoundation/assertions.h>
-#import <objc/objc.h>
-}
 
 class vector {
 

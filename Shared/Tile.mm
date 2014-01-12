@@ -1,28 +1,21 @@
-extern "C" {
-#import <bsd/libc.h>
-}
+#import "Tile.h"
 
-#import <DOJuliaShared/OWJuliaContext.h>
-#import <DOJuliaShared/OWEncoding.h>
-#import <DOJuliaShared/Tile.h>
+#import "OWJuliaContext.h"
+#import "OWEncoding.h"
 
 @implementation Tile
 
 - initRect: (NSRect) aRect context: (OWJuliaContext *) aContext
 {
+    abort();
+#if 0
     [super init];
     bounds = aRect;
     context = [aContext retain];
     tileData = nil;
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [tileData release];
-    [context release];
-    [super dealloc];
+#endif
 }
 
 - (OWJuliaContext *) context
@@ -36,15 +29,15 @@ extern "C" {
     return bounds;
 }
 
-- (void) setTileNum: (ttile_t) num
-{
-    tileNum = num;
-}
-
-- (ttile_t) tileNum
-{
-    return tileNum;
-}
+//- (void) setTileNum: (ttile_t) num
+//{
+//    tileNum = num;
+//}
+//
+//- (ttile_t) tileNum
+//{
+//    return tileNum;
+//}
 
 - (void) setFrameNumber: (unsigned int) aFrameNumber;
 {
@@ -60,7 +53,6 @@ extern "C" {
 {
      if (data == tileData)
          return;
-     [tileData release];
      tileData = [data copy];
 }
 
@@ -79,16 +71,21 @@ extern "C" {
 
 - (void)encodeWithCoder:(NSCoder *)coder;
 {
+    abort();
+#if 0
     ENCODE(bounds);
     ENCODE(tileNum);
     ENCODE(frameNumber);
 
     [coder encodeObject: tileData];
     [coder encodeObject: context];
+#endif
 }
 
 - initWithCoder: (NSCoder *) coder;
 {
+    abort();
+#if 0
     [super init];
 
     DECODE(bounds);
@@ -99,5 +96,6 @@ extern "C" {
     context = [[coder decodeObject] retain];
 
     return self;
+#endif
 }
 @end

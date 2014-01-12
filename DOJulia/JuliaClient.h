@@ -1,6 +1,6 @@
 #import <AppKit/AppKit.h>
-#import <DOJuliaShared/Protocols.h>
 
+#import "Protocols.h"
 
 @class NSString;
 @class NSMutableArray;
@@ -27,8 +27,8 @@
 
 - (void)setDelegate:(id)aDelegate;
 
-- (void) readConfigurationFromFile: (NSString *) filename;
-- (void) computeAnimation;
+- (void)readConfigurationFromFileURL:(NSURL *)fileURL;
+- (void)computeAnimation;
 
 - (NSArray *) frames;
 

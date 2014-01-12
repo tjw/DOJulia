@@ -1,6 +1,6 @@
-#import <DOJuliaShared/types.h>
+#import "types.h"
 
-extern const unsigned int OWJuliaNoCycle;
+extern const iteration OWJuliaNoCycle;
 
-unsigned int OWJuliaFindCycleLength(quaternion *orbit, iteration len, double precisionSquared);
-unsigned int OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta);
+iteration OWJuliaFindCycleLength(quaternion *orbit, iteration len, double precisionSquared);
+iteration OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta);

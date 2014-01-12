@@ -2,8 +2,8 @@ extern "C" {
 #import <Foundation/NSObject.h>
 }
 
-#import <DOJuliaShared/types.h>
-#import <DOJuliaShared/map.h>
+#import "types.h"
+#import "map.h"
 
 @class NSString, NSDictionary;
 

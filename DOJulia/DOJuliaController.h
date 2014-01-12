@@ -1,8 +1,4 @@
-#import <OmniDocument/OmniDocumentController.h>
+#import <AppKit/NSDocumentController.h>
 
-@interface DOJuliaController : OmniDocumentController
-{
-
-}
-
+@interface DOJuliaController : NSDocumentController
 @end
