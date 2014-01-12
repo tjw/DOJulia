@@ -309,14 +309,10 @@ static void mapSet(map *m,
 
 /* NSCoding stuff */
 
-- (id)replacementObjectForPortCoder:(NSPortCoder *)coder;
-{
-    /* Always send bycopy */
-    return self;
-}
-
 - (void)encodeWithCoder:(NSCoder *)coder;
 {
+    abort(); // we should no longer be doing bycopy, but we might want code to make an immutable copy
+#if 0
     unsigned int i;
 
     ENCODE(numberOfPlanes);
@@ -356,12 +352,13 @@ static void mapSet(map *m,
     ENCODE(srot);
     ENCODE(cnrot);
     ENCODE(snrot);
+#endif
 }
 
 
 - initWithCoder: (NSCoder *) coder;
 {
-    abort();
+    abort(); // we should no longer be doing bycopy, but we might want code to make an immutable copy
 #if 0
     unsigned int i;
 

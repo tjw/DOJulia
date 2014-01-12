@@ -28,15 +28,9 @@
 
 #pragma mark - NSCoding
 
-- (id)replacementObjectForPortCoder:(NSPortCoder *)coder;
-{
-    /* Always send bycopy */
-    return self;
-}
-
 - (void)encodeWithCoder:(NSCoder *)coder;
 {
-    abort();
+    abort(); // we should no longer be doing bycopy, but we might want code to make an immutable copy
 #if 0
     ENCODE(bounds);
     ENCODE(tileNum);
@@ -49,7 +43,7 @@
 
 - initWithCoder: (NSCoder *) coder;
 {
-    abort();
+    abort(); // we should no longer be doing bycopy, but we might want code to make an immutable copy
 #if 0
     [super init];
 

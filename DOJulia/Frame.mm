@@ -88,42 +88,28 @@ extern "C" {
 
 @synthesize tilesToDo = _tilesToDo;
 
-- (void) markTileDone: (Tile *) aTile;
+- (void)markTileDone:(Tile *)tile;
 {
-    abort();
-#if 0
-    NSEnumerator               *tileEnum;
-    Tile                       *myTile;
-    BOOL                        found = NO;
-
-
-    /*
-     * The tile that we get back might be a bycopy version of the one we
-     * have, must check the tile number to determine equality 
-     */
-    tileEnum = [tilesToDo objectEnumerator];
-    while ((myTile = [tileEnum nextObject])) {
-	if ([myTile tileNum] == [aTile tileNum]) {
-	    [tilesToDo removeObjectIdenticalTo:myTile];
-	    found = YES;
-	    break;
-	}
-    }
-
-    if (!found) {
-	NSLog(@"Useless tile %d", [aTile tileNum]);
+    NSUInteger tileIndex = [_tilesToDo indexOfObjectIdenticalTo:tile];
+    if (tileIndex == NSNotFound) {
+	NSLog(@"Useless tile %p", tile);
         return;
     }
+    [_tilesToDo removeObjectAtIndex:tileIndex];
 
+    NSLog(@"No tiled image support currently");
+#if 0
     TIFFWriteEncodedTile(tif, [aTile tileNum], [[aTile tileData] bytes],
 			 TIFFTileSize(tif));
+#endif
 
-    if (![tilesToDo count]) {
+    if (![_tilesToDo count]) {
+#if 0
 	TIFFClose(tif);
 	tif = NULL;
-	NSLog(@"Frame %d done.", frameNumber);
-    }
 #endif
+	NSLog(@"Frame %lu done.", _frameNumber);
+    }
 }
 
 

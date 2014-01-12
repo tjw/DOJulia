@@ -14,6 +14,6 @@
 @property(nonatomic,readonly) NSUInteger tilesHigh;
 @property(nonatomic,readonly) NSArray *tilesToDo;
 
-- (void)markTileDone:(Tile *)aTile;
+- (void)markTileDone:(Tile *)tile;
 
 @end

@@ -40,7 +40,7 @@ extern "C" {
 
 #pragma mark - JuliaServerProtocol
 
-- (oneway void)provideDataForTile:(bycopy Tile *)aTile forClient:(id <JuliaClientProtocol>)aClient
+- (void)provideDataForTile:(Tile *)aTile forClient:(id <JuliaClientProtocol>)aClient
 {
     [_operationQueue addOperationWithBlock:^{
         @try {

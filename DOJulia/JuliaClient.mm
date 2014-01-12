@@ -180,46 +180,30 @@ extern "C" {
 
 #pragma mark - JuliaClientProtocol
 
-- (oneway void)acceptTile:(bycopy Tile *)aTile fromServer:(id <JuliaServerProtocol>)server;
+- (void)acceptTile:(Tile *)aTile fromServer:(id <JuliaServerProtocol>)server;
 {
-    abort();
+    //ttile_t                     tileNum = [aTile tileNum];
+
+    NSUInteger frameNumber = [aTile frameNumber];
+
+    NSUInteger tileIndex = [tiles indexOfObjectIdenticalTo:aTile];
+    if (tileIndex != NSNotFound) {
+        /* tile wasn't alread done */
+        NSString *serverName = @"Unknown";
+        
+        NSUInteger tilesCompleted = [[serverStatsDict objectForKey:server] unsignedIntegerValue] + 1;
 #if 0
-    int                         count;
-    id                          tile = nil;
-    unsigned int                frameNumber;
-    ttile_t                     tileNum;
-
-    frameNumber = [aTile frameNumber];
-    tileNum = [aTile tileNum];
-
-    count = [tiles count];
-    while (count--) {
-	tile = [tiles objectAtIndex:count];
-	if ([tile tileNum] == tileNum &&
-	    [tile frameNumber] == frameNumber) {
-	    /* tile wasn't alread done */
-	    NSString                   *serverName = @"Unknown";
-	    int                         tilesCompleted;
-
-	    tilesCompleted = [[serverStatsDict objectForKey:server] intValue] + 1;
-#if 0
-	    serverName = [serverTable objectForKey:server];
-	    [serverStatsDict setObject:[NSNumber numberWithInt:tilesCompleted]
-	     forKey:serverName];
+        serverName = [serverTable objectForKey:server];
+        [serverStatsDict setObject:[NSNumber numberWithInteger:tilesCompleted] forKey:serverName];
 #endif
-	    [tiles removeObject:tile];
-	    [delegate juliaClient: self didAcceptTile: aTile];
-            [[frames objectAtIndex: frameNumber] markTileDone: aTile];
-	    NSLog(@"%@ completed tile %d (%d total)."
-		  @"  %d tiles left.\n", serverName, [aTile tileNum],
-		  tilesCompleted, [tiles count]);
-	    break;
-	}
+        [tiles removeObjectAtIndex:tileIndex];
+        [delegate juliaClient:self didAcceptTile:aTile];
+        [frames[frameNumber] markTileDone:aTile];
+        NSLog(@"%@ completed tile %p (%lu total).  %lu tiles left.\n", serverName, aTile, tilesCompleted, [tiles count]);
     }
-   
+
     [serverArray addObject:server];
     [self resumeAnimation];
-#endif
 }
 
 @end
