@@ -44,8 +44,7 @@ extern "C" {
             NSPoint point;
 	    point.x = x * _tileWidth;
 	    point.y = (_tilesHigh - y - 1) * _tileHeight;
-	    [image compositeToPoint:point operation:NSCompositeCopy];
-	    /*[[image lastRepresentation] drawAt: &aPoint];*/
+            [image drawAtPoint:point fromRect:CGRectMake(0, 0, _tileWidth, _tileHeight) operation:NSCompositeCopy fraction:1];
 	}
     }
 }
