@@ -343,19 +343,22 @@ static void makeRay(const JuliaContext *context,
         result->color = context->background;
         return;
     }
-        
-    double mag = 1.0; // TODO: Get the normal back out
-
+    
     /* Set up the base color */
     color_t baseColor;
     switch (result->julia.label) {
         case IN_SET: {
             /* Color by basin */
-            iteration basinIndex = OWJuliaFindCycle(orbit, result->julia.n, context->delta);
-            if (basinIndex == OWJuliaNoCycle || basinIndex >= context->maxCycleColor)
-                baseColor = black;
-            else {
-                setColor(&baseColor, &context->cycleColors[basinIndex], mag);
+            if (context->colorByBasin) {
+                iteration basinIndex = OWJuliaFindCycle(orbit, result->julia.n, context->delta);
+                if (basinIndex == OWJuliaNoCycle || basinIndex >= context->maxCycleColor)
+                    baseColor = black;
+                else {
+                    baseColor = context->cycleColors[basinIndex];
+                }
+            } else {
+                /* Color with surface color */
+                baseColor = white;
             }
         }
             break;
@@ -365,7 +368,7 @@ static void makeRay(const JuliaContext *context,
             break;
         default:
             /* Color with surface color */
-            setColor(&baseColor, &white, mag);
+            baseColor = white;
             break;
     }
     
