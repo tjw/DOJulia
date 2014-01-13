@@ -89,3 +89,13 @@ const map *map::makeMap(vector eye, double focusLength, double fov,
     return m;
 }
 
+quaternion map::screenPoint(double screenX, double screenY) const
+{
+    double xUnits = ((double)screenX / (double)portWidth) * screenWidth;
+    double yUnits = ((double)screenY / (double)portHeight) * screenHeight;
+    
+    quaternion xOffset = basis[0] * xUnits;
+    quaternion yOffset = basis[1] * yUnits;
+    
+    return lowerLeft + xOffset + yOffset;
+}

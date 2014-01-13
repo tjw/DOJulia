@@ -5,7 +5,7 @@ public:
     quaternion	origin;
     quaternion  direction;
 
-    inline void setDirection(quaternion dest)
+    inline void setDirectionFromDestination(quaternion dest)
     {
         direction = (dest - origin).normalized();
     }
@@ -18,7 +18,7 @@ public:
     inline line(quaternion o, quaternion dest)
     {
         origin = o;
-        setDirection(dest);
+        setDirectionFromDestination(dest);
     }
     inline ~line() {}
 

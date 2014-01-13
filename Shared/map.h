@@ -26,6 +26,8 @@ public:
     inline ~map() {
         
     }
+    
+    quaternion screenPoint(double screenX, double screenY) const;
 };
 
 

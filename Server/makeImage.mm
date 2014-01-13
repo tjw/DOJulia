@@ -261,31 +261,23 @@ static int setLineDestinationForScreenPoint(const OWJuliaContext *context,
                                             double x, double y,
                                             quaternion *orbit)
 {
-    quaternion   xOffset, yOffset;
-    double       xUnits, yUnits, b, c, r, tmp;
-    quaternion   d, e;
     const map *m = context->m;
     
-    xUnits = ((double)x / (double)m->portWidth) * m->screenWidth;
-    yUnits = ((double)y / (double)m->portHeight) * m->screenHeight;
-
-    xOffset = m->basis[0] * xUnits;
-    yOffset = m->basis[1] * yUnits;
-    orbit[0] = m->lowerLeft + xOffset + yOffset;
-
+    quaternion screenPoint = m->screenPoint(x, y);
     ray->origin = m->eyePoint;
-    ray->setDirection(orbit[0]);
-
+    ray->setDirectionFromDestination(screenPoint);
+    orbit[0] = screenPoint;
+    
     if (orbit->magnitudeSquared() >= m->boundingRadius * m->boundingRadius) {
 	/* Try to advance orbit so it's on surface of bounding volume. */
-	d = ray->direction;
-	e = ray->origin;
-        r = m->boundingRadius;
+	quaternion d = ray->direction;
+	quaternion e = ray->origin;
+        double r = m->boundingRadius;
 
-	b = 2.0 * d.dot(e);
-	c = e.dot(e) - r * r;
+	double b = 2.0 * d.dot(e);
+	double c = e.dot(e) - r * r;
 
-	tmp = b * b - 4.0 * c;
+	double tmp = b * b - 4.0 * c;
 	if (tmp <= 0.0)
 	    return 0;			    /* No intersection */
 
