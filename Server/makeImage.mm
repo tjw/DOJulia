@@ -510,45 +510,39 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
             if (!lowerLeft->didHit && !lowerRight->didHit && !upperLeft->didHit && !upperRight->didHit) {
                 *pixel = context->background;
             } else {
-                unsigned int r, g, b;
-                quaternion eyeToLowerLeft, up, right;
-                vector eyeToLowerLeftVector, upVector, rightVector, normal;
-                double lightMagnitude;
-                
-                // Sum the color across the pixel
-                r = lowerLeft->color.r + lowerRight->color.r + upperLeft->color.r + upperRight->color.r;
-                g = lowerLeft->color.g + lowerRight->color.g + upperLeft->color.g + upperRight->color.g;
-                b = lowerLeft->color.b + lowerRight->color.b + upperLeft->color.b + upperRight->color.b;
-
                 // Build a pseudo gradient using the intersection points on the lowerLeft,
                 // lowerRight and upperLeft corners.
 
                 // the quaternion vector from lowerLeft to the eyepoint
-                eyeToLowerLeft = (m->eyePoint - lowerLeft->intersection).normalized();
+                quaternion eyeToLowerLeft = (m->eyePoint - lowerLeft->intersection).normalized();
 
                 // convert this quaternion vector to a vector in the basis for our three dimensional subspace
-                eyeToLowerLeftVector = vector(eyeToLowerLeft.dot(m->basis[0]),
-                                              eyeToLowerLeft.dot(m->basis[1]),
-                                              eyeToLowerLeft.dot(m->basis[2])).normalized();
+                vector eyeToLowerLeftVector = vector(eyeToLowerLeft.dot(m->basis[0]),
+                                                     eyeToLowerLeft.dot(m->basis[1]),
+                                                     eyeToLowerLeft.dot(m->basis[2])).normalized();
                                               
                 // Convert the differences between lowerLeft and each of upperLeft and lowerRight
                 // to vectors in our basis
-                up = upperLeft->intersection - lowerLeft->intersection;
-                upVector = vector(up.dot(m->basis[0]),
-                                  up.dot(m->basis[1]),
-                                  up.dot(m->basis[2])).normalized();
-                right = lowerRight->intersection - lowerLeft->intersection;
-                rightVector = vector(right.dot(m->basis[0]),
-                                     right.dot(m->basis[1]),
-                                     right.dot(m->basis[2])).normalized();
+                quaternion up = upperLeft->intersection - lowerLeft->intersection;
+                vector upVector = vector(up.dot(m->basis[0]),
+                                         up.dot(m->basis[1]),
+                                         up.dot(m->basis[2])).normalized();
+                quaternion right = lowerRight->intersection - lowerLeft->intersection;
+                vector rightVector = vector(right.dot(m->basis[0]),
+                                            right.dot(m->basis[1]),
+                                            right.dot(m->basis[2])).normalized();
 
                 // get the normal to the plane defined by upVector and rightVector
-                normal = upVector.cross(rightVector);
+                vector normal = upVector.cross(rightVector);
 
                 // dot the normal and the eye point to get the magnitude of the light source
-                lightMagnitude = normal.dot(eyeToLowerLeftVector);
+                double lightMagnitude = normal.dot(eyeToLowerLeftVector);
 
-
+                // Sum the color across the pixel
+                unsigned r = lowerLeft->color.r + lowerRight->color.r + upperLeft->color.r + upperRight->color.r;
+                unsigned g = lowerLeft->color.g + lowerRight->color.g + upperLeft->color.g + upperRight->color.g;
+                unsigned b = lowerLeft->color.b + lowerRight->color.b + upperLeft->color.b + upperRight->color.b;
+                
                 // Shade and average
                 pixel->r = (unsigned int)(r * lightMagnitude) / 4;
                 pixel->g = (unsigned int)(g * lightMagnitude) / 4;
