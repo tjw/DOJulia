@@ -117,10 +117,9 @@ static const plane_t *findNegativeClippingPlane(const JuliaContext *context, con
     return NULL;
 }
 
-#if 0
 static BOOL lineIntersectsWithPlane(const plane_t *plane, const line *line, quaternion *intersection)
 {
-    double                      mvv, vo, vd;
+    double mvv, vo, vd;
 
     if (fabs(vd = plane->normal.dot(line->direction)) < PLANE_DEWOOGLY_FACTOR)
 	return NO;
@@ -131,7 +130,6 @@ static BOOL lineIntersectsWithPlane(const plane_t *plane, const line *line, quat
     *intersection = line->quaternionAtDistance((mvv - vo) / vd);
     return YES;
 }
-#endif
 
 #if 0
 static const plane_t *makePointNonNegative(const JuliaContext *context, quaternion *point, const line *line)
@@ -154,6 +152,8 @@ typedef struct {
     BOOL       didHit;       // YES iff the ray hit an object
     color_t    color;        // the color of the object that was hit (the background color on a miss)
     quaternion intersection; // the point at which the intersection occured (point far away on a miss)
+    
+    julia_result julia; // The result parameters from the hit point, if didHit is true.
 } rayResult_t;
 
 
@@ -220,15 +220,17 @@ static void castRay(const JuliaContext *context, line ray, quaternion *orbit, ra
 //                        fprintf(stderr, "Undetermined basin count = %d\n", basinMissCount);
 //                    }
                 } else {
-                    rayResult->didHit       = YES;
-                    rayResult->color        = context->cycleColors[basinIndex];
+                    rayResult->didHit = YES;
+                    rayResult->color = context->cycleColors[basinIndex];
                     rayResult->intersection = orbit[0];
+                    rayResult->julia = result;
                     return;
                 }
             } else  {
-                rayResult->didHit       = YES;
-                rayResult->color        = white;
+                rayResult->didHit = YES;
+                rayResult->color = white;
                 rayResult->intersection = orbit[0];
+                rayResult->julia = result;
                 return;
             }
         }
@@ -294,7 +296,6 @@ typedef struct {
 	    color_t                     color;
 } planeIntersection_t;
 
-#if 0
 static int compareByDistance(const void *a, const void *b)
 {
     const planeIntersection_t *intersection1 = (const planeIntersection_t *)a;
@@ -307,14 +308,13 @@ static int compareByDistance(const void *a, const void *b)
     else
 	return 0;
 }
-#endif
 
 static void makeRay(const JuliaContext *context,
                     double xOffset, double yOffset,
                     NSRect tileRect, ImageTile *tile, quaternion *orbit,
                     rayResult_t *result)
 {
-
+#if 0
     line ray;
     if (setLineDestinationForScreenPoint(context, &ray,
 					 xOffset + tileRect.origin.x,
@@ -327,42 +327,48 @@ static void makeRay(const JuliaContext *context,
 
     //NSLog(@"Running ray %@", ray.toString());
     castRay(context, ray, orbit, result);
-
-#if 0 // this is the old version ... most of this stuff is disabled for now
-    color_t                     baseColor;
-    dem_label                   label;
-    double                      mag = 0.0;
-
-    label = NOT_CLOSE;
-    if (setLineDestinationForScreenPoint(context,
+#else
+    line ray;
+    if (setLineDestinationForScreenPoint(context, &ray,
                                          xOffset + tileRect.origin.x,
                                          yOffset + tileRect.origin.y,
-                                         orbit))
-        mag = castRay(context, orbit, &label);
+                                         orbit)) {
+        result->didHit       = NO;
+        result->color        = context->background;
+        result->intersection = orbit[0];  // dunno if this is useful
+    }
+    castRay(context, ray, orbit, result);
+    
+    if (!result->didHit) {
+        result->color = context->background;
+        return;
+    }
+        
+    double mag = 1.0; // TODO: Get the normal back out
 
     /* Set up the base color */
-    switch (label) {
-    case IN_SET:
-	 /* Color by basin */ {
-	    unsigned int                basinIndex;
-
-	    basinIndex = OWJuliaFindCycle(orbit, context->n, context->delta);
-	    if (basinIndex == OWJuliaNoCycle || basinIndex >= context->maxCycleColor)
-		baseColor = black;
-	    else
-		setColor(&baseColor, &context->cycleColors[basinIndex], mag);
-	}
-	break;
-    case NOT_CLOSE:
-        /* Color with background */
-	baseColor = context->background;
-	break;
-    default:
-        /* Color with surface color */
-	setColor(&baseColor, &white, mag);
-	break;
+    color_t baseColor;
+    switch (result->julia.label) {
+        case IN_SET: {
+            /* Color by basin */
+            iteration basinIndex = OWJuliaFindCycle(orbit, result->julia.n, context->delta);
+            if (basinIndex == OWJuliaNoCycle || basinIndex >= context->maxCycleColor)
+                baseColor = black;
+            else {
+                setColor(&baseColor, &context->cycleColors[basinIndex], mag);
+            }
+        }
+            break;
+        case NOT_CLOSE:
+            /* Color with background */
+            baseColor = context->background;
+            break;
+        default:
+            /* Color with surface color */
+            setColor(&baseColor, &white, mag);
+            break;
     }
-
+    
     /* Add on any colors for intersection with transparent planes */
     {
 	unsigned int                planeIndex, intersectionCount = 0;
@@ -371,25 +377,25 @@ static void makeRay(const JuliaContext *context,
 
 	for (planeIndex = 0; planeIndex < context->numberOfPlanes; planeIndex++) {
 	    if (!context->planes[planeIndex].clips &&
-		lineIntersectsWithPlane(&context->planes[planeIndex], &context->m.ray,
+		lineIntersectsWithPlane(&context->planes[planeIndex], &ray,
 					&intersection)) {
-                planeIntersections[intersectionCount].dist = context->m.ray.origin.distanceSquared(intersection);
+                planeIntersections[intersectionCount].dist = ray.origin.distanceSquared(intersection);
 
 		/* Now we need to find the distance from the set of the intersection point */
 		*orbit = intersection;
                 juliaLabelWithDistance(context, orbit);
 
-		if (context->dist > 0.0) {
+		if (result->julia.dist > 0.0) {
 		    double y;
 
-		    y = ipow(1.0 / (context->dist + 1.0), context->exteriorColorTightness);
+		    y = ipow(1.0 / (result->julia.dist + 1.0), context->exteriorColorTightness);
 		    /*printf("ipow(%g,%d) = %g\n", context->dist, context->exteriorColorTightness, y);*/
 
 		    hsiToColor(y, 1.0, 1.0,
 			       &planeIntersections[intersectionCount].color);
 
 #warning Should have another parameter for this		    
-		    y = ipow(1.0 / (context->dist + 1.0), context->exteriorColorTightness / 2);
+		    y = ipow(1.0 / (result->julia.dist + 1.0), context->exteriorColorTightness / 2);
 		    planeIntersections[intersectionCount].color.a =
 		      (unsigned char)((context->planes[planeIndex].opacity * y) * 255);
 		    /*printf("a(%g) = %d\n", y, planeIntersections[intersectionCount].color.a);*/
@@ -402,7 +408,7 @@ static void makeRay(const JuliaContext *context,
 
 	if (intersectionCount) {
 	    planeIntersections[intersectionCount].color = baseColor;
-	    planeIntersections[intersectionCount].dist = context->m.ray.origin.distanceSquared(baseOrbit);
+	    planeIntersections[intersectionCount].dist = ray.origin.distanceSquared(baseOrbit);
 	    intersectionCount++;
 
 	    qsort(planeIntersections, intersectionCount, sizeof(planeIntersection_t), compareByDistance);
@@ -412,7 +418,7 @@ static void makeRay(const JuliaContext *context,
 	}
     }
 
-    return baseColor;
+    result->color = baseColor;
 #endif
     
 }
