@@ -25,10 +25,8 @@ static julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quater
 
 //#define PRINT
 
-static julia_result juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit)
+static julia_result juliaDistanceEstimate(const JuliaContext *context, julia_result result, quaternion *orbit)
 {
-    abort();
-#if 0
     /* try to calculate distance */
     iteration    k = 0;
     quaternion   dz(1.0, 0.0, 0.0, 0.0);
@@ -36,23 +34,26 @@ static julia_result juliaDistanceEstimate(const JuliaContext *context, quaternio
     
     mags = 1.0;
 
-    while (k < context->n && mags < context->overflow) {
+    while (k < result.n && mags < context->overflow) {
         dz = dz * orbit[k];
         dz *= 2.0;
         mags = dz.magnitudeSquared();
         k++;
     }
-    if (mags >= context->overflow)
-        return VERY_CLOSE;
+    if (mags >= context->overflow) {
+        result.label = VERY_CLOSE;
+        return result;
+    }
 
-    a = sqrt(orbit[context->n].magnitudeSquared());
-    context->dist = 0.5 * a * log(a) / sqrt(mags);
+    a = sqrt(orbit[result.n].magnitudeSquared());
+    result.dist = 0.5 * a * log(a) / sqrt(mags);
 
-    if (context->dist < context->delta)
-        return DELTA_CLOSE;
+    if (result.dist < context->delta)
+        result.label = DELTA_CLOSE;
     else
-        return NOT_CLOSE;
-#endif
+        result.label = NOT_CLOSE;
+    
+    return result;
 }
 
 // This version will dynamically switch between the two.  This is
@@ -72,9 +73,8 @@ julia_result juliaLabelWithDistance(const JuliaContext *context, quaternion *orb
     
     if (result.n < context->N &&
         orbit[result.n].magnitudeSquared() >= RADIUS)
-        return juliaDistanceEstimate(context, orbit);
-    else
-        return result;
+        result = juliaDistanceEstimate(context, result, orbit);
+    return result;
 }
 
 // This is a general version that allows rotations
@@ -302,7 +302,7 @@ julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *o
     // value -- just a large one
     
     while (orbitStepper < lastOrbit && mags < RADIUS) {
-        NSLog(@"  z=<%f, %f, %f, %f>, mags %f", zr, zi, zj, zk, mags);
+        //NSLog(@"  z=<%f, %f, %f, %f>, mags %f", zr, zi, zj, zk, mags);
         double ijk2Sum;
         double zr2;
 
@@ -333,7 +333,7 @@ julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *o
         .n = n,
         .dist = 0.0,
     };
-    NSLog(@"  n = %ld", r.n);
+    //NSLog(@"  n = %ld", r.n);
     
     // TODO: The distance estimate should not be computed all the time.  This is not useful for the boundary tracking case
     if (r.n < context->N && mags >= RADIUS)

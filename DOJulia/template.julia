@@ -68,12 +68,14 @@
 	cycleColors  = 3;
 
 	clippingPlanes = (
+    /*
 		{
 			normal = { r = "0.0"; i = "0.0"; j = "1.0"; k = 0; };
 			dist = 1.0;
 			opacity = 0;
 			clips = 1;
 		}
+        */
 /*
 		,{
 			normal = { r = "0.0"; i = "0.0"; j = "1.0"; k = 0; };

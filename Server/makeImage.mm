@@ -325,7 +325,7 @@ static void makeRay(const JuliaContext *context,
         result->intersection = orbit[0];  // dunno if this is useful
     }
 
-    NSLog(@"Running ray %@", ray.toString());
+    //NSLog(@"Running ray %@", ray.toString());
     castRay(context, ray, orbit, result);
 
 #if 0 // this is the old version ... most of this stuff is disabled for now
@@ -552,7 +552,7 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         topCorners = bottomCorners;
         bottomCorners = tmp;
 
-        printf("%d\n", j);
+        printf("j = %d\n", j);
     }
 
     NSZoneFree(NSDefaultMallocZone(), topCorners);
