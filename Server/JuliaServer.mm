@@ -31,9 +31,7 @@ extern "C" {
     
     _operationQueue = [[NSOperationQueue alloc] init];
     _operationQueue.name = @"com.omnigroup.JuliaServer";
-    
-    // TODO: Want to remove this, but doing so produces garbage. Presumably have some shared state we shouldn't.
-    _operationQueue.maxConcurrentOperationCount = 1;
+    //_operationQueue.maxConcurrentOperationCount = 1;
     
     return self;
 }
@@ -62,7 +60,6 @@ extern "C" {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 aTile.data = (__bridge NSData *)tile->pixelData;
                 [aClient acceptTile:aTile fromServer:self];
-                fprintf(stderr, "Completed tile %p.\n", aTile);
             
                 tileFree(tile);
                 free(orbit);

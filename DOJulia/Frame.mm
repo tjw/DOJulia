@@ -103,7 +103,7 @@ extern "C" {
     }
     [_tilesToDo removeObjectAtIndex:tileIndex];
 
-    NSLog(@"No tiled image support currently");
+    //NSLog(@"No tiled image support currently");
 #if 0
     TIFFWriteEncodedTile(tif, [aTile tileNum], [[aTile tileData] bytes],
 			 TIFFTileSize(tif));

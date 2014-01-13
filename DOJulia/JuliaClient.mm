@@ -163,7 +163,7 @@ extern "C" {
         [tiles removeObjectAtIndex:tileIndex];
         [delegate juliaClient:self didAcceptTile:aTile];
         [frames[frameNumber] markTileDone:aTile];
-        NSLog(@"Completed tile %p (%lu total).  %lu tiles left.\n", aTile, _tilesCompleted, [tiles count]);
+        //NSLog(@"Completed tile %p (%lu total).  %lu tiles left.\n", aTile, _tilesCompleted, [tiles count]);
     }
 
     // We submit all tiles up front right now

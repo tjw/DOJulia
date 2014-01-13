@@ -445,8 +445,9 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         if (cycleLength == OWJuliaNoCycle) {
             fprintf(stderr, "Couldn't determine the cycle length starting from <0, 0, 0, 0>\n");
             return;
-        } else
-            fprintf(stderr, "Cycle length = %lu\n", cycleLength);
+        } else {
+            //fprintf(stderr, "Cycle length = %lu\n", cycleLength);
+        }
     }
     
 #if 0
@@ -552,7 +553,7 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         topCorners = bottomCorners;
         bottomCorners = tmp;
 
-        printf("j = %d\n", j);
+        //printf("j = %d\n", j);
     }
 
     NSZoneFree(NSDefaultMallocZone(), topCorners);
