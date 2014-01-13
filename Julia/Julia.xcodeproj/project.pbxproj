@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		343560E9188363840055D864 /* map.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343560E8188363840055D864 /* map.mm */; };
 		3462131D1883231700A4AB31 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3462131C1883231700A4AB31 /* Cocoa.framework */; };
 		346213271883231700A4AB31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 346213251883231700A4AB31 /* InfoPlist.strings */; };
 		346213291883231700A4AB31 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213281883231700A4AB31 /* main.m */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		343560E8188363840055D864 /* map.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = map.mm; sourceTree = "<group>"; };
 		346213191883231700A4AB31 /* Julia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Julia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3462131C1883231700A4AB31 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3462131F1883231700A4AB31 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -206,6 +208,7 @@
 				346213781883249F00A4AB31 /* julia.mm */,
 				346213791883249F00A4AB31 /* line.hxx */,
 				3462137A1883249F00A4AB31 /* map.h */,
+				343560E8188363840055D864 /* map.mm */,
 				3462137D1883249F00A4AB31 /* OWEncoding.h */,
 				3462137E1883249F00A4AB31 /* OWJuliaColoringMethods.h */,
 				3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */,
@@ -331,6 +334,7 @@
 				346213B018833FB600A4AB31 /* ImageTile.mm in Sources */,
 				346213AE18833FB600A4AB31 /* JuliaServer.mm in Sources */,
 				3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */,
+				343560E9188363840055D864 /* map.mm in Sources */,
 				3462138D1883249F00A4AB31 /* Tile.mm in Sources */,
 				346213301883231700A4AB31 /* Document.mm in Sources */,
 				346213291883231700A4AB31 /* main.m in Sources */,

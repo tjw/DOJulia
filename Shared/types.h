@@ -15,8 +15,8 @@ typedef struct {
     unsigned char               r, g, b, a;
 } color_t;
 
-extern color_t  white;
-extern color_t  black;
-extern color_t  ltgrey;
-extern color_t  dkgrey;
+extern const color_t  white;
+extern const color_t  black;
+extern const color_t  ltgrey;
+extern const color_t  dkgrey;
 

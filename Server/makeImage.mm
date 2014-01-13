@@ -14,21 +14,21 @@ OmniTimerNode juliaTimer(@"Julia Label Timer", &tileTimer);
 #import "julia.h"
 #import "OWJuliaNormalApproximation.h"
 #import "OWJuliaColoringMethods.h"
-
+#import "map.h"
 #import "tile.h"
 #import "makeImage.h"
 
 
-color_t         clear  = {0, 0, 0, 0};
-color_t         smoke  = {0, 0, 0, 128};
+static const color_t clear  = {0, 0, 0, 0};
+static const color_t smoke  = {0, 0, 0, 128};
 
-color_t         white  = {255, 255, 255, 255};
-color_t         black  = {0, 0, 0, 255};
-color_t         ltgrey = {169, 171, 171, 255};
-color_t         dkgrey = {86, 86, 86, 255};
-color_t         red    = {255, 0, 0, 255};
+const color_t white  = {255, 255, 255, 255};
+const color_t black  = {0, 0, 0, 255};
+const color_t ltgrey = {169, 171, 171, 255};
+const color_t dkgrey = {86, 86, 86, 255};
+static const color_t red    = {255, 0, 0, 255};
 
-static unsigned int basinMissCount = 0;  // number of times the basin couldn't be determined
+//static unsigned int basinMissCount = 0;  // number of times the basin couldn't be determined
 
 static inline double ipow(double x, unsigned int i)
 {
@@ -50,7 +50,7 @@ static inline double ipow(double x, unsigned int i)
 }
 
 /* Use Lambertian shading, ka = 1.0, one light source at eye point */
-static inline void setColor(color_t *result, color_t *base, double mag)
+static inline void setColor(color_t *result, const color_t *base, double mag)
 {
   /* make a color from it */
   result->r = (unsigned char) (mag * base->r);
@@ -60,7 +60,7 @@ static inline void setColor(color_t *result, color_t *base, double mag)
 }
 
 /* 0 is totally transparent */
-static inline void compositeColor(color_t *back, color_t *front)
+static inline void compositeColor(color_t *back, const color_t *front)
 {
     unsigned int                frontTransparency, newA;
 
@@ -90,7 +90,7 @@ static inline void hsiToColor(double h, double s, double i, color_t *c)
 }
 
 #define PLANE_DEWOOGLY_FACTOR (0.0000001)
-static inline BOOL isNegativePlane(plane_t *plane, const quaternion &point)
+static inline BOOL isNegativePlane(const plane_t *plane, const quaternion &point)
 {
     quaternion difference;
 
@@ -106,18 +106,18 @@ static inline BOOL isNegativePlane(plane_t *plane, const quaternion &point)
     return difference.dot(plane->normal) < -PLANE_DEWOOGLY_FACTOR;
 }
 
-static plane_t *findNegativeClippingPlane(OWJuliaContext *context, const quaternion &point)
+static const plane_t *findNegativeClippingPlane(const OWJuliaContext *context, const quaternion &point)
 {
     NSUInteger count = context->numberOfPlanes;
     while (count--) {
-	plane_t *plane = &context->planes[count];
+	const plane_t *plane = &context->planes[count];
 	if (plane->clips && isNegativePlane(plane, point))
 	    return plane;
     }
     return NULL;
 }
 
-static BOOL lineIntersectsWithPlane(plane_t *plane, line *line, quaternion *intersection)
+static BOOL lineIntersectsWithPlane(const plane_t *plane, const line *line, quaternion *intersection)
 {
     double                      mvv, vo, vd;
 
@@ -131,13 +131,13 @@ static BOOL lineIntersectsWithPlane(plane_t *plane, line *line, quaternion *inte
     return YES;
 }
 
-static plane_t *makePointNonNegative(OWJuliaContext *context, quaternion *point, line *line)
+static const plane_t *makePointNonNegative(const OWJuliaContext *context, quaternion *point, const line *line)
 {
-    plane_t *lastPlaneHit = NULL;
+    const plane_t *lastPlaneHit = NULL;
 
     NSUInteger count = context->numberOfPlanes;
     while (count--) {
-	plane_t *plane = &context->planes[count];
+	const plane_t *plane = &context->planes[count];
         if (plane->clips && isNegativePlane(plane, *point)) {
             if (lineIntersectsWithPlane(plane, line, point))
 		lastPlaneHit = plane;
@@ -164,23 +164,20 @@ typedef struct {
 // process the case in which he have a near pass -- that is, the last *un*bounding sphere puts
 // us outside of the *bounding* spehere.
 
-static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *result)
+static void castRay(const OWJuliaContext *context, line ray, quaternion *orbit, rayResult_t *result)
 {
     dem_label                   label;
-    plane_t                    *plane;
 
     /*
      * If we start out on the negative side of any planes, jump up to the
      * intersection of the ray and the plane 
      */
-    plane = makePointNonNegative(context, orbit, &context->m.ray);
+    const plane_t *plane = makePointNonNegative(context, orbit, &ray);
     
     /* step along the ray until we hit a surface or go out of the clipping bubble */
 
     do {
-        plane_t *negativePlane;
-
-        negativePlane = findNegativeClippingPlane(context, *orbit);
+        const plane_t *negativePlane = findNegativeClippingPlane(context, *orbit);
         if (orbit->magnitudeSquared() >= context->clippingBubble || negativePlane) {
             // missed
             result->didHit       = NO;
@@ -216,10 +213,10 @@ static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *res
             if (context->colorByBasin) {
                 basinIndex = OWJuliaFindCycle(orbit, context->n, context->delta);
                 if (basinIndex == OWJuliaNoCycle) {
-                    basinMissCount++;
-                    if (basinMissCount && !(basinMissCount % 100)) {
-                        fprintf(stderr, "Undetermined basin count = %d\n", basinMissCount);
-                    }
+//                    basinMissCount++;
+//                    if (basinMissCount && !(basinMissCount % 100)) {
+//                        fprintf(stderr, "Undetermined basin count = %d\n", basinMissCount);
+//                    }
                 } else {
                     result->didHit       = YES;
                     result->color        = context->cycleColors[basinIndex];
@@ -247,7 +244,7 @@ static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *res
 #endif
         
         /* This sign here is really non-intuitive.  In fact, I think it is plain wrong, but it works */
-        *orbit -= context->m.ray.direction * MAX(context->delta, context->dist);
+        *orbit -= ray.direction * MAX(context->delta, context->dist);
     } while (YES);
 }
 
@@ -259,28 +256,31 @@ static void castRay(OWJuliaContext *context, quaternion *orbit, rayResult_t *res
  * evaluated. 
  */
 
-static int setLineDestinationForScreenPoint(OWJuliaContext *context,
+static int setLineDestinationForScreenPoint(const OWJuliaContext *context,
+                                            line *ray,
                                             double x, double y,
                                             quaternion *orbit)
 {
     quaternion   xOffset, yOffset;
     double       xUnits, yUnits, b, c, r, tmp;
     quaternion   d, e;
+    const map *m = context->m;
+    
+    xUnits = ((double)x / (double)m->portWidth) * m->screenWidth;
+    yUnits = ((double)y / (double)m->portHeight) * m->screenHeight;
 
-    xUnits = ((double)x / (double)context->m.portWidth) * context->m.screenWidth;
-    yUnits = ((double)y / (double)context->m.portHeight) * context->m.screenHeight;
+    xOffset = m->basis[0] * xUnits;
+    yOffset = m->basis[1] * yUnits;
+    orbit[0] = m->lowerLeft + xOffset + yOffset;
 
-    xOffset = context->m.basis[0] * xUnits;
-    yOffset = context->m.basis[1] * yUnits;
-    orbit[0] = context->m.lowerLeft + xOffset + yOffset;
+    ray->origin = m->eyePoint;
+    ray->setDirection(orbit[0]);
 
-    context->m.ray.setDirection(orbit[0]);
-
-    if (orbit->magnitudeSquared() >= context->m.boundingRadius * context->m.boundingRadius) {
+    if (orbit->magnitudeSquared() >= m->boundingRadius * m->boundingRadius) {
 	/* Try to advance orbit so it's on surface of bounding volume. */
-	d = context->m.ray.direction;
-	e = context->m.ray.origin;
-        r = context->m.boundingRadius;
+	d = ray->direction;
+	e = ray->origin;
+        r = m->boundingRadius;
 
 	b = 2.0 * d.dot(e);
 	c = e.dot(e) - r * r;
@@ -289,7 +289,7 @@ static int setLineDestinationForScreenPoint(OWJuliaContext *context,
 	if (tmp <= 0.0)
 	    return 0;			    /* No intersection */
 
-        orbit[0] = context->m.ray.quaternionAtDistance((-b + sqrt(tmp)) / 2.0);
+        orbit[0] = ray->quaternionAtDistance((-b + sqrt(tmp)) / 2.0);
     }
     
     return 1;
@@ -314,13 +314,14 @@ static int compareByDistance(const void *a, const void *b)
 }
 
 
-static void makeRay(OWJuliaContext *context,
+static void makeRay(const OWJuliaContext *context,
                     double xOffset, double yOffset,
                     NSRect tileRect, ImageTile *tile, quaternion *orbit,
                     rayResult_t *result)
 {
 
-    if (setLineDestinationForScreenPoint(context,
+    line ray;
+    if (setLineDestinationForScreenPoint(context, &ray,
 					 xOffset + tileRect.origin.x,
 					 yOffset + tileRect.origin.y,
                                          orbit)) {
@@ -329,7 +330,7 @@ static void makeRay(OWJuliaContext *context,
         result->intersection = orbit[0];  // dunno if this is useful
     }
 
-    castRay(context, orbit, result);
+    castRay(context, ray, orbit, result);
 
 #if 0 // this is the old version ... most of this stuff is disabled for now
     color_t                     baseColor;
@@ -420,14 +421,16 @@ static void makeRay(OWJuliaContext *context,
     
 }
 
-extern int juliaCalls, juliaIterations;
+//extern int juliaCalls, juliaIterations;
 
-void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
+void makeTile(const OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
 {
     double        xOffset, yOffset;
     rayResult_t *tmp;
     unsigned int  i, j;
 
+    const map *m = context->m;
+    
 #ifdef TIMER
     tileTimer.start();
 #endif
@@ -515,23 +518,23 @@ void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quatern
                 // lowerRight and upperLeft corners.
 
                 // the quaternion vector from lowerLeft to the eyepoint
-                eyeToLowerLeft = (context->m.ray.origin - lowerLeft->intersection).normalized();
+                eyeToLowerLeft = (m->eyePoint - lowerLeft->intersection).normalized();
 
                 // convert this quaternion vector to a vector in the basis for our three dimensional subspace
-                eyeToLowerLeftVector = vector(eyeToLowerLeft.dot(context->m.basis[0]),
-                                              eyeToLowerLeft.dot(context->m.basis[1]),
-                                              eyeToLowerLeft.dot(context->m.basis[2])).normalized();
+                eyeToLowerLeftVector = vector(eyeToLowerLeft.dot(m->basis[0]),
+                                              eyeToLowerLeft.dot(m->basis[1]),
+                                              eyeToLowerLeft.dot(m->basis[2])).normalized();
                                               
                 // Convert the differences between lowerLeft and each of upperLeft and lowerRight
                 // to vectors in our basis
                 up = upperLeft->intersection - lowerLeft->intersection;
-                upVector = vector(up.dot(context->m.basis[0]),
-                                  up.dot(context->m.basis[1]),
-                                  up.dot(context->m.basis[2])).normalized();
+                upVector = vector(up.dot(m->basis[0]),
+                                  up.dot(m->basis[1]),
+                                  up.dot(m->basis[2])).normalized();
                 right = lowerRight->intersection - lowerLeft->intersection;
-                rightVector = vector(right.dot(context->m.basis[0]),
-                                     right.dot(context->m.basis[1]),
-                                     right.dot(context->m.basis[2])).normalized();
+                rightVector = vector(right.dot(m->basis[0]),
+                                     right.dot(m->basis[1]),
+                                     right.dot(m->basis[2])).normalized();
 
                 // get the normal to the plane defined by upVector and rightVector
                 normal = upVector.cross(rightVector);
@@ -564,7 +567,7 @@ void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quatern
     tileTimer.reportResults();
 #endif
 
-    NSLog(@"julia calls = %d, julia iterations = %d, basinMissCount = %d", juliaCalls, juliaIterations, basinMissCount);
-    juliaCalls = 0;
+    //NSLog(@"julia calls = %d, julia iterations = %d, basinMissCount = %d", juliaCalls, juliaIterations, basinMissCount);
+    //juliaCalls = 0;
 }
 

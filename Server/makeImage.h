@@ -8,4 +8,4 @@ extern "C" {
 class quaternion;
 @class OWJuliaContext;
 
-void makeTile(OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit);
+void makeTile(const OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit);

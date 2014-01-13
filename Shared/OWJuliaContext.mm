@@ -56,92 +56,6 @@ static inline double doubleValue(id object)
 }
 
 
-static void mapSet(map *m,
-                   vector eye, double focusLength, double fov,
-                   double rx, double ry, double rz, double scale,
-                   double radius,
-                   unsigned int portWidth, unsigned int portHeight)
-{
-    matrix          Rx, Ry, Rz, S, B;
-    double          xWidth;
-
-    assert(focusLength > 0.0);
-    assert(fov > 0.0);
-    assert(radius > 0.0);
-    
-    /* Just some trivial parameters */
-    m->boundingRadius = radius;
-    m->portWidth = portWidth;
-    m->portHeight = portHeight;
-
-    /* Compute the composite rotation matrix for rx, ry, and rz */
-    Rx.rotateX(rx);
-    Ry.rotateY(ry);
-    Rz.rotateZ(rz);
-
-    S.scale(scale, scale, scale);
-    
-    B = S * Rx * Ry * Rz;
-
-    /* Store quaternions used for advancing one unit along x, y, and z under the rotation matrix */
-    vector b0, b1, b2;
-
-    b0 = B * vector(1, 0, 0, 0);
-    b1 = B * vector(0, 1, 0, 0);
-    b2 = B * vector(0, 0, 1, 0);
-
-    m->basis[0] = quaternion(b0.x, b0.y, b0.z, b0.w);
-    m->basis[1] = quaternion(b1.x, b1.y, b1.z, b1.w);
-    m->basis[2] = quaternion(b2.x, b2.y, b2.z, b2.w);
-        
-    /* Don't deal with the 'k' component here, this is done in the qrot() code */ 
-    assert(m->basis[0].k == 0.0);
-    assert(m->basis[1].k == 0.0);
-    assert(m->basis[2].k == 0.0);
-
-    fprintf(stderr, "Basis is:\n");
-    fprintf(stderr, "B[0] = (%4.8f, %4.8f, %4.8f, %4.8f)\n",
-            m->basis[0].r, m->basis[0].i, m->basis[0].j, m->basis[0].k);
-    fprintf(stderr, "B[1] = (%4.8f, %4.8f, %4.8f, %4.8f)\n",
-            m->basis[1].r, m->basis[1].i, m->basis[1].j, m->basis[1].k);
-    fprintf(stderr, "B[2] = (%4.8f, %4.8f, %4.8f, %4.8f)\n",
-            m->basis[2].r, m->basis[2].i, m->basis[2].j, m->basis[2].k);
-
-
-    /* Compute the width of the screen from the focusLength and fov */
-    xWidth = tan(fov/2.0) * focusLength;
-
-    /*
-       Store the size of the screen in object space.  Set the height to be appropriate
-       for a 1.0 aspect ratio.
-     */
-    m->screenWidth = xWidth;
-    m->screenHeight = (xWidth * portHeight) / (double) portWidth;
-
-    /* Store the origin of the eye ray */
-    m->ray.origin = quaternion(eye.x, eye.y, eye.z, 0.0);
-
-    /* Figure the lower left hand point of the screen as represented in object space */
-    {
-	quaternion zDist, center;
-        quaternion right, top, cornerOffset;
-
-        /* Go out focusLength units along the z basis vector to find the center of the screen */
-        zDist = m->basis[2] * focusLength;     /* focusLength * <z> */
-        center = m->ray.origin + zDist;        /* the center of the screen */
-
-        /* Compute the offsets to the right-center and center-top points of the screen */
-        right = m->basis[0] * (m->screenWidth / 2.0);
-        top   = m->basis[1] * (m->screenHeight / 2.0);
-
-	/* Add the two offsets to find the offset to the upper right corner */
-        cornerOffset = right + top;
-
-        /* Finally, subtract the upper-right offset from the center point to find the lower-left point */
-        m->lowerLeft = center - cornerOffset;
-    }
-}
-
 
 @implementation OWJuliaContext
 
@@ -175,12 +89,14 @@ static void mapSet(map *m,
         scale = 1.0;
 #endif
         
-        mapSet(&m, eyePoint, focusLength, fov,
-               degToRad(doubleValue([orientation objectAtIndex:0])),
-               degToRad(doubleValue([orientation objectAtIndex:1])),
-               degToRad(doubleValue([orientation objectAtIndex:2])),
-               scale, 4.0, nc, nr);
-        delta *= m.screenWidth;
+        if (m)
+            delete m;
+        m = map::makeMap(eyePoint, focusLength, fov,
+                         degToRad(doubleValue([orientation objectAtIndex:0])),
+                         degToRad(doubleValue([orientation objectAtIndex:1])),
+                         degToRad(doubleValue([orientation objectAtIndex:2])),
+                         scale, 4.0, nc, nr);
+        delta *= m->screenWidth;
 
         rotation = degToRad(doubleValue([orientation objectAtIndex:3]));
         crot = cos(rotation);
@@ -190,25 +106,22 @@ static void mapSet(map *m,
     }
 
     {
-	NSArray                    *clippingPlanes;
-	unsigned int                planeIndex;
+	NSArray *clippingPlanes = aDictionary[@"clippingPlanes"];
 
-	clippingPlanes = [aDictionary objectForKey:@"clippingPlanes"];
+        plane_t *readingPlanes = NULL;
 	if (!(numberOfPlanes = [clippingPlanes count]))
-	    planes = NULL;
+	    readingPlanes = NULL;
 	else {
-
-	    planes = (plane_t *) NSZoneMalloc(NSDefaultMallocZone(), (sizeof(plane_t) * numberOfPlanes));
-	    for (planeIndex = 0; planeIndex < numberOfPlanes; planeIndex++) {
-		NSDictionary               *planeDict;
-
-		planeDict = [clippingPlanes objectAtIndex:planeIndex];
-                planes[planeIndex].normal = readQuaternion([planeDict objectForKey:@"normal"]);
-                planes[planeIndex].dist = doubleValue([planeDict objectForKey:@"dist"]);
-                planes[planeIndex].opacity = doubleValue([planeDict objectForKey:@"opacity"]);
-		planes[planeIndex].clips = [[planeDict objectForKey:@"clips"] intValue];
+	    readingPlanes = (plane_t *) NSZoneMalloc(NSDefaultMallocZone(), (sizeof(plane_t) * numberOfPlanes));
+	    for (NSUInteger planeIndex = 0; planeIndex < numberOfPlanes; planeIndex++) {
+		NSDictionary *planeDict = clippingPlanes[planeIndex];
+                readingPlanes[planeIndex].normal = readQuaternion([planeDict objectForKey:@"normal"]);
+                readingPlanes[planeIndex].dist = doubleValue([planeDict objectForKey:@"dist"]);
+                readingPlanes[planeIndex].opacity = doubleValue([planeDict objectForKey:@"opacity"]);
+		readingPlanes[planeIndex].clips = [[planeDict objectForKey:@"clips"] intValue];
 	    }
 	}
+        planes = readingPlanes;
     }
 
     {
@@ -216,21 +129,21 @@ static void mapSet(map *m,
 	unsigned int                cycleColorIndex;
 
 	maxCycleColor = 0;
-	cycleColors = NULL;
+	color_t *readingColors = NULL;
 	if ((colorByBasin = [[aDictionary objectForKey:@"colorByBasin"] intValue])) {
 	    cycleColorArray = [aDictionary objectForKey:@"cycleColors"];
 	    if ([cycleColorArray isKindOfClass:[NSArray class]]) {
 		if ((maxCycleColor = [cycleColorArray count])) {
-		    cycleColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
+		    readingColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
 		    for (cycleColorIndex = 0; cycleColorIndex < maxCycleColor; cycleColorIndex++)
 			readColor([cycleColorArray objectAtIndex:cycleColorIndex],
-				  &cycleColors[cycleColorIndex]);
+				  &readingColors[cycleColorIndex]);
 		}
 	    } else {
 		unsigned int                cycleColorIndex;
 
 		maxCycleColor = [(NSString *)cycleColorArray intValue];
-                cycleColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
+                readingColors = (color_t *)malloc(sizeof(color_t) * maxCycleColor);
 
 		for (cycleColorIndex = 0; cycleColorIndex < maxCycleColor; cycleColorIndex++) {
 			NSColor *color;
@@ -240,13 +153,14 @@ static void mapSet(map *m,
                                                      brightness: 1.0
                                                           alpha: 1.0];
 
-			cycleColors[cycleColorIndex].r = (unsigned char) (255 * [color redComponent]);
-			cycleColors[cycleColorIndex].g = (unsigned char) (255 * [color greenComponent]);
-			cycleColors[cycleColorIndex].b = (unsigned char) (255 * [color blueComponent]);
-			cycleColors[cycleColorIndex].a = (unsigned char) (255);
+			readingColors[cycleColorIndex].r = (unsigned char) (255 * [color redComponent]);
+			readingColors[cycleColorIndex].g = (unsigned char) (255 * [color greenComponent]);
+			readingColors[cycleColorIndex].b = (unsigned char) (255 * [color blueComponent]);
+			readingColors[cycleColorIndex].a = (unsigned char) (255);
 		}
 	    }
 	}
+        cycleColors = readingColors;
 	exteriorColorTightness = [[aDictionary objectForKey:@"exteriorColorTightness"] intValue];
     }
 
@@ -301,9 +215,9 @@ static void mapSet(map *m,
 - (void)dealloc;
 {
     if (planes)
-        free(planes);
+        free((void *)planes);
     if (cycleColors)
-        free(cycleColors);
+        free((void *)cycleColors);
 }
 
 /* NSCoding stuff */

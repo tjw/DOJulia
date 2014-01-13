@@ -5,15 +5,15 @@ extern "C" {
 
 #import "julia.h"
 
-static dem_label juliaDistanceEstimate(OWJuliaContext *context, quaternion *orbit);
+//static dem_label juliaDistanceEstimate(const OWJuliaContext *context, quaternion *orbit);
 
 // optimization attempt declarsions
-static dem_label juliaLabelNoRotationOpt1(OWJuliaContext *context, quaternion *orbit);
-static dem_label juliaLabelNoRotationOpt2(OWJuliaContext *context, quaternion *orbit);
-static dem_label juliaLabelNoRotationOpt3(OWJuliaContext *context, quaternion *orbit);
+//static dem_label juliaLabelNoRotationOpt1(const OWJuliaContext *context, quaternion *orbit);
+//static dem_label juliaLabelNoRotationOpt2(const OWJuliaContext *context, quaternion *orbit);
+static dem_label juliaLabelNoRotationOpt3(const OWJuliaContext *context, quaternion *orbit);
 
-int juliaCalls      = 0;
-int juliaIterations = 0;
+//int juliaCalls      = 0;
+//int juliaIterations = 0;
 
 //#define JUST_NO_ROTATION // this is useful when just running the compiler by hand to produce assembly
 
@@ -25,7 +25,7 @@ int juliaIterations = 0;
 
 //#define PRINT
 
-static dem_label juliaDistanceEstimate(OWJuliaContext *context, quaternion *orbit)
+static dem_label juliaDistanceEstimate(const OWJuliaContext *context, quaternion *orbit)
 {
     /* try to calculate distance */
     iteration    k = 0;
@@ -56,7 +56,7 @@ static dem_label juliaDistanceEstimate(OWJuliaContext *context, quaternion *orbi
 // This version will dynamically switch between the two.  This is
 // slightly slower than just statically calling the one you want
 // if you already know
-dem_label juliaLabel(OWJuliaContext *context, quaternion *orbit)
+dem_label juliaLabel(const OWJuliaContext *context, quaternion *orbit)
 {
     if (context->rotation == 0.0)
         return juliaLabelNoRotationOpt3(context, orbit);
@@ -64,7 +64,7 @@ dem_label juliaLabel(OWJuliaContext *context, quaternion *orbit)
         return juliaLabelRotation(context, orbit);
 }
 
-dem_label juliaLabelWithDistance(OWJuliaContext *context, quaternion *orbit)
+dem_label juliaLabelWithDistance(const OWJuliaContext *context, quaternion *orbit)
 {
     dem_label label;
 
@@ -78,12 +78,12 @@ dem_label juliaLabelWithDistance(OWJuliaContext *context, quaternion *orbit)
 }
 
 // This is a general version that allows rotations
-dem_label juliaLabelRotation(OWJuliaContext *context, quaternion *orbit)
+dem_label juliaLabelRotation(const OWJuliaContext *context, quaternion *orbit)
 {
     double                      mags = 0.0;
     quaternion                  rotU, temp, *orbitStepper, *lastOrbit;
 
-    juliaCalls++;
+    //juliaCalls++;
 
     quaternion eITheta(context->crot, context->srot, 0, 0);
     quaternion eINegTheta(context->crot, -context->srot, 0, 0);
@@ -99,7 +99,7 @@ dem_label juliaLabelRotation(OWJuliaContext *context, quaternion *orbit)
         mags = orbitStepper->magnitudeSquared();
     }
 
-    juliaIterations += context->n;
+    //juliaIterations += context->n;
     
     context->n = (orbitStepper - orbit);
     context->dist = 0.0;
@@ -112,12 +112,12 @@ dem_label juliaLabelRotation(OWJuliaContext *context, quaternion *orbit)
 
 // This is a specific version that doesn't allow rotations but is faster.
 // This version takes about 75% of the execution time.
-dem_label juliaLabelNoRotation(OWJuliaContext *context, quaternion *orbit)
+dem_label juliaLabelNoRotation(const OWJuliaContext *context, quaternion *orbit)
 {
     double                      mags = 0.0;
     quaternion                  z, *orbitStepper, *lastOrbit;
 
-    juliaCalls++;
+    //juliaCalls++;
 
     orbitStepper = orbit;
     lastOrbit = orbit + context->N;
@@ -131,7 +131,7 @@ dem_label juliaLabelNoRotation(OWJuliaContext *context, quaternion *orbit)
         mags = z.magnitudeSquared();
     }
 
-    juliaIterations += context->n;
+    //juliaIterations += context->n;
 
     context->n = (orbitStepper - orbit);
     context->dist = 0.0;
@@ -141,7 +141,7 @@ dem_label juliaLabelNoRotation(OWJuliaContext *context, quaternion *orbit)
 
 #ifndef JUST_NO_ROTATION
 
-double    juliaPotential(OWJuliaContext *context, quaternion *orbit)
+double    juliaPotential(const OWJuliaContext *context, quaternion *orbit)
 {
   double a = sqrt(orbit[context->n-1].magnitudeSquared());
   return a / pow(2.0, (float)(context->n-1));
@@ -164,7 +164,7 @@ dem_label juliaLabelNoRotationOpt1(OWJuliaContext *context, quaternion *orbit)
     double                      zr, zi, zj, zk;
     double                      ur, ui, uj, uk;
     
-    juliaCalls++;
+    //juliaCalls++;
 
     orbitStepper = orbit;
     lastOrbit    = orbit + context->N;
@@ -205,7 +205,7 @@ dem_label juliaLabelNoRotationOpt1(OWJuliaContext *context, quaternion *orbit)
         mags = zr * zr + zi * zi + zj * zj + zk * zk;
     }
 
-    juliaIterations += context->n;
+    //juliaIterations += context->n;
 
     context->n = (orbitStepper - orbit);
     context->dist = 0.0;
@@ -221,7 +221,7 @@ dem_label juliaLabelNoRotationOpt2(OWJuliaContext *context, quaternion *orbit)
     quaternion                  *orbitStepper, *lastOrbit;
     register double              zr, zi, zj, zk;
     
-    juliaCalls++;
+    //juliaCalls++;
 
     orbitStepper = orbit;
     lastOrbit    = orbit + context->N;
@@ -258,7 +258,7 @@ dem_label juliaLabelNoRotationOpt2(OWJuliaContext *context, quaternion *orbit)
         mags = zr2 + ijk2Sum;
     }
 
-    juliaIterations += context->n;
+    //juliaIterations += context->n;
 
     context->n = (orbitStepper - orbit);
     context->dist = 0.0;
@@ -268,13 +268,13 @@ dem_label juliaLabelNoRotationOpt2(OWJuliaContext *context, quaternion *orbit)
 
 // This version attempts to order the operations better for the pipeline
 // w/o reverting to assembly
-dem_label juliaLabelNoRotationOpt3(OWJuliaContext *context, quaternion *orbit)
+dem_label juliaLabelNoRotationOpt3(const OWJuliaContext *context, quaternion *orbit)
 {
     double                       mags = 0.0;
     quaternion                  *orbitStepper, *lastOrbit;
     register double              zr, zi, zj, zk;
     
-    juliaCalls++;
+    //juliaCalls++;
 
     orbitStepper = orbit;
     lastOrbit    = orbit + context->N;
@@ -313,7 +313,7 @@ dem_label juliaLabelNoRotationOpt3(OWJuliaContext *context, quaternion *orbit)
         orbitStepper->r = zr;
     }
 
-    juliaIterations += context->n;
+    //juliaIterations += context->n;
 
     context->n = (orbitStepper - orbit);
     context->dist = 0.0;

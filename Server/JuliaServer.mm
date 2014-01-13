@@ -32,6 +32,7 @@ extern "C" {
     _operationQueue = [[NSOperationQueue alloc] init];
     _operationQueue.name = @"com.omnigroup.JuliaServer";
     
+    // TODO: Want to remove this, but doing so produces garbage. Presumably have some shared state we shouldn't.
     _operationQueue.maxConcurrentOperationCount = 1;
     
     return self;
@@ -49,7 +50,7 @@ extern "C" {
             
             if (!aTile)
                 return;
-            OWJuliaContext *context = [aTile context];
+            const OWJuliaContext *context = [aTile context];
             if (!context)
                 return;
                         

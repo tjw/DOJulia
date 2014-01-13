@@ -3,14 +3,14 @@ extern "C" {
 }
 
 #import "types.h"
-#import "map.h"
 
+class map;
 @class NSString, NSDictionary;
 
 @interface OWJuliaContext : NSObject
 {
 @public
-    map                         m;
+    const map *m;
     NSUInteger                  tileWidth, tileHeight;
     quaternion                  u;
     double                      dist;
@@ -27,16 +27,16 @@ extern "C" {
     unsigned int                exteriorColorTightness;
 
     NSUInteger                numberOfPlanes;
-    plane_t                    *planes;
+    const plane_t                    *planes;
 
-    NSString                   *filename;
+    const NSString                   *filename;
 
     double                      rotation;	/* in complex plane */
     double                      crot, srot;
     double                      cnrot, snrot;
 
     NSUInteger                maxCycleColor;
-    color_t                    *cycleColors;
+    const color_t                    *cycleColors;
     unsigned int                colorByBasin;
 }
 
