@@ -17,20 +17,18 @@ double OWJuliaNormalDotApproximation(JuliaContext *context, quaternion *orbit)
     
     /* compute gradient to surface at p in units (not quaternions) */
     for (i = 0; i < 3; i++) {
-        dem_label label;
-
         orbit[0] = m->basis[i] * context->delta + p;
 
-        label = juliaLabel(context, orbit);
-        plusE = context->dist;
+        julia_result result = juliaLabel(context, orbit);
+        plusE = result.dist;
 #ifdef PRINT
         printf("%d +label = %d, dist = %f ", i, (int)label, plusE);
 #endif
 
         orbit[0] = m->basis[i] * -context->delta + p;
 
-        label = juliaLabel(context, orbit);
-        minusE = context->dist;
+        result = juliaLabel(context, orbit);
+        minusE = result.dist;
 #ifdef PRINT
         printf("-label = %d, dist = %f\n", (int)label, minusE);
 #endif

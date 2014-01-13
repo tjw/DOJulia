@@ -5,12 +5,12 @@ extern "C" {
 
 #import "julia.h"
 
-//static dem_label juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit);
+//static julia_result juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit);
 
 // optimization attempt declarsions
-//static dem_label juliaLabelNoRotationOpt1(const JuliaContext *context, quaternion *orbit);
-//static dem_label juliaLabelNoRotationOpt2(const JuliaContext *context, quaternion *orbit);
-static dem_label juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbit);
+//static julia_result juliaLabelNoRotationOpt1(const JuliaContext *context, quaternion *orbit);
+//static julia_result juliaLabelNoRotationOpt2(const JuliaContext *context, quaternion *orbit);
+static julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbit);
 
 //int juliaCalls      = 0;
 //int juliaIterations = 0;
@@ -25,7 +25,7 @@ static dem_label juliaLabelNoRotationOpt3(const JuliaContext *context, quaternio
 
 //#define PRINT
 
-static dem_label juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit)
+static julia_result juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit)
 {
     abort();
 #if 0
@@ -58,7 +58,7 @@ static dem_label juliaDistanceEstimate(const JuliaContext *context, quaternion *
 // This version will dynamically switch between the two.  This is
 // slightly slower than just statically calling the one you want
 // if you already know
-dem_label juliaLabel(const JuliaContext *context, quaternion *orbit)
+julia_result juliaLabel(const JuliaContext *context, quaternion *orbit)
 {
     if (context->rotation == 0.0)
         return juliaLabelNoRotationOpt3(context, orbit);
@@ -66,21 +66,19 @@ dem_label juliaLabel(const JuliaContext *context, quaternion *orbit)
         return juliaLabelRotation(context, orbit);
 }
 
-dem_label juliaLabelWithDistance(const JuliaContext *context, quaternion *orbit)
+julia_result juliaLabelWithDistance(const JuliaContext *context, quaternion *orbit)
 {
-    dem_label label;
-
-    label = juliaLabel(context, orbit);
+    julia_result result = juliaLabel(context, orbit);
     
-    if (context->n < context->N &&
-        orbit[context->n].magnitudeSquared() >= RADIUS)
+    if (result.n < context->N &&
+        orbit[result.n].magnitudeSquared() >= RADIUS)
         return juliaDistanceEstimate(context, orbit);
     else
-        return label;
+        return result;
 }
 
 // This is a general version that allows rotations
-dem_label juliaLabelRotation(const JuliaContext *context, quaternion *orbit)
+julia_result juliaLabelRotation(const JuliaContext *context, quaternion *orbit)
 {
     abort();
 #if 0
@@ -117,7 +115,7 @@ dem_label juliaLabelRotation(const JuliaContext *context, quaternion *orbit)
 
 // This is a specific version that doesn't allow rotations but is faster.
 // This version takes about 75% of the execution time.
-dem_label juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit)
+julia_result juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit)
 {
     abort();
 #if 0
@@ -149,10 +147,10 @@ dem_label juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit)
 
 #ifndef JUST_NO_ROTATION
 
-double    juliaPotential(const JuliaContext *context, quaternion *orbit)
+double juliaPotential(julia_result result, quaternion *orbit)
 {
-  double a = sqrt(orbit[context->n-1].magnitudeSquared());
-  return a / pow(2.0, (float)(context->n-1));
+  double a = sqrt(orbit[result.n-1].magnitudeSquared());
+  return a / pow(2.0, (float)(result.n-1));
 }
 
 #endif // JUST_NO_ROTATION
@@ -282,10 +280,8 @@ dem_label juliaLabelNoRotationOpt2(JuliaContext *context, quaternion *orbit)
 
 // This version attempts to order the operations better for the pipeline
 // w/o reverting to assembly
-dem_label juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbit)
+julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbit)
 {
-    abort();
-#if 0
     double                       mags = 0.0;
     quaternion                  *orbitStepper, *lastOrbit;
     register double              zr, zi, zj, zk;
@@ -306,7 +302,7 @@ dem_label juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbi
     // value -- just a large one
     
     while (orbitStepper < lastOrbit && mags < RADIUS) {
-        //NSLog(@"  z=<%f, %f, %f, %f>, mags %f", zr, zi, zj, zk, mags);
+        NSLog(@"  z=<%f, %f, %f, %f>, mags %f", zr, zi, zj, zk, mags);
         double ijk2Sum;
         double zr2;
 
@@ -332,15 +328,19 @@ dem_label juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbi
 
     //juliaIterations += context->n;
 
-    context->n = (orbitStepper - orbit);
-    context->dist = 0.0;
-    //NSLog(@"  n = %ld", context->n);
+    iteration n = (orbitStepper - orbit);
+    julia_result r = {
+        .n = n,
+        .dist = 0.0,
+    };
+    NSLog(@"  n = %ld", r.n);
     
     // TODO: The distance estimate should not be computed all the time.  This is not useful for the boundary tracking case
-    if (context->n < context->N && mags >= RADIUS)
+    if (r.n < context->N && mags >= RADIUS)
         //return juliaDistanceEstimate(context, orbit);
-        return NOT_CLOSE;
-    return IN_SET;
-#endif
+        r.label = NOT_CLOSE;
+    else
+        r.label = IN_SET;
+    return r;
 }
 

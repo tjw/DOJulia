@@ -168,10 +168,8 @@ typedef struct {
 // process the case in which he have a near pass -- that is, the last *un*bounding sphere puts
 // us outside of the *bounding* spehere.
 
-static void castRay(const JuliaContext *context, line ray, quaternion *orbit, rayResult_t *result)
+static void castRay(const JuliaContext *context, line ray, quaternion *orbit, rayResult_t *rayResult)
 {
-    dem_label                   label;
-
     /*
      * If we start out on the negative side of any planes, jump up to the
      * intersection of the ray and the plane 
@@ -184,21 +182,21 @@ static void castRay(const JuliaContext *context, line ray, quaternion *orbit, ra
         const plane_t *negativePlane = findNegativeClippingPlane(context, *orbit);
         if (orbit->magnitudeSquared() >= context->clippingBubble || negativePlane) {
             // missed
-            result->didHit       = NO;
-            result->color        = context->background;
-            result->intersection = orbit[0]; // dunno if there is a useful value for this or not yet
+            rayResult->didHit       = NO;
+            rayResult->color        = context->background;
+            rayResult->intersection = orbit[0]; // dunno if there is a useful value for this or not yet
             return;
 	}
 
 #ifdef TIMER
         juliaTimer.start();
 #endif
-        label = juliaLabelWithDistance(context, orbit);
+        julia_result result = juliaLabelWithDistance(context, orbit);
 #ifdef TIMER
         juliaTimer.stop();
 #endif
         
-	if (label == IN_SET) {
+	if (result.label == IN_SET) {
             iteration basinIndex;
 
 #if 0
@@ -215,22 +213,22 @@ static void castRay(const JuliaContext *context, line ray, quaternion *orbit, ra
             
 
             if (context->colorByBasin) {
-                basinIndex = OWJuliaFindCycle(orbit, context->n, context->delta);
+                basinIndex = OWJuliaFindCycle(orbit, result.n, context->delta);
                 if (basinIndex == OWJuliaNoCycle) {
 //                    basinMissCount++;
 //                    if (basinMissCount && !(basinMissCount % 100)) {
 //                        fprintf(stderr, "Undetermined basin count = %d\n", basinMissCount);
 //                    }
                 } else {
-                    result->didHit       = YES;
-                    result->color        = context->cycleColors[basinIndex];
-                    result->intersection = orbit[0];
+                    rayResult->didHit       = YES;
+                    rayResult->color        = context->cycleColors[basinIndex];
+                    rayResult->intersection = orbit[0];
                     return;
                 }
             } else  {
-                result->didHit       = YES;
-                result->color        = white;
-                result->intersection = orbit[0];
+                rayResult->didHit       = YES;
+                rayResult->color        = white;
+                rayResult->intersection = orbit[0];
                 return;
             }
         }
@@ -248,7 +246,7 @@ static void castRay(const JuliaContext *context, line ray, quaternion *orbit, ra
 #endif
         
         /* This sign here is really non-intuitive.  In fact, I think it is plain wrong, but it works */
-        *orbit -= ray.direction * MAX(context->delta, context->dist);
+        *orbit -= ray.direction * MAX(context->delta, result.dist);
     } while (YES);
 }
 
@@ -327,7 +325,7 @@ static void makeRay(const JuliaContext *context,
         result->intersection = orbit[0];  // dunno if this is useful
     }
 
-    //NSLog(@"Running ray %@", ray.toString());
+    NSLog(@"Running ray %@", ray.toString());
     castRay(context, ray, orbit, result);
 
 #if 0 // this is the old version ... most of this stuff is disabled for now
@@ -437,13 +435,13 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
     {
         orbit[0] = quaternion(0, 0, 0, 0);
 
-        dem_label label = juliaLabel(context, orbit);
-        if (label != IN_SET) {
+        julia_result result = juliaLabel(context, orbit);
+        if (result.label != IN_SET) {
             fprintf(stderr, "The point <0, 0, 0, 0> is not in the set.\n");
             return;
         }
 
-        iteration cycleLength = OWJuliaFindCycleLength(orbit, context->n, context->delta);
+        iteration cycleLength = OWJuliaFindCycleLength(orbit, result.n, context->delta);
         if (cycleLength == OWJuliaNoCycle) {
             fprintf(stderr, "Couldn't determine the cycle length starting from <0, 0, 0, 0>\n");
             return;

@@ -55,10 +55,6 @@ static inline double doubleValue(id object)
         return [object doubleValue];
 }
 
-JuliaContext::JuliaContext() : dist(0)
-{
-}
-
 const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger frameNumber)
 {
     JuliaContext *ctx = new JuliaContext();

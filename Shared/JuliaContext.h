@@ -5,16 +5,15 @@ class map;
 class JuliaContext {
 private:
     // Disallow default constructor and copy
-    JuliaContext();
+    JuliaContext() {};
     JuliaContext(const JuliaContext &);
 
 public:
     const map *m;
     NSUInteger                  tileWidth, tileHeight;
     quaternion                  u;
-    const double                      dist;
     unsigned int                nr, nc;
-    iteration                   n, N;
+    iteration                   N;
     unsigned int                lookbackStart, maxLookback, lookbackFreq;
     double                      epsilon, delta, overflow;
     double                      clippingBubble;

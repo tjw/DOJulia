@@ -4,15 +4,21 @@
 
 #define RADIUS      100000.0
 
-dem_label       juliaLabel(const JuliaContext *context, quaternion *orbit);
-dem_label       juliaLabelWithDistance(const JuliaContext *context, quaternion *orbit);
+typedef struct {
+    dem_label label;
+    iteration n;
+    double dist;
+} julia_result;
+
+julia_result juliaLabel(const JuliaContext *context, quaternion *orbit);
+julia_result juliaLabelWithDistance(const JuliaContext *context, quaternion *orbit);
 
 // These version do not compute distance and are optimized for either rotation
 // or non-rotation case.
-dem_label       juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit);
-dem_label       juliaLabelRotation(const JuliaContext *context, quaternion *orbit);
+julia_result juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit);
+julia_result juliaLabelRotation(const JuliaContext *context, quaternion *orbit);
 
-double          juliaPotential(const JuliaContext *context, quaternion *orbit);
+double juliaPotential(julia_result result, const quaternion *orbit);
 
 static inline double clipToRange(double value, double bottom, double top)
 {
