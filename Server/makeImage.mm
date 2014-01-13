@@ -10,7 +10,7 @@ OmniTimerNode juliaTimer(@"Julia Label Timer", &tileTimer);
 
 #import "types.h"
 #import "line.hxx"
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 #import "julia.h"
 #import "OWJuliaNormalApproximation.h"
 #import "OWJuliaColoringMethods.h"
@@ -82,7 +82,7 @@ static inline void hsiToColor(double h, double s, double i, color_t *c)
 {
     NSColor *result;
 
-#warning This probably could not be any slower
+    // TODO: This probably could not be any slower
     result = [NSColor colorWithCalibratedHue: h saturation: s brightness: i alpha: 1.0];
     c->r = (unsigned char) (255 * [result redComponent]);
     c->g = (unsigned char) (255 * [result greenComponent]);
@@ -106,7 +106,7 @@ static inline BOOL isNegativePlane(const plane_t *plane, const quaternion &point
     return difference.dot(plane->normal) < -PLANE_DEWOOGLY_FACTOR;
 }
 
-static const plane_t *findNegativeClippingPlane(const OWJuliaContext *context, const quaternion &point)
+static const plane_t *findNegativeClippingPlane(const JuliaContext *context, const quaternion &point)
 {
     NSUInteger count = context->numberOfPlanes;
     while (count--) {
@@ -117,6 +117,7 @@ static const plane_t *findNegativeClippingPlane(const OWJuliaContext *context, c
     return NULL;
 }
 
+#if 0
 static BOOL lineIntersectsWithPlane(const plane_t *plane, const line *line, quaternion *intersection)
 {
     double                      mvv, vo, vd;
@@ -130,8 +131,10 @@ static BOOL lineIntersectsWithPlane(const plane_t *plane, const line *line, quat
     *intersection = line->quaternionAtDistance((mvv - vo) / vd);
     return YES;
 }
+#endif
 
-static const plane_t *makePointNonNegative(const OWJuliaContext *context, quaternion *point, const line *line)
+#if 0
+static const plane_t *makePointNonNegative(const JuliaContext *context, quaternion *point, const line *line)
 {
     const plane_t *lastPlaneHit = NULL;
 
@@ -145,6 +148,7 @@ static const plane_t *makePointNonNegative(const OWJuliaContext *context, quater
     }
     return lastPlaneHit;
 }
+#endif
 
 typedef struct {
     BOOL       didHit;       // YES iff the ray hit an object
@@ -153,7 +157,7 @@ typedef struct {
 } rayResult_t;
 
 
-#warning Try this optimization
+// TODO: Try this optimization
 // Should keep a list of unbounding spheres that cover the last ray.  This way, for each step
 // along the ray can first check if we are still in one of the unbounding spheres.  If so,
 // we just step to the far intersection (and then see if we are in the next unbounding sphere).
@@ -164,7 +168,7 @@ typedef struct {
 // process the case in which he have a near pass -- that is, the last *un*bounding sphere puts
 // us outside of the *bounding* spehere.
 
-static void castRay(const OWJuliaContext *context, line ray, quaternion *orbit, rayResult_t *result)
+static void castRay(const JuliaContext *context, line ray, quaternion *orbit, rayResult_t *result)
 {
     dem_label                   label;
 
@@ -172,7 +176,7 @@ static void castRay(const OWJuliaContext *context, line ray, quaternion *orbit, 
      * If we start out on the negative side of any planes, jump up to the
      * intersection of the ray and the plane 
      */
-    const plane_t *plane = makePointNonNegative(context, orbit, &ray);
+//    const plane_t *plane = makePointNonNegative(context, orbit, &ray);
     
     /* step along the ray until we hit a surface or go out of the clipping bubble */
 
@@ -256,7 +260,7 @@ static void castRay(const OWJuliaContext *context, line ray, quaternion *orbit, 
  * evaluated. 
  */
 
-static int setLineDestinationForScreenPoint(const OWJuliaContext *context,
+static int setLineDestinationForScreenPoint(const JuliaContext *context,
                                             line *ray,
                                             double x, double y,
                                             quaternion *orbit)
@@ -292,6 +296,7 @@ typedef struct {
 	    color_t                     color;
 } planeIntersection_t;
 
+#if 0
 static int compareByDistance(const void *a, const void *b)
 {
     const planeIntersection_t *intersection1 = (const planeIntersection_t *)a;
@@ -304,9 +309,9 @@ static int compareByDistance(const void *a, const void *b)
     else
 	return 0;
 }
+#endif
 
-
-static void makeRay(const OWJuliaContext *context,
+static void makeRay(const JuliaContext *context,
                     double xOffset, double yOffset,
                     NSRect tileRect, ImageTile *tile, quaternion *orbit,
                     rayResult_t *result)
@@ -322,6 +327,7 @@ static void makeRay(const OWJuliaContext *context,
         result->intersection = orbit[0];  // dunno if this is useful
     }
 
+    //NSLog(@"Running ray %@", ray.toString());
     castRay(context, ray, orbit, result);
 
 #if 0 // this is the old version ... most of this stuff is disabled for now
@@ -415,7 +421,7 @@ static void makeRay(const OWJuliaContext *context,
 
 //extern int juliaCalls, juliaIterations;
 
-void makeTile(const OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
+void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
 {
     double        xOffset, yOffset;
     rayResult_t *tmp;
@@ -486,7 +492,7 @@ void makeTile(const OWJuliaContext *context, NSRect tileRect, ImageTile *tile, q
             upperLeft  = &topCorners[i];
             upperRight = &topCorners[i+1];
 
-#warning Fix the antialiazing code
+            // TODO: Fix the antialiazing code
             // Should really have several cases for the various combinations of only three points
             // being 'hits'.  In each case, we could provide a better normal approximation.
             // When subdividing, many cases could end at the 3-hits base cases.  We could

@@ -6,6 +6,6 @@ extern "C" {
 #import "ImageTile.h"
 
 class quaternion;
-@class OWJuliaContext;
+class JuliaContext;
 
-void makeTile(const OWJuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit);
+void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit);

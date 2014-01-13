@@ -5,7 +5,7 @@ extern "C" {
 }
 
 #import "utilities.h"
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 #import "Tile.h"
 #import "map.h"
 
@@ -28,7 +28,7 @@ extern "C" {
 
     _frameNumber = frameNumber;
 
-    _context = [[OWJuliaContext alloc] initWithDictionary:configuration frameNumber:frameNumber];
+    _context = JuliaContext::makeContext(configuration, frameNumber);
 
 #if 0
     tif = TIFFOpen([context->filename cString], "w");
@@ -84,6 +84,12 @@ extern "C" {
     _tilesToDo = [_tilesToDo randomizedArray];
 
     return self;
+}
+
+- (void)dealloc;
+{
+    if (_context)
+        delete _context;
 }
 
 @synthesize tilesToDo = _tilesToDo;

@@ -1,11 +1,11 @@
 #import "Tile.h"
 
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 #import "OWEncoding.h"
 
 @implementation Tile
 
-- initWithBounds:(NSRect)bounds context:(OWJuliaContext *)context;
+- initWithBounds:(NSRect)bounds context:(const JuliaContext *)context;
 {
     if (!(self = [super init]))
         return nil;

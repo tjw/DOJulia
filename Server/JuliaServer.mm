@@ -3,7 +3,7 @@ extern "C" {
 }
 
 #import "Tile.h"
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 
 #import "JuliaServer.h"
 #import "makeImage.h"
@@ -50,7 +50,7 @@ extern "C" {
             
             if (!aTile)
                 return;
-            const OWJuliaContext *context = [aTile context];
+            const JuliaContext *context = [aTile context];
             if (!context)
                 return;
                         

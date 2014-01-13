@@ -25,7 +25,7 @@
 		346213741883237200A4AB31 /* template.julia in Resources */ = {isa = PBXBuildFile; fileRef = 346213671883237200A4AB31 /* template.julia */; };
 		346213881883249F00A4AB31 /* julia.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213781883249F00A4AB31 /* julia.mm */; };
 		3462138A1883249F00A4AB31 /* OWJuliaColoringMethods.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */; };
-		3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213811883249F00A4AB31 /* OWJuliaContext.mm */; };
+		3462138B1883249F00A4AB31 /* JuliaContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213811883249F00A4AB31 /* JuliaContext.mm */; };
 		3462138C1883249F00A4AB31 /* OWJuliaNormalApproximation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */; };
 		3462138D1883249F00A4AB31 /* Tile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213861883249F00A4AB31 /* Tile.mm */; };
 		346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34621390188327CC00A4AB31 /* bezierPatch.cpp */; };
@@ -49,7 +49,7 @@
 		3462132A1883231700A4AB31 /* Julia-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Julia-Prefix.pch"; sourceTree = "<group>"; };
 		3462132C1883231700A4AB31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		3462132E1883231700A4AB31 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		3462132F1883231700A4AB31 /* Document.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Document.mm; sourceTree = "<group>"; };
+		3462132F1883231700A4AB31 /* Document.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = Document.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		346213321883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
 		346213351883231700A4AB31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		346213371883231700A4AB31 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -57,8 +57,8 @@
 		346213541883237200A4AB31 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		346213561883237200A4AB31 /* DOJuliaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOJuliaController.h; sourceTree = "<group>"; };
 		346213571883237200A4AB31 /* DOJuliaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOJuliaController.m; sourceTree = "<group>"; };
-		3462135A1883237200A4AB31 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		3462135B1883237200A4AB31 /* Frame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Frame.mm; sourceTree = "<group>"; };
+		3462135A1883237200A4AB31 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Frame.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3462135B1883237200A4AB31 /* Frame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = Frame.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3462135D1883237200A4AB31 /* JuliaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaClient.h; sourceTree = "<group>"; };
 		3462135E1883237200A4AB31 /* JuliaClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JuliaClient.mm; sourceTree = "<group>"; };
 		3462135F1883237200A4AB31 /* NSArrayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayExtensions.h; sourceTree = "<group>"; };
@@ -67,15 +67,15 @@
 		346213621883237200A4AB31 /* TiledImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImageView.h; sourceTree = "<group>"; };
 		346213631883237200A4AB31 /* TiledImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TiledImageView.mm; sourceTree = "<group>"; };
 		346213671883237200A4AB31 /* template.julia */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.julia; sourceTree = "<group>"; };
-		346213771883249F00A4AB31 /* julia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = julia.h; sourceTree = "<group>"; };
-		346213781883249F00A4AB31 /* julia.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = julia.mm; sourceTree = "<group>"; };
+		346213771883249F00A4AB31 /* julia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = julia.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		346213781883249F00A4AB31 /* julia.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = julia.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		346213791883249F00A4AB31 /* line.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = line.hxx; sourceTree = "<group>"; };
 		3462137A1883249F00A4AB31 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
 		3462137D1883249F00A4AB31 /* OWEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWEncoding.h; sourceTree = "<group>"; };
 		3462137E1883249F00A4AB31 /* OWJuliaColoringMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaColoringMethods.h; sourceTree = "<group>"; };
 		3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaColoringMethods.mm; sourceTree = "<group>"; };
-		346213801883249F00A4AB31 /* OWJuliaContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaContext.h; sourceTree = "<group>"; };
-		346213811883249F00A4AB31 /* OWJuliaContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaContext.mm; sourceTree = "<group>"; };
+		346213801883249F00A4AB31 /* JuliaContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaContext.h; sourceTree = "<group>"; };
+		346213811883249F00A4AB31 /* JuliaContext.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JuliaContext.mm; sourceTree = "<group>"; };
 		346213821883249F00A4AB31 /* OWJuliaNormalApproximation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWJuliaNormalApproximation.h; sourceTree = "<group>"; };
 		346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OWJuliaNormalApproximation.mm; sourceTree = "<group>"; };
 		346213841883249F00A4AB31 /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
@@ -212,8 +212,8 @@
 				3462137D1883249F00A4AB31 /* OWEncoding.h */,
 				3462137E1883249F00A4AB31 /* OWJuliaColoringMethods.h */,
 				3462137F1883249F00A4AB31 /* OWJuliaColoringMethods.mm */,
-				346213801883249F00A4AB31 /* OWJuliaContext.h */,
-				346213811883249F00A4AB31 /* OWJuliaContext.mm */,
+				346213801883249F00A4AB31 /* JuliaContext.h */,
+				346213811883249F00A4AB31 /* JuliaContext.mm */,
 				346213821883249F00A4AB31 /* OWJuliaNormalApproximation.h */,
 				346213831883249F00A4AB31 /* OWJuliaNormalApproximation.mm */,
 				346213841883249F00A4AB31 /* Protocols.h */,
@@ -342,7 +342,7 @@
 				346213701883237200A4AB31 /* TiledImageView.mm in Sources */,
 				3462136B1883237200A4AB31 /* Frame.mm in Sources */,
 				3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */,
-				3462138B1883249F00A4AB31 /* OWJuliaContext.mm in Sources */,
+				3462138B1883249F00A4AB31 /* JuliaContext.mm in Sources */,
 				346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */,
 				346213881883249F00A4AB31 /* julia.mm in Sources */,
 				346213A6188327CC00A4AB31 /* zbuffer.cpp in Sources */,

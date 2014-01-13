@@ -1,4 +1,4 @@
 #import "types.h"
 
-double OWJuliaNormalDotApproximation(OWJuliaContext *context, quaternion *orbit);
+double OWJuliaNormalDotApproximation(JuliaContext *context, quaternion *orbit);
 

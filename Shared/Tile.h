@@ -4,14 +4,14 @@ extern "C" {
 
 #import "types.h"
 
-@class OWJuliaContext;
+class JuliaContext;
 
 @interface Tile : NSObject <NSCoding>
 
-- initWithBounds:(NSRect)bounds context:(OWJuliaContext *)context;
+- initWithBounds:(NSRect)bounds context:(const JuliaContext *)context;
 
 @property(nonatomic,readonly) NSRect bounds;
-@property(nonatomic,readonly) OWJuliaContext *context;
+@property(nonatomic,readonly) const JuliaContext *context;
 
 //- (void) setTileNum: (ttile_t) num;
 //- (ttile_t) tileNum;

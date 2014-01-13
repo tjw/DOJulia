@@ -1,4 +1,4 @@
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 #import "types.h"
 
 #import "matrix.hxx"

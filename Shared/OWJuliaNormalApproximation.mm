@@ -4,7 +4,7 @@
 #import "OWJuliaNormalApproximation.h"
 #import "map.h"
 
-double OWJuliaNormalDotApproximation(OWJuliaContext *context, quaternion *orbit)
+double OWJuliaNormalDotApproximation(JuliaContext *context, quaternion *orbit)
 {
     int i;
     double d[3], plusE, minusE;

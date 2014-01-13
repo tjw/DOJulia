@@ -236,4 +236,10 @@ public:
         {
             fprintf(stderr, "%s <%f, %f, %f, %f>\n", s, r, i, j, k);
         }
+    
+    inline NSString *toString(void) const
+    {
+        return [NSString stringWithFormat:@"<%f, %f, %f, %f>", r, i, j, k];
+    }
+
 };

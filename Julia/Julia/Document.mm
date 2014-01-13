@@ -16,7 +16,7 @@ extern "C" {
 #import "TiledImageView.h"
 }
 
-#import "OWJuliaContext.h"
+#import "JuliaContext.h"
 #import "Tile.h"
 
 @interface Document () <JuliaClientDelegate>
@@ -132,7 +132,7 @@ extern "C" {
 	aFrame = [[client frames] objectAtIndex: 0];
     assert(aFrame);
     
-    OWJuliaContext *context = [aFrame context];
+    const JuliaContext *context = [aFrame context];
     [_tiledImageView setTilesHigh:[aFrame tilesHigh] tileHeight:context->tileHeight tilesWide:[aFrame tilesWide] tileWidth:context->tileWidth];
 }
 

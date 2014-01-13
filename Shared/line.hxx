@@ -26,4 +26,9 @@ public:
     {
         return origin + direction * dist;
     }
+    
+    inline NSString *toString(void) const
+    {
+        return [NSString stringWithFormat:@"%@ -> %@", origin.toString(), direction.toString()];
+    }
 };

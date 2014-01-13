@@ -1,6 +1,7 @@
 #import <Foundation/NSObject.h>
 
-@class Tile, OWJuliaContext;
+@class Tile;
+class JuliaContext;
 
 @interface Frame : NSObject
 
@@ -8,7 +9,7 @@
 
 - initWithConfiguration:(NSDictionary *)configuration frameNumber:(NSUInteger)frameNumber;
 
-@property(nonatomic,readonly) OWJuliaContext *context;
+@property(nonatomic,readonly) const JuliaContext *context;
 @property(nonatomic,readonly) NSUInteger frameNumber;
 @property(nonatomic,readonly) NSUInteger tilesWide;
 @property(nonatomic,readonly) NSUInteger tilesHigh;

@@ -1,19 +1,18 @@
-extern "C" {
-#import <Foundation/NSObject.h>
-}
 
 #import "types.h"
 
 class map;
-@class NSString, NSDictionary;
+class JuliaContext {
+private:
+    // Disallow default constructor and copy
+    JuliaContext();
+    JuliaContext(const JuliaContext &);
 
-@interface OWJuliaContext : NSObject
-{
-@public
+public:
     const map *m;
     NSUInteger                  tileWidth, tileHeight;
     quaternion                  u;
-    double                      dist;
+    const double                      dist;
     unsigned int                nr, nc;
     iteration                   n, N;
     unsigned int                lookbackStart, maxLookback, lookbackFreq;
@@ -38,9 +37,7 @@ class map;
     NSUInteger                maxCycleColor;
     const color_t                    *cycleColors;
     unsigned int                colorByBasin;
-}
-
-- initWithDictionary:(NSDictionary *)aDictionary frameNumber:(NSUInteger)aFrameNumber;
-
-@end
-
+    
+    static const JuliaContext *makeContext(NSDictionary *dict, NSUInteger frameNumber);
+    ~JuliaContext();
+};
