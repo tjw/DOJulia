@@ -19,7 +19,7 @@ extern "C" {
 #import "JuliaContext.h"
 #import "Tile.h"
 
-@interface Document () <JuliaClientDelegate>
+@interface Document () <JuliaClientDelegate, TiledImageViewDelegate>
 @property(nonatomic,strong) IBOutlet TiledImageView *tiledImageView;
 @end
 
@@ -78,6 +78,13 @@ extern "C" {
                             y:(NSUInteger)(rect.origin.y / [_tiledImageView tileHeight])];
 }
 
+#pragma mark - TiledImageViewDelegate
+
+- (void)tiledImageView:(TiledImageView *)imageView didSelectRect:(CGRect)rect;
+{
+    NSLog(@"did select rect %@", NSStringFromRect(rect));
+}
+
 #pragma mark - NSDocument subclass
 
 - (NSString *)windowNibName
@@ -91,6 +98,9 @@ extern "C" {
 {
     // TODO: Move this into a window controller subclass
     [super windowControllerDidLoadNib:windowController];
+    
+    _tiledImageView.delegate = self;
+    
     [self _updateImageView];
 }
 

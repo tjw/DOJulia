@@ -1,5 +1,9 @@
 extern "C" {
 #import <Foundation/Foundation.h>
+#import <OmniAppKit/OATrackingLoop.h>
+#import <OmniFoundation/OFGeometry.h>
+#import <OmniBase/OBUtilities.h>
+
 #import "TiledImageView.h"
 }
 
@@ -7,15 +11,46 @@ extern "C" {
 
 #define IMAGE_VIEW_AT(x,y)  (_imageViews[(y) * _tilesWide + (x)])
 
+@interface SelectionView : NSView
+@end
+
+@implementation SelectionView
+
+- (BOOL)wantsUpdateLayer;
+{
+    return YES;
+}
+
+- (void)updateLayer;
+{
+    self.layer.borderColor = [[NSColor redColor] CGColor];
+    self.layer.borderWidth = 1;
+    self.layer.zPosition = 1;
+}
+
+@end
+
 @interface TileImageView : NSImageView
 @property(nonatomic) NSUInteger tileX;
 @property(nonatomic) NSUInteger tileY;
 @end
 @implementation TileImageView
+
+- (NSView *)hitTest:(NSPoint)aPoint;
+{
+    return nil;
+}
+- (BOOL)mouse:(NSPoint)aPoint inRect:(NSRect)aRect;
+{
+    return NO;
+}
+
 @end
 
 @implementation TiledImageView
 {
+    SelectionView *_selectionView;
+    
     NSUInteger _tilesWide;
     NSUInteger _tileWidth;
     
@@ -69,7 +104,7 @@ extern "C" {
     _imageViews = [imageViews copy];
 
     [self invalidateIntrinsicContentSize];
-    [self setNeedsLayout:YES];
+//    [self setNeedsLayout:YES];
 }
 
 - (void)setImage:(__unsafe_unretained NSImage *)image atX:(NSUInteger)tileX y:(NSUInteger)tileY;
@@ -91,6 +126,12 @@ extern "C" {
 #endif
 }
 
+- (void)clearSelection;
+{
+    [_selectionView removeFromSuperview];
+    _selectionView = nil;
+}
+
 #pragma mark - NSView subclass
 
 - (BOOL)isFlipped;
@@ -105,8 +146,6 @@ extern "C" {
 
 - (void)layout;
 {
-    [super layout];
-    
     for (TileImageView *imageView in _imageViews) {
         NSUInteger tileX = imageView.tileX;
         NSUInteger tileY = imageView.tileY;
@@ -114,6 +153,35 @@ extern "C" {
         CGRect tileFrame = CGRectMake(tileX * _tileWidth, tileY * _tileHeight, _tileWidth, _tileHeight);
         imageView.frame = tileFrame;
     }
+    
+    [super layout];
+}
+
+#pragma mark - NSResponder
+
+- (void)mouseDown:(NSEvent *)theEvent;
+{
+    OATrackingLoop *loop = [self trackingLoopForMouseDown:theEvent];
+    __weak OATrackingLoop *weakLoop = loop;
+    
+    if (!_selectionView) {
+        CGPoint pt = loop.initialMouseDownPointInView;
+        _selectionView = [[SelectionView alloc] initWithFrame:CGRectMake(pt.x, pt.y, 1, 1)];
+        [self addSubview:_selectionView positioned:NSWindowBelow relativeTo:nil];
+    }
+    
+    loop.dragged = ^{
+        OATrackingLoop *strongLoop = weakLoop;
+        _selectionView.frame = OFRectFromPoints(strongLoop.initialMouseDownPointInView, strongLoop.currentMouseDraggedPointInView);
+    };
+
+    loop.up = ^{
+        id <TiledImageViewDelegate> delegate = self.delegate;
+        if ([delegate respondsToSelector:@selector(tiledImageView:didSelectRect:)])
+            [delegate tiledImageView:self didSelectRect:_selectionView.frame];
+    };
+    
+    [loop run];
 }
 
 @end
