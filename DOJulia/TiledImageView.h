@@ -11,7 +11,7 @@
 @property(nonatomic,readonly) NSUInteger tileWidth;
 @property(nonatomic,readonly) NSUInteger tileHeight;
 
-- (void)setImage:(__unsafe_unretained NSImage *)image atX:(NSUInteger)tileX y:(NSUInteger)tileY;
+- (void)setImage:(NSImage *)image atX:(NSUInteger)tileX y:(NSUInteger)tileY;
 - (NSImage *)tileAtX:(NSUInteger)x y:(NSUInteger)y;
 
 @end

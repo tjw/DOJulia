@@ -5,98 +5,80 @@ extern "C" {
 
 #import "utilities.h"
 
-#define IMAGE_AT(x,y)  (_images[(y) * _tilesWide + (x)])
+#define IMAGE_VIEW_AT(x,y)  (_imageViews[(y) * _tilesWide + (x)])
+
+@interface TileImageView : NSImageView
+@property(nonatomic) NSUInteger tileX;
+@property(nonatomic) NSUInteger tileY;
+@end
+@implementation TileImageView
+@end
 
 @implementation TiledImageView
 {
-    NSUInteger                _tilesWide;
-    NSUInteger                _tileWidth;
-    NSUInteger                _tilesHigh;
-    NSUInteger                _tileHeight;
-    __unsafe_unretained NSImage **_images;
-    NSImage                    *_nullImage;
+    NSUInteger _tilesWide;
+    NSUInteger _tileWidth;
+    
+    NSUInteger _tilesHigh;
+    NSUInteger _tileHeight;
+    
+    NSArray *_imageViews;
+    NSImage *_nullImage;
 }
 
-+ (NSImage *) nullImageTemplate;
++ (NSImage *)nullImageTemplate;
 {
-    static NSImage             *nullImageTemplate = nil;
-
+    static NSImage *nullImageTemplate = nil;
+    
     if (!nullImageTemplate)
 	nullImageTemplate = [NSImage imageNamed:@"NullImage"];
     return nullImageTemplate;
 }
 
-- (void)drawRect:(NSRect)rect;
-{
-    if (!_images)
-        return;
-
-    NSRect realRect = OGMSnapRect(rect, _tileWidth, _tileHeight);
-
-    NSUInteger startX = realRect.origin.x / _tileWidth;
-    NSUInteger startY = realRect.origin.y / _tileHeight;
-    NSUInteger xCount = realRect.size.width / _tileWidth;
-    NSUInteger yCount = realRect.size.height / _tileWidth;
-
-    for (NSUInteger x = startX; x < startX + xCount; x++) {
-        for (NSUInteger y = startY; y < startY + yCount; y++) {
-	    __unsafe_unretained NSImage *image = IMAGE_AT(x, y);
-            NSPoint point;
-	    point.x = x * _tileWidth;
-	    point.y = (_tilesHigh - y - 1) * _tileHeight;
-            [image drawAtPoint:point fromRect:CGRectMake(0, 0, _tileWidth, _tileHeight) operation:NSCompositeCopy fraction:1];
-	}
-    }
-}
-
-- (CGSize)intrinsicContentSize;
-{
-    return CGSizeMake(_tileWidth * _tilesWide, _tileHeight * _tilesHigh);
-}
-
 - (void)setTilesHigh:(NSUInteger)aHeight tileHeight:(NSUInteger)aTileHeight
            tilesWide:(NSUInteger)aWidth tileWidth:(NSUInteger)aTileWidth;
 {
-    if (_images && aHeight && aWidth) {
+    if (_imageViews && aHeight && aWidth) {
 	NSLog(@"Cannot set number of tiles on instance with images loaded");
 	return;
     } else if (!aHeight && !aWidth) {
-	NSLog(@"Not releasing images");
-	free(_images);
+        for (TileImageView *imageView in _imageViews)
+            [imageView removeFromSuperview];
+        _imageViews = nil;
     }
+    
     _tilesHigh = aHeight;
     _tilesWide = aHeight;
-    _images = (__unsafe_unretained NSImage **)calloc(sizeof(NSImage *), aHeight * aWidth);
-
     _tileWidth = aTileWidth;
     _tileHeight = aTileHeight;
 
     _nullImage = [[[self class] nullImageTemplate] copy];
     [_nullImage setSize:NSMakeSize(_tileWidth, _tileHeight)];
-
-    for (NSUInteger x = 0; x < _tilesWide; x++)
-	for (NSUInteger y = 0; y < _tilesHigh; y++)
-	    [self setImage:_nullImage atX:x y:y];
+    
+    NSMutableArray *imageViews = [NSMutableArray array];
+    for (NSUInteger y = 0; y < _tilesHigh; y++) {
+        for (NSUInteger x = 0; x < _tilesWide; x++) {
+            TileImageView *imageView = [[TileImageView alloc] initWithFrame:CGRectMake(0, 0, _tileWidth, _tileHeight)];
+            imageView.tileX = x;
+            imageView.tileY = y;
+            imageView.image = _nullImage;
+            [imageViews addObject:imageView];
+            [self addSubview:imageView];
+        }
+    }
+    _imageViews = [imageViews copy];
 
     [self invalidateIntrinsicContentSize];
+    [self setNeedsLayout:YES];
 }
 
 - (void)setImage:(__unsafe_unretained NSImage *)image atX:(NSUInteger)tileX y:(NSUInteger)tileY;
 {
-    if (!_images)
+    if (!_imageViews)
 	return;
     
-    __unsafe_unretained NSImage *oldImage = IMAGE_AT(tileX, tileY);
-    if (oldImage == image)
-        return;
-    
-    if (oldImage)
-        CFRelease((__bridge CFTypeRef)oldImage);
-    if (image)
-        CFRetain((__bridge CFTypeRef)image);
-    IMAGE_AT(tileX, tileY) = image;
-    
-    [self setNeedsDisplay:YES];
+    TileImageView *imageView = IMAGE_VIEW_AT(tileX, tileY);
+    imageView.image = image;
 }
 
 - (NSImage *)tileAtX:(NSUInteger)x y:(NSUInteger)y;
@@ -107,6 +89,31 @@ extern "C" {
 	return nil;
     return IMAGE_AT(x, y);
 #endif
+}
+
+#pragma mark - NSView subclass
+
+- (BOOL)isFlipped;
+{
+    return YES;
+}
+
+- (CGSize)intrinsicContentSize;
+{
+    return CGSizeMake(_tileWidth * _tilesWide, _tileHeight * _tilesHigh);
+}
+
+- (void)layout;
+{
+    [super layout];
+    
+    for (TileImageView *imageView in _imageViews) {
+        NSUInteger tileX = imageView.tileX;
+        NSUInteger tileY = imageView.tileY;
+        
+        CGRect tileFrame = CGRectMake(tileX * _tileWidth, tileY * _tileHeight, _tileWidth, _tileHeight);
+        imageView.frame = tileFrame;
+    }
 }
 
 @end
