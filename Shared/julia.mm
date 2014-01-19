@@ -8,8 +8,8 @@ extern "C" {
 //static julia_result juliaDistanceEstimate(const JuliaContext *context, quaternion *orbit);
 
 // optimization attempt declarsions
-//static julia_result juliaLabelNoRotationOpt1(const JuliaContext *context, quaternion *orbit);
-//static julia_result juliaLabelNoRotationOpt2(const JuliaContext *context, quaternion *orbit);
+//static dem_label juliaLabelNoRotationOpt1(const JuliaContext *context, const quaternion *orbit);
+//static dem_label juliaLabelNoRotationOpt2(const JuliaContext *context, const quaternion *orbit);
 static julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *orbit);
 
 //int juliaCalls      = 0;
@@ -147,7 +147,7 @@ julia_result juliaLabelNoRotation(const JuliaContext *context, quaternion *orbit
 
 #ifndef JUST_NO_ROTATION
 
-double juliaPotential(julia_result result, quaternion *orbit)
+double juliaPotential(julia_result result, const quaternion *orbit)
 {
   double a = sqrt(orbit[result.n-1].magnitudeSquared());
   return a / pow(2.0, (float)(result.n-1));
@@ -163,7 +163,8 @@ double juliaPotential(julia_result result, quaternion *orbit)
 
 // This version just inlines the C++ operators naively
 // This version takes about 81% of the execution time.
-dem_label juliaLabelNoRotationOpt1(JuliaContext *context, quaternion *orbit)
+#if 0
+dem_label juliaLabelNoRotationOpt1(const JuliaContext *context, const quaternion *orbit)
 {
     abort();
 #if 0
@@ -221,10 +222,12 @@ dem_label juliaLabelNoRotationOpt1(JuliaContext *context, quaternion *orbit)
     return IN_SET;
 #endif
 }
+#endif
 
 // This version does some CSE on the above
 // Runs at ~80%
-dem_label juliaLabelNoRotationOpt2(JuliaContext *context, quaternion *orbit)
+#if 0
+dem_label juliaLabelNoRotationOpt2(const JuliaContext *context, const quaternion *orbit)
 {
     abort();
 #if 0
@@ -277,6 +280,7 @@ dem_label juliaLabelNoRotationOpt2(JuliaContext *context, quaternion *orbit)
     return IN_SET;
 #endif
 }
+#endif
 
 // This version attempts to order the operations better for the pipeline
 // w/o reverting to assembly
