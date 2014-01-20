@@ -430,10 +430,6 @@ static void makeRay(const JuliaContext *context,
 
 void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, quaternion *orbit)
 {
-    double        xOffset, yOffset;
-    rayResult_t *tmp;
-    unsigned int  i, j;
-
     const map *m = context->m;
     
 #ifdef TIMER
@@ -466,32 +462,32 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
 #endif
 
     /* For a N wide tile, we'll need N+1 samples */
-    rayResult_t *bottomCorners = (rayResult_t *)malloc(sizeof(*bottomCorners) * (unsigned int)(tileRect.size.width + 1));
-    rayResult_t *topCorners  = (rayResult_t *)malloc(sizeof(*topCorners) * (unsigned int)(tileRect.size.width + 1));
+    rayResult_t *bottomCorners = (rayResult_t *)calloc(sizeof(*bottomCorners), (size_t)(tileRect.size.width + 1));
+    rayResult_t *topCorners  = (rayResult_t *)calloc(sizeof(*topCorners), (size_t)(tileRect.size.width + 1));
 
     /* Fill out the first row */
-    yOffset = -0.5;
-    xOffset = -0.5;
-    for (i = 0; i <= tileRect.size.width; i++) {
+    double yOffset = -0.5;
+    double xOffset = -0.5;
+    for (NSUInteger i = 0; i <= tileRect.size.width; i++) {
         makeRay(context, xOffset, yOffset, tileRect, tile, orbit, &bottomCorners[i]);
         xOffset += 1.0;
     }
 
     /* Now, fill out each successive row, swapping the bottomCorners and topCorners on each row. */
-    for (j = 0; j < tileRect.size.height; j++) {
+    for (NSUInteger j = 0; j < tileRect.size.height; j++) {
         // Setup the starting offset for this row
         yOffset =  0.5 + j;
         xOffset = -0.5;
 
         // Compute the colors of the corners on the top of this row
-        for (i = 0; i <= tileRect.size.width; i++) {
+        for (NSUInteger i = 0; i <= tileRect.size.width; i++) {
             makeRay(context, xOffset, yOffset, tileRect, tile, orbit, &topCorners[i]);
             xOffset += 1.0;
         }
 
         // Now that we have all of the corners for this row, average the corner values
         // and fill in the pixels;
-        for (i = 0; i < tileRect.size.width; i++) {
+        for (NSUInteger i = 0; i < tileRect.size.width; i++) {
             rayResult_t *lowerLeft, *lowerRight, *upperLeft, *upperRight;
             color_t *pixel = tilePixel(tile, i, j);
             
@@ -552,7 +548,7 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         }
 
         // The top now becomes the bottom and the bottom can be used for the next top.
-        tmp = topCorners;
+        rayResult_t *tmp = topCorners;
         topCorners = bottomCorners;
         bottomCorners = tmp;
 
