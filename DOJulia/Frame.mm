@@ -1,5 +1,4 @@
 extern "C" {
-#import "NSArrayExtensions.h"
 #import "Frame.h"
 }
 
@@ -57,8 +56,6 @@ extern "C" {
 	    [_tilesToDo addObject:tile];
 	}
     }
-
-    _tilesToDo = [_tilesToDo randomizedArray];
 
     return self;
 }

@@ -18,7 +18,6 @@
 		346213381883231700A4AB31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346213371883231700A4AB31 /* Images.xcassets */; };
 		3462136B1883237200A4AB31 /* Frame.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135B1883237200A4AB31 /* Frame.mm */; };
 		3462136D1883237200A4AB31 /* JuliaClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3462135E1883237200A4AB31 /* JuliaClient.mm */; };
-		3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346213601883237200A4AB31 /* NSArrayExtensions.m */; };
 		3462136F1883237200A4AB31 /* NullImage.eps in Resources */ = {isa = PBXBuildFile; fileRef = 346213611883237200A4AB31 /* NullImage.eps */; };
 		346213701883237200A4AB31 /* TiledImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213631883237200A4AB31 /* TiledImageView.mm */; };
 		346213741883237200A4AB31 /* template.julia in Resources */ = {isa = PBXBuildFile; fileRef = 346213671883237200A4AB31 /* template.julia */; };
@@ -231,8 +230,6 @@
 		3462135B1883237200A4AB31 /* Frame.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = Frame.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3462135D1883237200A4AB31 /* JuliaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuliaClient.h; sourceTree = "<group>"; };
 		3462135E1883237200A4AB31 /* JuliaClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JuliaClient.mm; sourceTree = "<group>"; };
-		3462135F1883237200A4AB31 /* NSArrayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayExtensions.h; sourceTree = "<group>"; };
-		346213601883237200A4AB31 /* NSArrayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayExtensions.m; sourceTree = "<group>"; };
 		346213611883237200A4AB31 /* NullImage.eps */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NullImage.eps; sourceTree = "<group>"; };
 		346213621883237200A4AB31 /* TiledImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledImageView.h; sourceTree = "<group>"; };
 		346213631883237200A4AB31 /* TiledImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TiledImageView.mm; sourceTree = "<group>"; };
@@ -389,6 +386,7 @@
 		346213231883231700A4AB31 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				346213341883231700A4AB31 /* MainMenu.xib */,
 				346213371883231700A4AB31 /* Images.xcassets */,
 				346213241883231700A4AB31 /* Julia-Info.plist */,
 				346213251883231700A4AB31 /* InfoPlist.strings */,
@@ -403,20 +401,17 @@
 		346213531883237200A4AB31 /* DOJulia */ = {
 			isa = PBXGroup;
 			children = (
-				3462135A1883237200A4AB31 /* Frame.h */,
-				3462135B1883237200A4AB31 /* Frame.mm */,
+				3462132E1883231700A4AB31 /* Document.h */,
+				3462132F1883231700A4AB31 /* Document.mm */,
 				3462135D1883237200A4AB31 /* JuliaClient.h */,
 				3462135E1883237200A4AB31 /* JuliaClient.mm */,
-				3462135F1883237200A4AB31 /* NSArrayExtensions.h */,
-				346213601883237200A4AB31 /* NSArrayExtensions.m */,
+				3462135A1883237200A4AB31 /* Frame.h */,
+				3462135B1883237200A4AB31 /* Frame.mm */,
 				346213611883237200A4AB31 /* NullImage.eps */,
 				346213621883237200A4AB31 /* TiledImageView.h */,
 				346213631883237200A4AB31 /* TiledImageView.mm */,
 				346213671883237200A4AB31 /* template.julia */,
-				3462132E1883231700A4AB31 /* Document.h */,
-				3462132F1883231700A4AB31 /* Document.mm */,
 				346213311883231700A4AB31 /* Document.xib */,
-				346213341883231700A4AB31 /* MainMenu.xib */,
 				346213231883231700A4AB31 /* Supporting Files */,
 			);
 			name = DOJulia;
@@ -844,7 +839,6 @@
 				346213291883231700A4AB31 /* main.m in Sources */,
 				346213701883237200A4AB31 /* TiledImageView.mm in Sources */,
 				3462136B1883237200A4AB31 /* Frame.mm in Sources */,
-				3462136E1883237200A4AB31 /* NSArrayExtensions.m in Sources */,
 				3462138B1883249F00A4AB31 /* JuliaContext.mm in Sources */,
 				346213A0188327CC00A4AB31 /* bezierPatch.cpp in Sources */,
 				346213881883249F00A4AB31 /* julia.mm in Sources */,
@@ -887,7 +881,6 @@
 				346213351883231700A4AB31 /* Base */,
 			);
 			name = MainMenu.xib;
-			path = ../Julia/Julia;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
