@@ -30,9 +30,9 @@ static const color_t red    = {255, 0, 0, 255};
 
 //static unsigned int basinMissCount = 0;  // number of times the basin couldn't be determined
 
-static inline double ipow(double x, unsigned int i)
+static inline double ipow(double x, unsigned long i)
 {
-    double                      result = x;
+    double result = x;
 
     if (!i)
 	return 1.0;

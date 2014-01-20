@@ -10,32 +10,30 @@ private:
 
 public:
     const map *m;
-    NSUInteger                  tileWidth, tileHeight;
-    quaternion                  u;
-    unsigned int                nr, nc;
-    iteration                   N;
-    unsigned int                lookbackStart, maxLookback, lookbackFreq;
-    double                      epsilon, delta, overflow;
-    double                      clippingBubble;
-    color_t                     background;
+    NSUInteger tileWidth, tileHeight;
+    quaternion u;
+    NSUInteger nr, nc;
+    iteration N;
+    NSUInteger lookbackStart, maxLookback, lookbackFreq;
+    double epsilon, delta, overflow;
+    double clippingBubble;
+    color_t background;
 
-    unsigned int                maxAntialiasingDepth;
-    double                      antialiasCutoff;
+    NSUInteger maxAntialiasingDepth;
+    double antialiasCutoff;
 
-    unsigned int                exteriorColorTightness;
+    NSUInteger exteriorColorTightness;
 
-    NSUInteger                numberOfPlanes;
-    const plane_t                    *planes;
+    NSUInteger numberOfPlanes;
+    const plane_t *planes;
 
-    const NSString                   *filename;
+    double rotation;	/* in complex plane */
+    double crot, srot;
+    double cnrot, snrot;
 
-    double                      rotation;	/* in complex plane */
-    double                      crot, srot;
-    double                      cnrot, snrot;
-
-    NSUInteger                maxCycleColor;
-    const color_t                    *cycleColors;
-    unsigned int                colorByBasin;
+    NSUInteger maxCycleColor;
+    const color_t *cycleColors;
+    bool colorByBasin;
     
     static const JuliaContext *makeContext(NSDictionary *dict, NSUInteger frameNumber);
     ~JuliaContext();

@@ -3,7 +3,7 @@
 const map *map::makeMap(vector eye, double focusLength, double fov,
                         double rx, double ry, double rz, double scale,
                         double radius,
-                        unsigned int portWidth, unsigned int portHeight)
+                        NSUInteger portWidth, NSUInteger portHeight)
 {
     map *m = new map();
     

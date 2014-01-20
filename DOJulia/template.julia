@@ -64,7 +64,7 @@
 
 
 	exteriorColorTightness = 16;
-//	colorByBasin = 1;
+//	colorByBasin = YES;
 	cycleColors  = 3;
 
 	clippingPlanes = (

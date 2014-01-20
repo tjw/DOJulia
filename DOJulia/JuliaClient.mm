@@ -10,7 +10,7 @@ extern "C" {
 
 @implementation JuliaClient
 {
-    NSMutableDictionary *_configuration;
+    NSDictionary *_configuration;
     NSString *_filenameFormat;
     NSUInteger _stepCount;
     quaternion _startR, _stepR;
@@ -79,10 +79,6 @@ extern "C" {
 
     for (NSUInteger stepIndex = 0; stepIndex < _stepCount; stepIndex++) {
 	NSMutableDictionary *dict = [_configuration mutableCopy];
-
-	/* setup the filename for this frame */
-	NSString *filename = [NSString stringWithFormat:_filenameFormat, stepIndex + 1];
-	[dict setObject:filename forKey:@"filename"];
 
 	/* setup the orientation for this frame */
         quaternion R = _startR + _stepR * stepIndex;

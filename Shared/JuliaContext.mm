@@ -122,7 +122,7 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 
 	ctx->maxCycleColor = 0;
 	color_t *readingColors = NULL;
-	if ((ctx->colorByBasin = [[dict objectForKey:@"colorByBasin"] intValue])) {
+	if ((ctx->colorByBasin = [[dict objectForKey:@"colorByBasin"] boolValue])) {
 	    cycleColorArray = [dict objectForKey:@"cycleColors"];
 	    if ([cycleColorArray isKindOfClass:[NSArray class]]) {
 		if ((ctx->maxCycleColor = [cycleColorArray count])) {
@@ -188,10 +188,6 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 
         ctx->clippingBubble = doubleValue([dict objectForKey:@"clippingBubble"]);
         ctx->clippingBubble *= ctx->clippingBubble;
-
-	ctx->filename = [[dict objectForKey:@"filename"] copy];
-	if (!ctx->filename)
-	    ctx->filename = @"/tmp/julia.tiff";
     }
 
 

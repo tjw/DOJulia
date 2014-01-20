@@ -17,12 +17,12 @@ public:
     double boundingRadius;               /* sphere holding set, in 'units' */
     quaternion eyePoint;
     quaternion lowerLeft;                /* lower left hand corner of screen */
-    unsigned int portWidth, portHeight;  /* in pixels */
+    NSUInteger portWidth, portHeight;  /* in pixels */
     
     static const map *makeMap(vector eye, double focusLength, double fov,
                               double rx, double ry, double rz, double scale,
                               double radius,
-                              unsigned int portWidth, unsigned int portHeight);
+                              NSUInteger portWidth, NSUInteger portHeight);
     inline ~map() {
         
     }
