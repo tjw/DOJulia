@@ -559,8 +559,8 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         //printf("j = %d\n", j);
     }
 
-    NSZoneFree(NSDefaultMallocZone(), topCorners);
-    NSZoneFree(NSDefaultMallocZone(), bottomCorners);
+    free(topCorners);
+    free(bottomCorners);
 
 #ifdef TIMER
     tileTimer.stop();

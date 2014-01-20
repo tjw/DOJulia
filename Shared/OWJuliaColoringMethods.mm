@@ -80,8 +80,8 @@ iteration OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta)
     oDelta *= oDelta;
 
     cycleLen = OWJuliaFindCycleLength(orbit, len, oDelta);
-    if (cycleLen == OWJuliaNoCycle)
-        return cycleLen;
+    if (cycleLen == OWJuliaNoCycle || cycleLen == 0)
+        return OWJuliaNoCycle;
     
 #ifdef PRINT
     if (print) {
@@ -144,8 +144,7 @@ iteration OWJuliaFindCycle(quaternion *orbit, iteration len, double oDelta)
     }
 
     /* return the offset from basinZero as the basin number */
-    iteration ret = (basinZero < i) ? (basinZero - i) :
-      (cycleLen - basinZero + i) % cycleLen;
+    iteration ret = (basinZero < i) ? (basinZero - i) : (cycleLen - basinZero + i) % cycleLen;
 #ifdef PRINT
     if (print) {
         printf("len:%ld first:%ld basin:%ld zero:%ld offset:%lu\n",
