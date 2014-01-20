@@ -1,7 +1,6 @@
 extern "C" {
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import "config.h"
 #import "JuliaClient.h"
 #import "Frame.h"
 }
@@ -11,19 +10,16 @@ extern "C" {
 
 @implementation JuliaClient
 {
-    NSMutableDictionary        *configuration;
-    NSString                   *filenameFormat;
-    unsigned int                stepCount;
-    double                      startRr, startRi, startRj, startRk;
-    double                      stepRr, stepRi, stepRj, stepRk;
+    NSMutableDictionary *_configuration;
+    NSString *_filenameFormat;
+    NSUInteger _stepCount;
+    quaternion _startR, _stepR;
     
     JuliaServer *_server;
     NSUInteger _tilesCompleted;
     
-    NSMutableArray             *tiles;
-    NSMutableArray             *frames;
-    
-    id <JuliaClientDelegate> delegate;
+    NSMutableArray *_tiles;
+    NSMutableArray *_frames;
 }
 
 - init
@@ -36,15 +32,12 @@ extern "C" {
     return self;
 }
 
-- (void)setDelegate:(id <JuliaClientDelegate>)aDelegate;
-{
-    delegate = aDelegate;
-}
+@synthesize delegate = _weak_delegate;
 
-- (NSArray *) frames;
+- (NSArray *)frames;
 {
     [self _setupFrames];
-    return frames;
+    return _frames;
 }
 
 - (BOOL)readConfigurationFromFileURL:(NSURL *)fileURL error:(NSError **)outError;
@@ -53,72 +46,65 @@ extern "C" {
     if (!configurationData)
         return NO;
     
-    configuration = [NSPropertyListSerialization propertyListWithData:configurationData options:NSPropertyListMutableContainersAndLeaves format:NULL error:outError];
-    if (!configuration)
+    _configuration = [NSPropertyListSerialization propertyListWithData:configurationData options:NSPropertyListMutableContainersAndLeaves format:NULL error:outError];
+    if (!_configuration)
         return NO;
     
-    filenameFormat = [configuration objectForKey:@"filenameFormat"];
-    NSArray *orientationStep = [configuration objectForKey:@"orientationStep"];
-    NSArray *orientationStart = [configuration objectForKey:@"orientationStart"];
-    stepCount = [[configuration objectForKey:@"stepCount"] intValue];
+    _filenameFormat = [_configuration objectForKey:@"filenameFormat"];
+    NSArray *orientationStep = [_configuration objectForKey:@"orientationStep"];
+    NSArray *orientationStart = [_configuration objectForKey:@"orientationStart"];
+    _stepCount = [[_configuration objectForKey:@"stepCount"] unsignedLongValue];
 
-    startRr = [[orientationStart objectAtIndex:0] doubleValue];
-    startRi = [[orientationStart objectAtIndex:1] doubleValue];
-    startRj = [[orientationStart objectAtIndex:2] doubleValue];
-    startRk = [[orientationStart objectAtIndex:3] doubleValue];
+    _startR = quaternion([[orientationStart objectAtIndex:0] doubleValue],
+                         [[orientationStart objectAtIndex:1] doubleValue],
+                         [[orientationStart objectAtIndex:2] doubleValue],
+                         [[orientationStart objectAtIndex:3] doubleValue]);
 
-    stepRr = [[orientationStep objectAtIndex:0] doubleValue];
-    stepRi = [[orientationStep objectAtIndex:1] doubleValue];
-    stepRj = [[orientationStep objectAtIndex:2] doubleValue];
-    stepRk = [[orientationStep objectAtIndex:3] doubleValue];
+    _stepR = quaternion([[orientationStep objectAtIndex:0] doubleValue],
+                        [[orientationStep objectAtIndex:1] doubleValue],
+                        [[orientationStep objectAtIndex:2] doubleValue],
+                        [[orientationStep objectAtIndex:3] doubleValue]);
 
     return YES;
 }
 
 - (void)resumeAnimation
 {
-    if (![tiles count])
-	/* Done! */
-	return;
+    if ([_tiles count] == 0)
+        return; // Done!
 
     // Submit all the pending tiles
-    for (Tile *tile in tiles)
+    for (Tile *tile in _tiles)
         [_server provideDataForTile:tile forClient:self];
 }
 
 - (void)_setupFrames;
 {
-    unsigned int                stepIndex;
-
-    if (frames)
+    if (_frames)
 	return;
 
-    tiles = [[NSMutableArray alloc] init];
-    frames = [[NSMutableArray alloc] init];
+    _tiles = [[NSMutableArray alloc] init];
+    _frames = [[NSMutableArray alloc] init];
 
-    for (stepIndex = 0; stepIndex < stepCount; stepIndex++) {
-	NSString                   *filename;
-	NSMutableArray             *orientation;
-	NSMutableDictionary        *dict;
-	Frame                      *newFrame;
-
-	dict = [configuration mutableCopy];
+    for (NSUInteger stepIndex = 0; stepIndex < _stepCount; stepIndex++) {
+	NSMutableDictionary *dict = [_configuration mutableCopy];
 
 	/* setup the filename for this frame */
-	filename = [NSString stringWithFormat:filenameFormat, stepIndex + 1];
+	NSString *filename = [NSString stringWithFormat:_filenameFormat, stepIndex + 1];
 	[dict setObject:filename forKey:@"filename"];
 
 	/* setup the orientation for this frame */
-	orientation = [NSMutableArray array];
-	[orientation addObject:[NSNumber numberWithDouble:startRr + stepIndex * stepRr]];
-	[orientation addObject:[NSNumber numberWithDouble:startRi + stepIndex * stepRi]];
-	[orientation addObject:[NSNumber numberWithDouble:startRj + stepIndex * stepRj]];
-	[orientation addObject:[NSNumber numberWithDouble:startRk + stepIndex * stepRk]];
+        quaternion R = _startR + _stepR * stepIndex;
+	NSMutableArray *orientation = [NSMutableArray array];
+	[orientation addObject:[NSNumber numberWithDouble:R.r]];
+	[orientation addObject:[NSNumber numberWithDouble:R.i]];
+	[orientation addObject:[NSNumber numberWithDouble:R.j]];
+	[orientation addObject:[NSNumber numberWithDouble:R.k]];
 	[dict setObject:orientation forKey:@"orientation"];
 
-	newFrame = [Frame frameWithConfiguration:dict frameNumber:stepIndex];
-	[frames addObject:newFrame];
-	[tiles addObjectsFromArray:[newFrame tilesToDo]];
+	Frame *newFrame = [Frame frameWithConfiguration:dict frameNumber:stepIndex];
+	[_frames addObject:newFrame];
+	[_tiles addObjectsFromArray:[newFrame tilesToDo]];
     }
 }
 
@@ -155,14 +141,14 @@ extern "C" {
 
     NSUInteger frameNumber = [aTile frameNumber];
 
-    NSUInteger tileIndex = [tiles indexOfObjectIdenticalTo:aTile];
+    NSUInteger tileIndex = [_tiles indexOfObjectIdenticalTo:aTile];
     if (tileIndex != NSNotFound) {
         /* tile wasn't alread done (if we start submitting to multiple servers again) */
         _tilesCompleted++;
 
-        [tiles removeObjectAtIndex:tileIndex];
-        [delegate juliaClient:self didAcceptTile:aTile];
-        [frames[frameNumber] markTileDone:aTile];
+        [_tiles removeObjectAtIndex:tileIndex];
+        [_weak_delegate juliaClient:self didAcceptTile:aTile];
+        [_frames[frameNumber] markTileDone:aTile];
         //NSLog(@"Completed tile %p (%lu total).  %lu tiles left.\n", aTile, _tilesCompleted, [tiles count]);
     }
 

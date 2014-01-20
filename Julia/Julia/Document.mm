@@ -10,7 +10,6 @@
 
 extern "C" {
 #import <AppKit/NSGraphics.h>
-#import "DOJuliaController.h"
 #import "JuliaClient.h"
 #import "Frame.h"
 #import "TiledImageView.h"
@@ -26,15 +25,6 @@ extern "C" {
 @implementation Document
 {
     JuliaClient *client;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Add your subclass-specific initialization here.
-    }
-    return self;
 }
 
 - (IBAction)startComputing:(id)sender;
@@ -130,6 +120,8 @@ extern "C" {
 
     return YES;
 }
+
+#pragma mark - Private
 
 - (void)_updateImageView;
 {

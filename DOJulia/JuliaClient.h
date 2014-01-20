@@ -10,11 +10,11 @@
 
 @interface JuliaClient : NSObject <JuliaClientProtocol>
 
-- (void)setDelegate:(id <JuliaClientDelegate>)aDelegate;
+@property(weak,nonatomic) id <JuliaClientDelegate> delegate;
 
 - (BOOL)readConfigurationFromFileURL:(NSURL *)fileURL error:(NSError **)outError;
 - (void)computeAnimation;
 
-- (NSArray *) frames;
+- (NSArray *)frames;
 
 @end

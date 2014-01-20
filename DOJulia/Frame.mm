@@ -1,5 +1,4 @@
 extern "C" {
-#import "config.h"
 #import "NSArrayExtensions.h"
 #import "Frame.h"
 }
@@ -12,7 +11,6 @@ extern "C" {
 
 @implementation Frame
 {
-//    TIFF                       *tif;
     NSMutableArray *_tilesToDo;
 }
 
@@ -30,22 +28,6 @@ extern "C" {
 
     _context = JuliaContext::makeContext(configuration, frameNumber);
 
-#if 0
-    tif = TIFFOpen([context->filename cString], "w");
-    TIFFSetDirectory(tif, 0);
-    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, (int)context->nc);
-    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, (int)context->nr);
-    TIFFSetField(tif, TIFFTAG_TILEWIDTH, context->tileWidth);
-    TIFFSetField(tif, TIFFTAG_TILELENGTH, context->tileHeight);
-    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
-    TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
-    TIFFSetField(tif, TIFFTAG_PREDICTOR, 2);
-    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
-    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 4);
-    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-    TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
-#endif
-    
     NSRect tileRect = NSMakeRect(0, 0, _context->tileWidth, _context->tileHeight);
 
     NSSize imageSize;
@@ -60,8 +42,8 @@ extern "C" {
     fflush(stdout);
 
 
+    // Generate a list of tile objects to perform
     _tilesToDo = [[NSMutableArray alloc] init];
-    /* Generate a list of tile objects to perform */
     for (NSUInteger tileX = 0; tileX < _tilesWide; tileX++) {
 	for (NSUInteger tileY = 0; tileY < _tilesHigh; tileY++) {
 
@@ -72,11 +54,6 @@ extern "C" {
 	    Tile *tile = [[Tile alloc] initWithBounds:tileRect context:_context];
 	    [tile setFrameNumber:_frameNumber];
 
-            NSLog(@"Not generating TIFF file");
-#if 0
-	    ttile_t tifTile = TIFFComputeTile(tif, tileRect.origin.x, tileRect.origin.y, 0, 0);
-	    [tile setTileNum:tifTile];
-#endif
 	    [_tilesToDo addObject:tile];
 	}
     }
@@ -103,20 +80,8 @@ extern "C" {
     }
     [_tilesToDo removeObjectAtIndex:tileIndex];
 
-    //NSLog(@"No tiled image support currently");
-#if 0
-    TIFFWriteEncodedTile(tif, [aTile tileNum], [[aTile tileData] bytes],
-			 TIFFTileSize(tif));
-#endif
-
-    if (![_tilesToDo count]) {
-#if 0
-	TIFFClose(tif);
-	tif = NULL;
-#endif
+    if ([_tilesToDo count] == 0)
 	NSLog(@"Frame %lu done.", _frameNumber);
-    }
 }
-
 
 @end
