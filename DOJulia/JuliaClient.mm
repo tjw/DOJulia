@@ -51,19 +51,10 @@ extern "C" {
         return NO;
     
     _filenameFormat = [_configuration objectForKey:@"filenameFormat"];
-    NSArray *orientationStep = [_configuration objectForKey:@"orientationStep"];
-    NSArray *orientationStart = [_configuration objectForKey:@"orientationStart"];
     _stepCount = [[_configuration objectForKey:@"stepCount"] unsignedLongValue];
 
-    _startR = quaternion([[orientationStart objectAtIndex:0] doubleValue],
-                         [[orientationStart objectAtIndex:1] doubleValue],
-                         [[orientationStart objectAtIndex:2] doubleValue],
-                         [[orientationStart objectAtIndex:3] doubleValue]);
-
-    _stepR = quaternion([[orientationStep objectAtIndex:0] doubleValue],
-                        [[orientationStep objectAtIndex:1] doubleValue],
-                        [[orientationStep objectAtIndex:2] doubleValue],
-                        [[orientationStep objectAtIndex:3] doubleValue]);
+    _startR = quaternion((NSArray *)[_configuration objectForKey:@"orientationStart"]);
+    _stepR = quaternion((NSArray *)[_configuration objectForKey:@"orientationStep"]);
 
     return YES;
 }

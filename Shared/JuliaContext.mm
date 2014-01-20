@@ -63,11 +63,9 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 	double                      focusLength, fov, scale;
         vector                      eyePoint;
 
-	NSArray                    *orientation;
+	NSArray *orientation = [dict objectForKey:@"orientation"];
 
-	orientation = [dict objectForKey:@"orientation"];
-
-	ctx->u = readQuaternion([dict objectForKey:@"u"]);
+	ctx->u = quaternion((NSDictionary *)dict[@"u"]);
 
         eyePoint = readVector([dict objectForKey:@"eyePoint"]);
         focusLength = doubleValue([dict objectForKey:@"focusLength"]);

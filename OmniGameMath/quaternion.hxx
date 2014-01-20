@@ -22,6 +22,22 @@ public:
         k = k0;
     };
     
+    inline quaternion(NSArray *values)
+    {
+        r = [values[0] doubleValue];
+        i = [values[1] doubleValue];
+        j = [values[2] doubleValue];
+        k = [values[3] doubleValue];
+    }
+    
+    inline quaternion(NSDictionary *values)
+    {
+        r = [values[@"r"] doubleValue];
+        i = [values[@"i"] doubleValue];
+        j = [values[@"j"] doubleValue];
+        k = [values[@"k"] doubleValue];
+    }
+    
     inline quaternion &operator += (quaternion const &a)
     {
         r += a.r;
