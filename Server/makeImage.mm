@@ -19,14 +19,14 @@ OmniTimerNode juliaTimer(@"Julia Label Timer", &tileTimer);
 #import "makeImage.h"
 
 
-static const color_t clear  = {0, 0, 0, 0};
+//static const color_t clear  = {0, 0, 0, 0};
 static const color_t smoke  = {0, 0, 0, 128};
 
 const color_t white  = {255, 255, 255, 255};
 const color_t black  = {0, 0, 0, 255};
 const color_t ltgrey = {169, 171, 171, 255};
 const color_t dkgrey = {86, 86, 86, 255};
-static const color_t red    = {255, 0, 0, 255};
+//static const color_t red    = {255, 0, 0, 255};
 
 //static unsigned int basinMissCount = 0;  // number of times the basin couldn't be determined
 
@@ -50,14 +50,14 @@ static inline double ipow(double x, unsigned long i)
 }
 
 /* Use Lambertian shading, ka = 1.0, one light source at eye point */
-static inline void setColor(color_t *result, const color_t *base, double mag)
-{
-  /* make a color from it */
-  result->r = (unsigned char) (mag * base->r);
-  result->g = (unsigned char) (mag * base->g);
-  result->b = (unsigned char) (mag * base->b);
-  result->a = base->a;
-}
+//static inline void setColor(color_t *result, const color_t *base, double mag)
+//{
+//  /* make a color from it */
+//  result->r = (unsigned char) (mag * base->r);
+//  result->g = (unsigned char) (mag * base->g);
+//  result->b = (unsigned char) (mag * base->b);
+//  result->a = base->a;
+//}
 
 /* 0 is totally transparent */
 static inline void compositeColor(color_t *back, const color_t *front)
@@ -455,12 +455,6 @@ void makeTile(const JuliaContext *context, NSRect tileRect, ImageTile *tile, qua
         }
     }
     
-#if 0
-#warning Testing a single ray in the center of the image
-    while (1)
-        makeRay(context, tileRect.size.width/2.0, tileRect.size.height/2.0, tileRect, tile, orbit);
-#endif
-
     /* For a N wide tile, we'll need N+1 samples */
     rayResult_t *bottomCorners = (rayResult_t *)calloc(sizeof(*bottomCorners), (size_t)(tileRect.size.width + 1));
     rayResult_t *topCorners  = (rayResult_t *)calloc(sizeof(*topCorners), (size_t)(tileRect.size.width + 1));

@@ -288,7 +288,7 @@ julia_result juliaLabelNoRotationOpt3(const JuliaContext *context, quaternion *o
 {
     double                       mags = 0.0;
     quaternion                  *orbitStepper, *lastOrbit;
-    register double              zr, zi, zj, zk;
+    double              zr, zi, zj, zk;
     
     //juliaCalls++;
 
