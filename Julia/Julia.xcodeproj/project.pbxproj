@@ -217,6 +217,13 @@
 			remoteGlobalIDString = 4AA1E81E08AA764700E2FF6B;
 			remoteInfo = OAMakeImageSizeIntegral;
 		};
+		34979B6D27D7FFF900D324B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 346FDE7E188C83D9001BB93B /* OmniAppKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4AA1E67A08AA764600E2FF6B;
+			remoteInfo = OmniAppKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -575,6 +582,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				34979B6E27D7FFF900D324B0 /* PBXTargetDependency */,
 			);
 			name = Julia;
 			productName = Julia;
@@ -856,6 +864,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		34979B6E27D7FFF900D324B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OmniAppKit;
+			targetProxy = 34979B6D27D7FFF900D324B0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		346213251883231700A4AB31 /* InfoPlist.strings */ = {
