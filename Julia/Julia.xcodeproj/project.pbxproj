@@ -32,6 +32,12 @@
 		346213AE18833FB600A4AB31 /* JuliaServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213A918833FB600A4AB31 /* JuliaServer.mm */; };
 		346213AF18833FB600A4AB31 /* makeImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AB18833FB600A4AB31 /* makeImage.mm */; };
 		346213B018833FB600A4AB31 /* ImageTile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 346213AD18833FB600A4AB31 /* ImageTile.mm */; };
+		34979B6F27D800D400D324B0 /* OmniAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B6227D7FFB600D324B0 /* OmniAppKit.framework */; };
+		34979B7027D800DA00D324B0 /* OmniFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B3C27D7FFAA00D324B0 /* OmniFoundation.framework */; };
+		34979B7127D800E000D324B0 /* OmniBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B1C27D7FF9F00D324B0 /* OmniBase.framework */; };
+		34979B7327D8010B00D324B0 /* OmniBase.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B1C27D7FF9F00D324B0 /* OmniBase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		34979B7427D8011000D324B0 /* OmniFoundation.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B3C27D7FFAA00D324B0 /* OmniFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		34979B7527D8011800D324B0 /* OmniAppKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34979B6227D7FFB600D324B0 /* OmniAppKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,14 +223,23 @@
 			remoteGlobalIDString = 4AA1E81E08AA764700E2FF6B;
 			remoteInfo = OAMakeImageSizeIntegral;
 		};
-		34979B6D27D7FFF900D324B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 346FDE7E188C83D9001BB93B /* OmniAppKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4AA1E67A08AA764600E2FF6B;
-			remoteInfo = OmniAppKit;
-		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		34979B7227D800F300D324B0 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				34979B7327D8010B00D324B0 /* OmniBase.framework in Copy Frameworks */,
+				34979B7427D8011000D324B0 /* OmniFoundation.framework in Copy Frameworks */,
+				34979B7527D8011800D324B0 /* OmniAppKit.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		343560E8188363840055D864 /* map.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = map.mm; sourceTree = "<group>"; };
@@ -328,6 +343,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34979B7127D800E000D324B0 /* OmniBase.framework in Frameworks */,
+				34979B7027D800DA00D324B0 /* OmniFoundation.framework in Frameworks */,
+				34979B6F27D800D400D324B0 /* OmniAppKit.framework in Frameworks */,
 				3462131D1883231700A4AB31 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,13 +594,13 @@
 			buildConfigurationList = 3462134D1883231700A4AB31 /* Build configuration list for PBXNativeTarget "Julia" */;
 			buildPhases = (
 				346213151883231700A4AB31 /* Sources */,
+				34979B7227D800F300D324B0 /* Copy Frameworks */,
 				346213161883231700A4AB31 /* Frameworks */,
 				346213171883231700A4AB31 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				34979B6E27D7FFF900D324B0 /* PBXTargetDependency */,
 			);
 			name = Julia;
 			productName = Julia;
@@ -864,14 +882,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		34979B6E27D7FFF900D324B0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OmniAppKit;
-			targetProxy = 34979B6D27D7FFF900D324B0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		346213251883231700A4AB31 /* InfoPlist.strings */ = {
