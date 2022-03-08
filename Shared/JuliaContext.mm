@@ -118,7 +118,6 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 
     {
 	NSArray                    *cycleColorArray;
-	unsigned int                cycleColorIndex;
 
 	ctx->maxCycleColor = 0;
 	color_t *readingColors = NULL;
@@ -127,17 +126,15 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 	    if ([cycleColorArray isKindOfClass:[NSArray class]]) {
 		if ((ctx->maxCycleColor = [cycleColorArray count])) {
 		    readingColors = (color_t *)malloc(sizeof(color_t) * ctx->maxCycleColor);
-		    for (cycleColorIndex = 0; cycleColorIndex < ctx->maxCycleColor; cycleColorIndex++)
+		    for (unsigned int cycleColorIndex = 0; cycleColorIndex < ctx->maxCycleColor; cycleColorIndex++)
 			readColor([cycleColorArray objectAtIndex:cycleColorIndex],
 				  &readingColors[cycleColorIndex]);
 		}
 	    } else {
-		unsigned int                cycleColorIndex;
-
 		ctx->maxCycleColor = [(NSString *)cycleColorArray intValue];
                 readingColors = (color_t *)malloc(sizeof(color_t) * ctx->maxCycleColor);
 
-		for (cycleColorIndex = 0; cycleColorIndex < ctx->maxCycleColor; cycleColorIndex++) {
+		for (unsigned int cycleColorIndex = 0; cycleColorIndex < ctx->maxCycleColor; cycleColorIndex++) {
 			NSColor *color;
 
                         color = [NSColor colorWithCalibratedHue: (float)cycleColorIndex/(float)ctx->maxCycleColor

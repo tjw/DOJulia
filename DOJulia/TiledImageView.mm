@@ -162,20 +162,18 @@ extern "C" {
 - (void)mouseDown:(NSEvent *)theEvent;
 {
     OATrackingLoop *loop = [self trackingLoopForMouseDown:theEvent];
-    __weak OATrackingLoop *weakLoop = loop;
-    
+
     if (!_selectionView) {
         CGPoint pt = loop.initialMouseDownPointInView;
         _selectionView = [[SelectionView alloc] initWithFrame:CGRectMake(pt.x, pt.y, 1, 1)];
         [self addSubview:_selectionView positioned:NSWindowBelow relativeTo:nil];
     }
     
-    loop.dragged = ^{
-        OATrackingLoop *strongLoop = weakLoop;
-        _selectionView.frame = OFRectFromPoints(strongLoop.initialMouseDownPointInView, strongLoop.currentMouseDraggedPointInView);
+    loop.dragged = ^(OATrackingLoop *loop_){
+        _selectionView.frame = OFRectFromPoints(loop_.initialMouseDownPointInView, loop_.currentMouseDraggedPointInView);
     };
 
-    loop.up = ^{
+    loop.up = ^(OATrackingLoop *loop_){
         id <TiledImageViewDelegate> delegate = self.delegate;
         if ([delegate respondsToSelector:@selector(tiledImageView:didSelectRect:)])
             [delegate tiledImageView:self didSelectRect:_selectionView.frame];
