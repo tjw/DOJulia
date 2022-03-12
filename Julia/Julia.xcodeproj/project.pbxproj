@@ -613,7 +613,7 @@
 		346213111883231700A4AB31 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = "The Omni Group";
 				TargetAttributes = {
 					346213181883231700A4AB31 = {
@@ -954,6 +954,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Julia/Julia-Prefix.pch";
 				INFOPLIST_FILE = "Julia/Julia-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cocoatoa.Julia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -968,6 +969,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Julia/Julia-Prefix.pch";
 				INFOPLIST_FILE = "Julia/Julia-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.omnigroup.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
