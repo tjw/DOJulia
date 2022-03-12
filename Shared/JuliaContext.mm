@@ -155,15 +155,14 @@ const JuliaContext *JuliaContext::makeContext(NSDictionary *dict, NSUInteger fra
 
 
     {
-        NSNumber                   *antialiasCutoffNumber;
-
-
         ctx->maxAntialiasingDepth = [[dict objectForKey: @"maxAntialiasingDepth"] intValue];
-        
-        if ((antialiasCutoffNumber = [dict objectForKey: @"antialiasCutoff"]))
+
+        NSNumber *antialiasCutoffNumber = [dict objectForKey: @"antialiasCutoff"];
+        if (antialiasCutoffNumber != nil) {
             ctx->antialiasCutoff = doubleValue(antialiasCutoffNumber);
-        else
+        } else {
             ctx->antialiasCutoff = 0.05;
+        }
             
 	ctx->lookbackStart = [[dict objectForKey:@"lookbackStart"] intValue];
 	ctx->maxLookback = [[dict objectForKey:@"maxLookback"] intValue];
