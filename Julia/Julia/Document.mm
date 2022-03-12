@@ -62,7 +62,6 @@ extern "C" {
     
     NSImage *image = [[NSImage alloc] init];
     [image addRepresentation:imageRep];
-    [image setDataRetained:YES];
     [_tiledImageView setImage:image
                           atX:(NSUInteger)(rect.origin.x / [_tiledImageView tileWidth])
                             y:(NSUInteger)(rect.origin.y / [_tiledImageView tileHeight])];
