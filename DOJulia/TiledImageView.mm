@@ -49,6 +49,9 @@ extern "C" {
 
 @implementation TiledImageView
 {
+    NSLayoutConstraint *_widthConstraint;
+    NSLayoutConstraint *_heightConstraint;
+
     SelectionView *_selectionView;
     
     NSUInteger _tilesWide;
@@ -103,8 +106,23 @@ extern "C" {
     }
     _imageViews = [imageViews copy];
 
-    [self invalidateIntrinsicContentSize];
-//    [self setNeedsLayout:YES];
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+
+    if (!_widthConstraint) {
+        _widthConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:_tilesWide*_tileWidth];
+        _widthConstraint.active = YES;
+    } else {
+        _widthConstraint.constant = _tilesWide*_tileWidth;
+    }
+
+    if (!_heightConstraint) {
+        _heightConstraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:_tilesHigh*_tileHeight];
+        _heightConstraint.active = YES;
+    } else {
+        _heightConstraint.constant = _tilesHigh*_tileHeight;
+    }
+
+    [self needsUpdateConstraints];
 }
 
 - (void)setImage:(__unsafe_unretained NSImage *)image atX:(NSUInteger)tileX y:(NSUInteger)tileY;
@@ -137,11 +155,6 @@ extern "C" {
 - (BOOL)isFlipped;
 {
     return YES;
-}
-
-- (CGSize)intrinsicContentSize;
-{
-    return CGSizeMake(_tileWidth * _tilesWide, _tileHeight * _tilesHigh);
 }
 
 - (void)layout;
